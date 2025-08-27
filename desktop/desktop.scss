@@ -384,4 +384,6 @@ $split-values: str-split($values, "|");
   background-color: black;
   color: white;
   padding: 0.25em 0.5em;   // optional, gives spacing so text isn’t jammed
+  margin: 1em 0;           // space outside the box (1em above and below, 0 on the sides)
+ 
 }
