@@ -395,3 +395,41 @@ $split-values: str-split($values, "|");
   margin-top: 1em;      // ≈ 2 line breaks above
   margin-bottom: 1em;   // ≈ 1 line break below
 }
+
+/* --- tighten left edge of title + content --- */
+:root { --topic-content-width: 750px; } /* adjust if you want wider/narrower */
+
+/* 1) Title area */
+#topic-title {
+  display: flex;
+  justify-content: flex-start !important;   /* was center */
+}
+#topic-title .title-wrapper {
+  width: var(--topic-content-width) !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 2) Posts grid + content width */
+.container.posts {
+  justify-content: start !important;        /* left-align the grid (not centered) */
+}
+.container.posts > .row {                   /* fix selector: it should target the child .row */
+  width: var(--topic-content-width) !important;
+}
+
+/* Remove the internal left padding so “Introduction” lines up with the title */
+.topic-post .cooked { 
+  padding-left: 0 !important;
+}
+
+/* Keep the no-gutter body and width you want */
+.topic-post .topic-body {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  max-width: var(--topic-content-width) !important;
+}
+
+/* optional: ensure H1 blocks are flush */
+.cooked h1 { margin-left: 0 !important; }
