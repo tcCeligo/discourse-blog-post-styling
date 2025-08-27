@@ -340,7 +340,7 @@ $split-values: str-split($values, "|");
   /* ---------- Responsive TOC narrowing ---------- */
 
   /* Medium-large: slim the TOC a bit */
-  @media (max-width: 1400px) {
+  @media (max-width: 1600px) {
     .container.posts {
       grid-template-columns:
         minmax(0, 1fr)
@@ -355,7 +355,7 @@ $split-values: str-split($values, "|");
   }
 
   /* Laptop widths */
-  @media (max-width: 1200px) {
+  @media (max-width: 1440px) {
     .container.posts {
       grid-template-columns:
         minmax(0, 1fr)
@@ -370,7 +370,7 @@ $split-values: str-split($values, "|");
   }
 
   /* Tight laptops / large tablets in landscape */
-  @media (max-width: 1024px) {
+  @media (max-width: 1280px) {
     .container.posts {
       grid-template-columns:
         minmax(0, 1fr)
