@@ -376,3 +376,31 @@ $split-values: str-split($values, "|");
     }
   }
 }
+
+/* Shrink the Discourse left sidebar on blog/tag topics */
+%blog-tag,
+%blog-category {
+  /* A) Narrow the sidebar (recommended) */
+  & { --d-sidebar-width: 200px; } /* default is ~270–280px */
+  .sidebar-wrapper,
+  .sidebar-container { width: var(--d-sidebar-width) !important; }
+  .main-content { margin-left: var(--d-sidebar-width) !important; }
+
+  /* B) Icon-rail only — uncomment to go extra skinny */
+  // & { --d-sidebar-width: 64px; }
+  // .sidebar-section-link .label { display: none; } /* hide text labels */
+
+  /* C) Hide the sidebar entirely on these pages — uncomment if desired */
+  // @media (min-width: 1024px) {
+  //   .sidebar-wrapper { display: none !important; }
+  //   .main-content { margin-left: 0 !important; }
+  // }
+}
+
+/* Let the center column actually use the space (optional) */
+%blog-tag,
+%blog-category {
+  .container.posts {
+    &.row { width: auto; }             /* remove hard 750px cap */
+  }
+}
