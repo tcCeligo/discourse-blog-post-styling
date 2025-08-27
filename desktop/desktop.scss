@@ -346,7 +346,7 @@ $split-values: str-split($values, "|");
     }
   }
   .topic-area > .loading-container {
-    max-width: 500px;
+    max-width: 750px;  //tony (was 500)
   }
 
   @media screen and (max-width: 1350px) {
