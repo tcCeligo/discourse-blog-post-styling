@@ -273,7 +273,7 @@ $split-values: str-split($values, "|");
   --toc-width-max: 24rem;
 
   /* ✅ cap the content column to a readable width */
-  --content-cap: clamp(1020px, 68ch, 1500px);
+  --content-cap: clamp(1020px, 80ch, 1500px);
 
   /* explicit whitespace to the right of the TOC */
   --toc-trailing-space: 100px;
