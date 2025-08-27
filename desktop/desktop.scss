@@ -522,6 +522,7 @@ $split-values: str-split($values, "|");
   /* adjust to whatever you picked earlier */
   grid-template-columns: 1fr minmax(20rem, 24rem) !important;
 }
+
 /* ===== FULL-WIDTH layout scoped to builder-labs topics only ===== */
 body.category-builder-labs.archetype-regular {
   /* knobs */
@@ -557,3 +558,50 @@ body.category-builder-labs.archetype-regular #topic-title .title-wrapper{
 body.category-builder-labs.archetype-regular .container.posts{
   display: grid !important;
   grid-template-columns: 1fr minmax(var(--toc-width), 24rem);
+  column-gap: var(--toc-gap);
+  justify-content: stretch !important;
+}
+
+/* content column */
+body.category-builder-labs.archetype-regular .container.posts > .row { width: auto !important; }
+body.category-builder-labs.archetype-regular .topic-post .topic-body{
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  max-width: var(--content-cap) !important; /* none = full width */
+  width: 100% !important;
+}
+body.category-builder-labs.archetype-regular .topic-post .cooked{ padding-left: 0 !important; }
+
+/* TOC column + link text uses full width */
+body.category-builder-labs.archetype-regular .container.posts .topic-navigation{
+  grid-column: 2 / 3;
+  align-self: start;
+  position: sticky;
+  top: 6rem;
+  margin: 0;
+}
+body.category-builder-labs.archetype-regular .container.posts .topic-navigation .d-toc-main{
+  min-width: var(--toc-width);
+  max-width: 24rem;
+}
+body.category-builder-labs.archetype-regular .container.posts .topic-navigation .d-toc-main li a,
+body.category-builder-labs.archetype-regular .container.posts .topic-navigation .d-toc-item > a{
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+
+/* stack on small screens */
+@media (max-width: 924px){
+  body.category-builder-labs.archetype-regular .container.posts{
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+  body.category-builder-labs.archetype-regular .container.posts .topic-navigation{
+    grid-column: 1 / -1;
+    position: static;
+    margin-top: 1rem;
+  }
+}
