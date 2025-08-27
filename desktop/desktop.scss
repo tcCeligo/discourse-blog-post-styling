@@ -494,3 +494,31 @@ $split-values: str-split($values, "|");
   #topic-title{ justify-content: flex-start !important; }
 }
 
+/* --- Let TOC link text use the full column width --- */
+.container.posts .topic-navigation .d-toc-main li a,
+.container.posts .topic-navigation .d-toc-main .d-toc-item > a {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;      /* kills any 28ch/260px caps */
+  white-space: normal !important;  /* allow wrapping */
+  overflow-wrap: anywhere;         /* break long words if needed */
+  padding-right: 0.25rem;          /* tiny breathing room */
+}
+
+/* If a wrapper is capping width, remove that too */
+.container.posts .topic-navigation .d-toc-main,
+.container.posts .topic-navigation .d-toc-main ul,
+.container.posts .topic-navigation .d-toc-main li {
+  max-width: none !important;
+}
+
+/* Some themes reserve right-side space on each item; remove it */
+.topic-navigation .d-toc-main .d-toc-item {
+  padding-right: 0 !important;
+}
+
+/* keep your chosen TOC column width */
+.container.posts {
+  /* adjust to whatever you picked earlier */
+  grid-template-columns: 1fr minmax(20rem, 24rem) !important;
+}
