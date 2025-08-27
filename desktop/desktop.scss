@@ -164,8 +164,8 @@ $split-values: str-split($values, "|");
       }
       .contents {
         border-top: 1px solid var(--primary-low);
-        margin-left: -25px;
-        padding: 15px;
+        margin-left: 0px;
+        padding: 0px;
       }
     }
     .topic-map.--op {
@@ -257,7 +257,9 @@ $split-values: str-split($values, "|");
 
   .topic-post {
     .topic-body {
-      max-width: 500px;
+      margin-left: 0 !important;   // remove Discourse's left gutter
+      padding-left: 0 !important;
+      max-width: 720px;            // was 500px; widen so it doesn’t look squeezed
     }
     &:first-child {
       font-size: 1.25em;
