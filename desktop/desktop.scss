@@ -311,23 +311,23 @@ $split-values: str-split($values, "|");
 
 %builder-wide-layout {
   /* ---- responsive knobs ---- */
-  /* readable content width (grows with viewport but stays comfy) */
+  /* readable content width */
   --content-max: clamp(720px, 68ch, 960px);
 
   /* TOC lane sizing */
-  --toc-width-min: 18rem;
-  --toc-width-max: clamp(20rem, 22vw, 24rem);
+  --toc-width-min: 18rem;                      /* desktop min */
+  --toc-width-max: clamp(20rem, 22vw, 24rem);  /* desktop max */
 
-  /* gap between content and TOC (widens on big screens) */
+  /* gap between content and TOC */
   --toc-gap: clamp(1rem, 2.5vw, 3.5rem);
 
-  /* overall grid cap = content + gap + TOC (produces whitespace on the right) */
+  /* all-in grid cap = content + gap + TOC */
   --grid-max: calc(var(--content-max) + var(--toc-gap) + var(--toc-width-max));
 
-  /* small page-edge breathing room */
+  /* page edge breathing room */
   --page-gutter: 16px;
 
-  /* 1) Keep outer wrappers full-width but with tiny side padding */
+  /* 1) Wrappers: full width + small gutters */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
     max-width: none !important;
     width: 100% !important;
@@ -335,7 +335,7 @@ $split-values: str-split($values, "|");
     padding-right: var(--page-gutter) !important;
   }
 
-  /* 2) Title aligned with the content column (not the TOC) */
+  /* 2) Title aligns with the content column */
   #topic-title { justify-content: flex-start !important; }
   #topic-title .title-wrapper {
     width: 100% !important;
@@ -344,35 +344,39 @@ $split-values: str-split($values, "|");
     padding: 0 !important;
   }
 
-  /* 3) Two-column grid with a responsive max width, centered */
+  /* 3) Two-column grid with a global max width, centered */
   .container.posts {
     display: grid !important;
-    width: min(100%, var(--grid-max));   /* caps the whole grid on wide screens */
-    margin-inline: auto;                 /* centers the grid -> whitespace left/right */
+    width: min(100%, var(--grid-max));   /* creates whitespace to the right on big screens */
+    margin-inline: auto;                 /* center the grid */
     grid-template-columns:
-      minmax(0, 1fr)                     /* content column flexes up to --content-max via child rule */
+      minmax(0, 1fr)
       minmax(var(--toc-width-min), var(--toc-width-max)) !important;
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
+    align-items: start;
   }
   .container.posts > .row { width: auto !important; }
 
-  /* 4) Content column stays flush left and capped for readability */
+  /* 4) Content column */
   .topic-post .topic-body {
     margin-left: 0 !important;
     padding-left: 0 !important;
     max-width: var(--content-max) !important;
     width: 100% !important;
+    position: relative;  /* helps avoid odd stacking with sticky TOC */
+    z-index: 1;
   }
   .topic-post .cooked { padding-left: 0 !important; }
 
-  /* 5) TOC lane + let link text use the full lane width */
+  /* 5) TOC lane + let links use full lane */
   .container.posts .topic-navigation {
     grid-column: 2 / 3;
     align-self: start;
     position: sticky;
-    top: 6rem;    /* adjust if your header is taller/shorter */
+    top: 6rem;    /* adjust for your header height */
     margin: 0;
+    z-index: 0;
   }
   .container.posts .topic-navigation .d-toc-main {
     min-width: var(--toc-width-min) !important;
@@ -390,8 +394,23 @@ $split-values: str-split($values, "|");
     padding-right: 0.25rem;
   }
 
-  /* 6) Stack on small screens */
-  @media (max-width: 924px) {
+  /* ---------- Responsive refinements ---------- */
+
+  /* MEDIUM: before things get cramped (accounts for the left site nav),
+     slim the TOC and reduce the gap */
+  @media (max-width: 1400px) {
+    .container.posts {
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(14rem, 18rem) !important;   /* narrower TOC on medium */
+      column-gap: clamp(0.75rem, 1.5vw, 1.5rem) !important;
+      width: min(100%, calc(var(--content-max) + 1.5rem + 18rem));
+    }
+    #topic-title .title-wrapper { max-width: var(--content-max) !important; }
+  }
+
+  /* SMALL: stack TOC beneath content sooner to avoid overlap */
+  @media (max-width: 1200px) {
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
@@ -400,8 +419,7 @@ $split-values: str-split($values, "|");
     .container.posts .topic-navigation {
       grid-column: 1 / -1;
       position: static;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
     }
   }
 }
-
