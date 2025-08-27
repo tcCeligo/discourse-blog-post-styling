@@ -241,7 +241,7 @@ $split-values: str-split($values, "|");
     #topic-title .title-wrapper { width: 80%; }
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 924px) {
     .container.posts { grid-template-columns: 100%; }
     #topic-title { justify-content: flex-start; } // fixed from "left"
   }
@@ -380,7 +380,7 @@ $split-values: str-split($values, "|");
   }
 
   /* 6) Small screens: stack TOC below content */
-  @media (max-width: 1024px) {
+  @media (max-width: 924px) {
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
