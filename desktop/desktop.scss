@@ -267,8 +267,11 @@ $split-values: str-split($values, "|");
   /* knobs */
   --page-gutter: 16px;
   --toc-gap: 1.5rem;
-  --toc-width-min: 20rem;          /* desktop TOC min width */
-  --toc-width-max: 24rem;          /* desktop TOC max width */
+
+  /* desktop defaults (overridden below responsively) */
+  --toc-width-min: 20rem;
+  --toc-width-max: 24rem;
+
   --content-cap: none;             /* set to e.g. 1200px for a soft cap */
 
   /* explicit whitespace to the right of the TOC */
@@ -337,50 +340,33 @@ $split-values: str-split($values, "|");
     padding-right: 0.25rem;
   }
 
-  /* ---------- Responsive TOC narrowing ---------- */
+  /* ---------- Responsive TOC narrowing via CSS variables ---------- */
 
-  /* Medium-large: slim the TOC a bit */
+  /* start slimming earlier */
   @media (max-width: 1600px) {
-    .container.posts {
-      grid-template-columns:
-        minmax(0, 1fr)
-        minmax(18rem, 20rem) !important;
-      column-gap: 1.25rem !important;
-      padding-right: 64px; /* less trailing space so content has room */
-    }
-    .container.posts .topic-navigation .d-toc-main {
-      min-width: 18rem !important;
-      max-width: 20rem !important;
+    & {
+      --toc-width-min: 18rem;
+      --toc-width-max: 20rem;
+      --toc-gap: 1.25rem;
+      --toc-trailing-space: 64px;
     }
   }
 
-  /* Laptop widths */
   @media (max-width: 1440px) {
-    .container.posts {
-      grid-template-columns:
-        minmax(0, 1fr)
-        minmax(16rem, 18rem) !important;
-      column-gap: 1rem !important;
-      padding-right: 48px;
-    }
-    .container.posts .topic-navigation .d-toc-main {
-      min-width: 16rem !important;
-      max-width: 18rem !important;
+    & {
+      --toc-width-min: 16rem;
+      --toc-width-max: 18rem;
+      --toc-gap: 1rem;
+      --toc-trailing-space: 48px;
     }
   }
 
-  /* Tight laptops / large tablets in landscape */
   @media (max-width: 1280px) {
-    .container.posts {
-      grid-template-columns:
-        minmax(0, 1fr)
-        minmax(14rem, 16rem) !important;
-      column-gap: 0.75rem !important;
-      padding-right: 24px;
-    }
-    .container.posts .topic-navigation .d-toc-main {
-      min-width: 14rem !important;
-      max-width: 16rem !important;
+    & {
+      --toc-width-min: 14rem;
+      --toc-width-max: 16rem;
+      --toc-gap: 0.75rem;
+      --toc-trailing-space: 24px;
     }
   }
 
