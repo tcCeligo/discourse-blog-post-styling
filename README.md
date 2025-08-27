@@ -1,4 +1,4 @@
-# Blog Post Styling
+# Blog Post Styling 2
 
 This Discourse theme component will allow you to set a category to display the topics in a traditional blog style.
 
