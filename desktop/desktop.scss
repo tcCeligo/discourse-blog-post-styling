@@ -433,3 +433,63 @@ $split-values: str-split($values, "|");
 
 /* optional: ensure H1 blocks are flush */
 .cooked h1 { margin-left: 0 !important; }
+
+
+/* --- Content + TOC two-column layout (left aligned) --- */
+:root{
+  --topic-content-width: 750px;  /* your article width */
+  --toc-width: 16rem;            /* min width for the TOC */
+  --toc-gap: 2rem;               /* space between content and TOC */
+}
+
+/* Title stays left and matches content width */
+#topic-title{ justify-content: flex-start !important; }
+#topic-title .title-wrapper{
+  width: var(--topic-content-width) !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Posts grid: reintroduce a TOC column + gap */
+.container.posts{
+  display: grid !important;
+  grid-template-columns: var(--topic-content-width) minmax(var(--toc-width), 1fr);
+  column-gap: var(--toc-gap);
+  justify-content: flex-start !important; /* left align the grid */
+}
+
+/* Let the grid control the content width (undo the earlier fixed width) */
+.container.posts > .row{ width: auto !important; }
+
+/* Put the TOC in column 2 and keep it from overlaying */
+.container.posts .topic-navigation{
+  grid-column: 2 / 3;
+  align-self: start;
+  position: sticky;   /* optional: keeps TOC visible while scrolling */
+  top: 6rem;          /* adjust to your header height */
+  margin: 0;
+  z-index: 0;
+}
+.container.posts .topic-navigation .d-toc-main{
+  min-width: var(--toc-width);
+}
+
+/* Content column stays flush left */
+.topic-post .topic-body{
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  max-width: var(--topic-content-width) !important;
+}
+.topic-post .cooked{ padding-left: 0 !important; }
+
+/* Responsive: stack TOC below content */
+@media (max-width: 924px){
+  .container.posts{ grid-template-columns: 1fr; }
+  .container.posts .topic-navigation{
+    grid-column: 1 / -1;
+    position: static;
+    margin-top: 1rem;
+  }
+  #topic-title{ justify-content: flex-start !important; }
+}
