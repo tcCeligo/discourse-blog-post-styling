@@ -384,12 +384,14 @@ $split-values: str-split($values, "|");
   background-color: black;
   color: white;
   padding: 0.25em 0.5em;   // optional, gives spacing so text isn’t jammed
-  margin: 1.5em 0;           // space outside the box (1em above and below, 0 on the sides 
+  margin-top: 2em;      // ≈ 2 line breaks above
+  margin-bottom: 1em;   // ≈ 1 line break below
 }
 
 .cooked h2 {
   background-color: #cfd8a4;
   color: black;
   padding: 0.25em 0.5em;   // optional, gives spacing so text isn’t jammed
-  margin: 1.5em 0;           // space outside the box (1em above and below, 0 on the sides 
+  margin-top: 1em;      // ≈ 2 line breaks above
+  margin-bottom: 1em;   // ≈ 1 line break below
 }
