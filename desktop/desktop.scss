@@ -379,15 +379,6 @@ $split-values: str-split($values, "|");
 
 // TONY UPDATES HERE
 
-/* Quick test: shrink Discourse left sidebar globally */
-.sidebar-enabled #main-outlet {
-  grid-template-columns: 200px 1fr !important; /* default ~270–280px */
-}
-.sidebar-wrapper,
-.sidebar-container {
-  width: 200px !important;
-}
-
 
 .cooked h1 {
   background-color: black;
