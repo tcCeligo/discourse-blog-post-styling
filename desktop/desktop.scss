@@ -310,14 +310,24 @@ $split-values: str-split($values, "|");
    ======================================================================= */
 
 %builder-wide-layout {
-  /* knobs */
-  --page-gutter: 16px;
-  --toc-gap: 1.5rem;
-  --toc-width-min: 20rem;          /* TOC min width */
-  --toc-width-max: 24rem;          /* TOC max width */
-  --content-cap: none;             /* set to e.g. 1200px for a soft cap */
+  /* ---- responsive knobs ---- */
+  /* readable content width (grows with viewport but stays comfy) */
+  --content-max: clamp(720px, 68ch, 960px);
 
-  /* 1) Remove outer gutters */
+  /* TOC lane sizing */
+  --toc-width-min: 18rem;
+  --toc-width-max: clamp(20rem, 22vw, 24rem);
+
+  /* gap between content and TOC (widens on big screens) */
+  --toc-gap: clamp(1rem, 2.5vw, 3.5rem);
+
+  /* overall grid cap = content + gap + TOC (produces whitespace on the right) */
+  --grid-max: calc(var(--content-max) + var(--toc-gap) + var(--toc-width-max));
+
+  /* small page-edge breathing room */
+  --page-gutter: 16px;
+
+  /* 1) Keep outer wrappers full-width but with tiny side padding */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
     max-width: none !important;
     width: 100% !important;
@@ -325,40 +335,43 @@ $split-values: str-split($values, "|");
     padding-right: var(--page-gutter) !important;
   }
 
-  /* 2) Title area follows the new width */
+  /* 2) Title aligned with the content column (not the TOC) */
   #topic-title { justify-content: flex-start !important; }
   #topic-title .title-wrapper {
     width: 100% !important;
-    max-width: var(--content-cap) !important;
+    max-width: var(--content-max) !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* 3) Two-column layout: Content | TOC */
+  /* 3) Two-column grid with a responsive max width, centered */
   .container.posts {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr)
-                           minmax(var(--toc-width-min), var(--toc-width-max)) !important;
+    width: min(100%, var(--grid-max));   /* caps the whole grid on wide screens */
+    margin-inline: auto;                 /* centers the grid -> whitespace left/right */
+    grid-template-columns:
+      minmax(0, 1fr)                     /* content column flexes up to --content-max via child rule */
+      minmax(var(--toc-width-min), var(--toc-width-max)) !important;
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
   }
   .container.posts > .row { width: auto !important; }
 
-  /* 4) Content column flush + fluid */
+  /* 4) Content column stays flush left and capped for readability */
   .topic-post .topic-body {
     margin-left: 0 !important;
     padding-left: 0 !important;
-    max-width: var(--content-cap) !important; /* none = truly full width */
+    max-width: var(--content-max) !important;
     width: 100% !important;
   }
   .topic-post .cooked { padding-left: 0 !important; }
 
-  /* 5) TOC column + link text uses the full column width */
+  /* 5) TOC lane + let link text use the full lane width */
   .container.posts .topic-navigation {
     grid-column: 2 / 3;
     align-self: start;
     position: sticky;
-    top: 6rem;    /* adjust to your header height */
+    top: 6rem;    /* adjust if your header is taller/shorter */
     margin: 0;
   }
   .container.posts .topic-navigation .d-toc-main {
@@ -366,15 +379,13 @@ $split-values: str-split($values, "|");
     max-width: var(--toc-width-max) !important;
   }
   .container.posts .topic-navigation .d-toc-main ul,
-  .container.posts .topic-navigation .d-toc-main li {
-    max-width: none !important;
-  }
+  .container.posts .topic-navigation .d-toc-main li { max-width: none !important; }
   .container.posts .topic-navigation .d-toc-main li a,
   .container.posts .topic-navigation .d-toc-item > a {
     display: block !important;
     width: 100% !important;
-    max-width: none !important;      /* remove anchor caps */
-    white-space: normal !important;  /* wrap across full column */
+    max-width: none !important;
+    white-space: normal !important;
     overflow-wrap: anywhere;
     padding-right: 0.25rem;
   }
@@ -384,6 +395,7 @@ $split-values: str-split($values, "|");
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
+      width: 100%;
     }
     .container.posts .topic-navigation {
       grid-column: 1 / -1;
@@ -393,7 +405,3 @@ $split-values: str-split($values, "|");
   }
 }
 
-/* Apply the wide layout to each category slug listed in $blog_category */
-@each $slug in str-split($blog_category, ",") {
-  body.category-#{$slug}.archetype-regular { @extend %builder-wide-layout; }
-}
