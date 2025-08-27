@@ -522,3 +522,38 @@ $split-values: str-split($values, "|");
   /* adjust to whatever you picked earlier */
   grid-template-columns: 1fr minmax(20rem, 24rem) !important;
 }
+/* ===== FULL-WIDTH layout scoped to builder-labs topics only ===== */
+body.category-builder-labs.archetype-regular {
+  /* knobs */
+  --page-gutter: 16px;
+  --toc-width: 20rem;
+  --toc-gap: 1.5rem;
+  --content-cap: none; /* set to e.g. 1200px if you want a cap */
+}
+
+/* remove outer gutters ONLY in builder-labs topics */
+body.category-builder-labs.archetype-regular .wrap,
+body.category-builder-labs.archetype-regular .d-wrap,
+body.category-builder-labs.archetype-regular #main-outlet-wrap,
+body.category-builder-labs.archetype-regular #main-outlet {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-gutter) !important;
+  padding-right: var(--page-gutter) !important;
+}
+
+/* title area */
+body.category-builder-labs.archetype-regular #topic-title { 
+  justify-content: flex-start !important; 
+}
+body.category-builder-labs.archetype-regular #topic-title .title-wrapper{
+  width: 100% !important;
+  max-width: var(--content-cap) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* two-column (content + TOC) */
+body.category-builder-labs.archetype-regular .container.posts{
+  display: grid !important;
+  grid-template-columns: 1fr minmax(var(--toc-width), 24rem);
