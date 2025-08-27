@@ -268,14 +268,24 @@ $split-values: str-split($values, "|");
   --page-gutter: 16px;
   --toc-gap: 1.5rem;
 
-  /* desktop defaults (overridden below responsively) */
+  /* desktop defaults (overridden responsively below) */
   --toc-width-min: 20rem;
   --toc-width-max: 24rem;
 
-  --content-cap: none;             /* set to e.g. 1200px for a soft cap */
+  /* ✅ cap the content column to a readable width */
+  --content-cap: clamp(720px, 68ch, 960px);
 
   /* explicit whitespace to the right of the TOC */
   --toc-trailing-space: 100px;
+
+  /* ✅ cap the entire two-column grid on huge screens */
+  --grid-max: calc(
+    var(--content-cap) +
+    var(--toc-gap) +
+    var(--toc-width-max) +
+    var(--toc-trailing-space) +
+    2 * var(--page-gutter)
+  );
 
   /* 1) Remove outer gutters */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -297,8 +307,15 @@ $split-values: str-split($values, "|");
   /* 3) Two-column layout: Content | TOC */
   .container.posts {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr)
-                           minmax(var(--toc-width-min), var(--toc-width-max)) !important;
+
+    /* keep grid from growing forever and center it */
+    width: min(100%, var(--grid-max));
+    margin-inline: auto;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(var(--toc-width-min), var(--toc-width-max)) !important;
+
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
 
@@ -342,7 +359,6 @@ $split-values: str-split($values, "|");
 
   /* ---------- Responsive TOC narrowing via CSS variables ---------- */
 
-  /* start slimming earlier */
   @media (max-width: 1800px) {
     & {
       --toc-width-min: 18rem;
@@ -351,7 +367,7 @@ $split-values: str-split($values, "|");
       --toc-trailing-space: 64px;
     }
   }
-  /* start slimming earlier */
+
   @media (max-width: 1600px) {
     & {
       --toc-width-min: 16rem;
