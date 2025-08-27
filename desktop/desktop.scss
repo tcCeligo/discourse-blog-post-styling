@@ -343,12 +343,21 @@ $split-values: str-split($values, "|");
   /* ---------- Responsive TOC narrowing via CSS variables ---------- */
 
   /* start slimming earlier */
+  @media (max-width: 1800px) {
+    & {
+      --toc-width-min: 18rem;
+      --toc-width-max: 20rem;
+      --toc-gap: 1.25rem;
+      --toc-trailing-space: 64px;
+    }
+  }
+  /* start slimming earlier */
   @media (max-width: 1600px) {
     & {
       --toc-width-min: 16rem;
       --toc-width-max: 18rem;
       --toc-gap: 1.25rem;
-      --toc-trailing-space: 64px;
+      --toc-trailing-space: 48px;
     }
   }
 
@@ -371,7 +380,7 @@ $split-values: str-split($values, "|");
   }
 
   /* 6) Small screens: stack TOC below content */
-  @media (max-width: 924px) {
+  @media (max-width: 1024px) {
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
