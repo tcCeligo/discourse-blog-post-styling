@@ -377,32 +377,15 @@ $split-values: str-split($values, "|");
   }
 }
 
-/* Shrink the Discourse left sidebar on blog/tag topics */
-%blog-tag,
-%blog-category {
-  /* A) Narrow the sidebar (recommended) */
-  & { --d-sidebar-width: 200px; } /* default is ~270–280px */
-  .sidebar-wrapper,
-  .sidebar-container { width: var(--d-sidebar-width) !important; }
-  .main-content { margin-left: var(--d-sidebar-width) !important; }
+// TONY UPDATES HERE
 
-  /* B) Icon-rail only — uncomment to go extra skinny */
-  // & { --d-sidebar-width: 64px; }
-  // .sidebar-section-link .label { display: none; } /* hide text labels */
-
-  /* C) Hide the sidebar entirely on these pages — uncomment if desired */
-  // @media (min-width: 1024px) {
-  //   .sidebar-wrapper { display: none !important; }
-  //   .main-content { margin-left: 0 !important; }
-  // }
+/* Quick test: shrink Discourse left sidebar globally */
+.sidebar-enabled #main-outlet {
+  grid-template-columns: 200px 1fr !important; /* default ~270–280px */
 }
-
-/* Let the center column actually use the space (optional) */
-%blog-tag,
-%blog-category {
-  .container.posts {
-    &.row { width: auto; }             /* remove hard 750px cap */
-  }
+.sidebar-wrapper,
+.sidebar-container {
+  width: 200px !important;
 }
 
 
