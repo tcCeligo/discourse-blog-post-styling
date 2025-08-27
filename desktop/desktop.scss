@@ -404,3 +404,12 @@ $split-values: str-split($values, "|");
     &.row { width: auto; }             /* remove hard 750px cap */
   }
 }
+
+
+.cooked h1 {
+  background-color: black;
+  color: white;
+  padding: 0.25em 0.5em;   // optional, gives spacing so text isn’t jammed
+  border-radius: 4px;      // optional, rounded corners
+  display: inline-block;   // makes background hug the text instead of spanning full width
+}
