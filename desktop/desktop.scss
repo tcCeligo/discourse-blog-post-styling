@@ -627,6 +627,7 @@ $split-values: str-split($values, "|");
   --toc-width-min: 20rem;          /* TOC min width */
   --toc-width-max: 24rem;          /* TOC max width */
   --content-cap: none;             /* set to e.g. 1200px for a soft cap */
+   --toc-trailing-space: 100px;
 
   /* 1) Remove outer gutters */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -652,6 +653,7 @@ $split-values: str-split($values, "|");
                            minmax(var(--toc-width-min), var(--toc-width-max)) !important;
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
+    padding-right: var(--toc-trailing-space);
   }
   .container.posts > .row { width: auto !important; }
 
@@ -695,6 +697,7 @@ $split-values: str-split($values, "|");
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
+      padding-right: var(--page-gutter); /* or 0 */
     }
     .container.posts .topic-navigation {
       grid-column: 1 / -1;
