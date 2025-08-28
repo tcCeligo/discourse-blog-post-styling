@@ -72,15 +72,6 @@ $split-values: str-split($values, "|");
       @if $image_display_style == "responsive crop" { background-size: cover; width: 100%; }
     }
   }
-      /* avatar circle */
-  #post_1 .topic-avatar { display: none !important; }
-
-  /* the whole “Tony Curcio • title • time” row */
-  #post_1 .topic-body .topic-meta-data { display: none !important; }
-
-  /* (optional) also hide the little “edited” info if present */
-  #post_1 .post-info.edits { display: none !important; }
-
 
   .topic-body { width: 100%; }
 
