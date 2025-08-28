@@ -532,6 +532,61 @@ $split-values: str-split($values, "|");
   top: var(--callout-icon-top);   /* ← baseline alignment */
   transform: none;                /* stop vertical centering */
 }
+/* =========================================================
+   Callout icon alignment — robust version
+   (centers icon in the callout and reserves a lane for it)
+   ========================================================= */
+
+:root{
+  /* easy knobs to tune */
+  --callout-icon-size: 28px;   /* 26–32 look good */
+  --callout-left-pad: 16px;    /* text padding from the inside edge */
+  --callout-icon-gap: 10px;    /* space between icon and text */
+  --callout-icon-nudge: -1px;  /* small vertical nudge (negative = slightly higher) */
+}
+
+/* 1) Reserve space for the icon and make the blockquote the positioning context */
+.cooked blockquote:has(> p:first-child img.emoji),
+.cooked blockquote:has(> p:first-child .d-icon),
+.cooked blockquote:has(> p:first-child img:not(.emoji)){
+  position: relative;
+  /* left rail (already there) + padding for text + icon lane */
+  padding-left: calc(
+    var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
+  ) !important;
+}
+
+/* 2) Place the icon inside the callout box (not outside the rail) */
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
+  position: absolute !important;
+  left: var(--callout-left-pad);               /* start of the icon lane */
+  top: 50%;
+  transform: translateY(calc(-50% + var(--callout-icon-nudge)));
+  width: var(--callout-icon-size);
+  height: var(--callout-icon-size);
+}
+
+/* 3) Mobile: drop the absolute positioning and let the icon sit inline */
+@media (max-width: 640px){
+  .cooked blockquote:has(> p:first-child img.emoji),
+  .cooked blockquote:has(> p:first-child .d-icon),
+  .cooked blockquote:has(> p:first-child img:not(.emoji)){
+    padding-left: 14px !important;   /* normal padding on small screens */
+  }
+  .cooked blockquote > p:first-child{
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .cooked blockquote > p:first-child img.emoji,
+  .cooked blockquote > p:first-child .d-icon,
+  .cooked blockquote > p:first-child img:not(.emoji){
+    position: static !important;
+    width: 22px; height: 22px;
+    transform: none !important;
+  }
+}
+
 
 /* Mobile: keep things tidy if space is tight */
 @media (max-width: 640px){
