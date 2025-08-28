@@ -465,6 +465,7 @@ $split-values: str-split($values, "|");
 
     /* ensure readable text on the now-darker/saturated backgrounds */
     --callout-fg: #e9edf6; /* tweak to taste */
+   }
 }
 
 /* Text rhythm inside callouts */
