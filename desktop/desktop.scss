@@ -444,7 +444,7 @@ $split-values: str-split($values, "|");
 /* Dark mode tinting */
 @media (prefers-color-scheme: dark){
   :root{
-    --tone-term-bg:       hsl(45 25% 85% / .10);
+/*    --tone-term-bg:       hsl(45 25% 85% / .10);
     --tone-warn-bg:       hsl(30 90% 80% / .10);
     --tone-pro-bg:        hsl(160 50% 80% / .10);
     --tone-note-bg:       hsl(220 30% 85% / .10);
@@ -459,6 +459,28 @@ $split-values: str-split($values, "|");
     --tone-success-accent:#7C92F2;
     --tone-time-accent:   #F472B6;
   }
+  */
+    /* exact swap: bg ⇄ accent */
+    --tone-term-bg:      var(--tone-term-accent);
+    --tone-term-accent:  var(--tone-term-bg);
+
+    --tone-warn-bg:      var(--tone-warn-accent);
+    --tone-warn-accent:  var(--tone-warn-bg);
+
+    --tone-pro-bg:       var(--tone-pro-accent;
+    --tone-pro-accent:   var(--tone-pro-bg);
+
+    --tone-note-bg:      var(--tone-note-accent);
+    --tone-note-accent:  var(--tone-note-bg);
+
+    --tone-success-bg:   var(--tone-success-accent);
+    --tone-success-accent: var(--tone-success-bg);
+
+    --tone-time-bg:      var(--tone-time-accent);
+    --tone-time-accent:  var(--tone-time-bg);
+
+    /* ensure readable text on the now-darker/saturated backgrounds */
+    --callout-fg: #e9edf6; /* tweak to taste */
 }
 
 /* Text rhythm inside callouts */
@@ -483,30 +505,6 @@ $split-values: str-split($values, "|");
   }
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
-    /* exact swap: bg ⇄ accent */
-    --tone-term-bg:      var(--tone-term-accent-raw);
-    --tone-term-accent:  var(--tone-term-bg-raw);
 
-    --tone-warn-bg:      var(--tone-warn-accent-raw);
-    --tone-warn-accent:  var(--tone-warn-bg-raw);
-
-    --tone-pro-bg:       var(--tone-pro-accent-raw);
-    --tone-pro-accent:   var(--tone-pro-bg-raw);
-
-    --tone-note-bg:      var(--tone-note-accent-raw);
-    --tone-note-accent:  var(--tone-note-bg-raw);
-
-    --tone-success-bg:   var(--tone-success-accent-raw);
-    --tone-success-accent: var(--tone-success-bg-raw);
-
-    --tone-time-bg:      var(--tone-time-accent-raw);
-    --tone-time-accent:  var(--tone-time-bg-raw);
-
-    /* ensure readable text on the now-darker/saturated backgrounds */
-    --callout-fg: #e9edf6; /* tweak to taste */
-  }
-}
 /* apply the foreground to callout content */
 .cooked blockquote{ color: var(--callout-fg, inherit); }
