@@ -207,10 +207,15 @@ $split-values: str-split($values, "|");
   margin-bottom: 1em;
 }
 .cooked h1 { background: #000; color: #fff; padding-block: 1em; }
-.cooked h2 { background: #cfd8a4; color: #000; }
+.cooked h2 { background: #cfd8a4; color: #000; .25em }
 
 /* Never add horizontal padding to the cooked body; layout handles gutters */
 .topic-post .cooked { padding-inline: 0 !important; }
+
+.topic-post:first-child {
+  font-size: 1.25em;
+  line-height: 1.4;
+}
 
 /// =======================================================
 ///  Wide, two-column “builder” layout
