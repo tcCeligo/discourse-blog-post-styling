@@ -203,7 +203,15 @@ $split-values: str-split($values, "|");
 /* =========================
    Tony's heading styles (shared)
    ========================= */
-.cooked h1, .cooked h2 {
+
+.cooked h1 {
+  padding: .25em .5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding-block: .75em; 
+}
+
+.cooked h2 {
   padding: .25em .5em;
   margin-top: 2em;
   margin-bottom: 1em;
