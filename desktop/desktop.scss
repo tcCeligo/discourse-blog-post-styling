@@ -1,6 +1,5 @@
 /// str-split function found at: https://github.com/sass-projects/stringy/blob/master/src/scss/_str-split.scss
 /// License: MIT
-
 @function str-split($string, $separator: null, $limit: null) {
   $string: unquote($string);
   @if type-of($string) != "string" { @error "`str-split` expects a string; #{type-of($string)} given."; }
@@ -55,7 +54,7 @@ $split-values: str-split($values, "|");
 .comments-heading { display: none; }
 
 /* =========================
-   Blog base styling (kept as-is)
+   Blog base styling
    ========================= */
 %blog-tag,
 %blog-category {
@@ -73,11 +72,11 @@ $split-values: str-split($values, "|");
     }
   }
 
-    /* ✅ Hide the byline under the title for the first post */
+  /* Hide the byline under the title for the first post */
   #post_1 .topic-avatar,
   #post_1 .topic-body .topic-meta-data,
   #post_1 .post-info.edits { display: none !important; }
-  
+
   .topic-body { width: 100%; }
 
   .topic-avatar {
@@ -97,18 +96,12 @@ $split-values: str-split($values, "|");
     .topic-body {
       padding-top: 8px; border-top: none;
       &.highlighted { animation: none; }
-
-      .topic-meta-data {
-        flex-direction: column; align-items: unset;
-        padding: 0; margin-left: 6px; margin-bottom: 2px;
-
-        .post-infos { justify-content: space-between; .post-info.edits { order: 1; } }
-      }
-
+      /* meta-data styling removed (hidden above) */
       .contents { border-top: 1px solid var(--primary-low); margin-left: 0; padding: 0; }
     }
 
-    .topic-map.--op { padding-left: 0;
+    .topic-map.--op {
+      padding-left: 0;
       .comments-heading { display: block; width: 100%; margin-top: 1em; }
       .topic-map__users-list { display: none; }
     }
@@ -125,13 +118,14 @@ $split-values: str-split($values, "|");
 
   .topic-status-info,
   .topic-timer-info,
-  .topic-area > .loading-container,
-  .small-action .small-action-desc { width: 100%; max-width: 100%; }
+  .small-action .small-action-desc { width: 100%; max-width: 100%; } /* loading-container removed to avoid conflict */
 
   .post-notice { max-width: 519px; font-size: var(--font-down-2); }
 
-  .small-action { font-size: .75em;
-    .small-action-desc { max-width: 500px;
+  .small-action {
+    font-size: .75em;
+    .small-action-desc {
+      max-width: 500px;
       .small-action-contents { display: flex; align-items: center; .avatar { height: 15px; width: 15px; } }
     }
   }
@@ -149,7 +143,7 @@ $split-values: str-split($values, "|");
       font-size: 1.25em; line-height: 1.4;
       padding-bottom: 0; padding-top: 4px;
 
-      .topic-avatar { padding-top: 4px; position: static !important; border-top: none; }
+      /* .topic-avatar styling removed (avatar hidden for first post) */
       .topic-body { max-width: unset; }
       .cooked { padding: 0; }
 
@@ -183,7 +177,8 @@ $split-values: str-split($values, "|");
     .topic-navigation .d-toc-main { min-width: 11.25em; }
   }
 
-  #topic-title { display: flex; justify-content: center;
+  #topic-title {
+    display: flex; justify-content: center;
     .title-wrapper { width: 70%; .topic-category { margin-top: .25em; } }
   }
 
@@ -212,22 +207,20 @@ $split-values: str-split($values, "|");
   padding: .25em .5em;
   margin-top: 2em;
   margin-bottom: 1em;
-  padding-block: .75em; 
+  padding-block: .75em;
 }
 .cooked h2 {
   padding: .25em .5em;
   margin-top: 2em;
   margin-bottom: 1em;
-  padding-block: .25em; 
+  padding-block: .25em;
 }
-
 .cooked h1 { background-color: #000; color: #fff; }
 .cooked h2 { background-color: #cfd8a4; color: #000; }
 
 /* =======================================================================
    BUILDER-WIDE LAYOUT (apply to every slug in $blog_category)
    ======================================================================= */
-
 %builder-wide-layout {
   --page-gutter: clamp(10px, 2.5vw, 16px);
   --toc-gap: 1.5rem;
@@ -322,13 +315,13 @@ $split-values: str-split($values, "|");
     --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
 
   @media (max-width: 924px) {
-  .container.posts {
-    grid-template-columns: 1fr !important;
-    column-gap: 0 !important;
-    padding-right: max(10px, var(--page-gutter));
-  }
+    .container.posts {
+      grid-template-columns: 1fr !important;
+      column-gap: 0 !important;
+      padding-right: max(10px, var(--page-gutter));
+    }
     .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
-}
+  }
 }
 
 /* Apply layout to categories listed in $blog_category */
@@ -340,16 +333,39 @@ $split-values: str-split($values, "|");
    EMOJI CALLOUTS (blockquote-based, classless)
    ======================================================================= */
 
-/* ---- knobs ---- */
+/* ---- unified knobs + tokens ---- */
 :root{
-  --callout-rail: 10px;                 /* left accent rail width */
+  /* spacing & geometry */
+  --callout-rail: 10px;
   --callout-radius: 10px;
   --callout-pad-y: 12px;
   --callout-pad-x: 16px;
-  --callout-indent: 25px;               /* requested indent */
-  --callout-icon-size: 28px;            /* 26–32px look good */
-  --callout-icon-gap: 10px;
-  --callout-icon-nudge: -4px;           /* negative raises icon slightly */
+  --callout-indent: 25px;
+
+  /* icon lane (final values) */
+  --callout-left-pad: 18px;
+  --callout-icon-size: 26px;
+  --callout-icon-gap: 12px;
+  --callout-icon-nudge: -2px;
+
+  /* color tokens */
+  --tone-term-bg:      #F8F7EE;
+  --tone-term-accent:  #C29A78;
+
+  --tone-warn-bg:      #FFF3E6;
+  --tone-warn-accent:  #F59E0B;
+
+  --tone-pro-bg:       #ECF8F4;
+  --tone-pro-accent:   #22C55E;
+
+  --tone-note-bg:      #EEF2F7;
+  --tone-note-accent:  #8FA7D6;
+
+  --tone-success-bg:   #EAF2FF;
+  --tone-success-accent:#5A7BEA;
+
+  --tone-time-bg:      #FCE7F3;
+  --tone-time-accent:  #DB2777;
 }
 
 /* Base callout: blockquote where FIRST <p> starts with an emoji/icon */
@@ -366,10 +382,10 @@ $split-values: str-split($values, "|");
   padding: var(--callout-pad-y) var(--callout-pad-x);
   margin: 16px 0 16px var(--callout-indent);
 
-  /* reserve an internal icon lane */
+  /* unified internal icon lane */
   padding-left: calc(
-    var(--callout-pad-x) + var(--callout-icon-size) + var(--callout-icon-gap)
-  );
+    var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
+  ) !important;
 }
 
 /* Remove the theme’s decorative quote mark */
@@ -380,15 +396,16 @@ $split-values: str-split($values, "|");
 .cooked blockquote:has(> p:first-child .d-icon)::after,
 .cooked blockquote:has(> p:first-child img:not(.emoji))::after { content: none !important; }
 
-/* Place the icon inside the callout and vertically center it */
+/* Icon placement (single source of truth) */
 .cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
 .cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
 .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
   position: absolute !important;
-  left: var(--callout-pad-x);
+  left: var(--callout-left-pad);
   top: 50%;
   transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-  width: var(--callout-icon-size); height: var(--callout-icon-size);
+  width: var(--callout-icon-size);
+  height: var(--callout-icon-size);
 }
 
 /* Title line spacing */
@@ -398,122 +415,51 @@ $split-values: str-split($values, "|");
   margin: 0 0 4px 0 !important;
 }
 
-
-/* ---------- global icon lane tuning (applies to all callouts) ---------- */
-:root{
-  --callout-icon-size: 26px;   /* slightly smaller feels crisper */
-  --callout-left-pad: 18px;    /* consistent text inset */
-  --callout-icon-gap: 12px;    /* a bit more breathing room */
-  --callout-icon-nudge: -2px;  /* raise icon onto the text baseline */
-}
-
-/* the lane + icon placement (you already have these selectors) */
-.cooked blockquote:has(> p:first-child img.emoji),
-.cooked blockquote:has(> p:first-child .d-icon),
-.cooked blockquote:has(> p:first-child img:not(.emoji)){
-  padding-left: calc(
-    var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
-  ) !important;
-}
-
-.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
-.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
-.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
-  position: absolute !important;
-  left: var(--callout-left-pad);
-  top: 50%;
-  transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-  width: var(--callout-icon-size);
-  height: var(--callout-icon-size);
-}
-
-/* ---------- cohesive color tokens per type ---------- */
-/* TERM — parchment */
-:root {
-  --tone-term-bg:     #F8F7EE; /* your swatch */
-  --tone-term-accent: #C29A78; /* softened from #B08968 */
-}
-
-/* HEADS UP — warm peach */
-:root {
-  --tone-warn-bg:     #FFF3E6; /* a hair lighter than current */
-  --tone-warn-accent: #F59E0B; /* softer than #D97706 */
-}
-
-/* PRO TIP — mint */
-:root {
-  --tone-pro-bg:      #ECF8F4; /* slightly cooler mint */
-  --tone-pro-accent:  #22C55E; /* green rail in the same family */
-}
-
-/* NOTE — blue-grey (harmonizes with info icon) */
-:root {
-  --tone-note-bg:     #EEF2F7; /* blue-grey tint */
-  --tone-note-accent: #8FA7D6; /* blue-grey rail to match icon */
-}
-
-/* SUCCESS — sky */
-:root {
-  --tone-success-bg:  #EAF2FF; /* your current sky */
-  --tone-success-accent:#5A7BEA; /* softened from #4F6FEA */
-}
-
-/* ESTIMATED TIME */
-:root{
-  --tone-time-bg:     #FCE7F3; /* soft lavender */
-  --tone-time-accent: #DB2777; /* indigo/violet rail */
-}
-
-/* Map emoji → tokens (keep your existing selectors; only the values change) */
+/* Map emoji → tokens */
 .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
   --callout-bg: var(--tone-term-bg);
   --callout-accent: var(--tone-term-accent);
 }
-
 .cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
   --callout-bg: var(--tone-warn-bg);
   --callout-accent: var(--tone-warn-accent);
 }
-
 .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
   --callout-bg: var(--tone-pro-bg);
   --callout-accent: var(--tone-pro-accent);
 }
-
 .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
   --callout-bg: var(--tone-note-bg);
   --callout-accent: var(--tone-note-accent);
 }
-
 .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]) {
   --callout-bg: var(--tone-success-bg);
   --callout-accent: var(--tone-success-accent);
 }
-
 .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"]) {
   --callout-bg: var(--tone-time-bg);
   --callout-accent: var(--tone-time-accent);
 }
 
-/* ---------- dark mode tinting (keeps hue, reduces glow) ---------- */
+/* Dark mode tinting */
 @media (prefers-color-scheme: dark){
   :root{
-    --tone-term-bg:      hsl(45 25% 85% / .10);
-    --tone-warn-bg:      hsl(30 90% 80% / .10);
-    --tone-pro-bg:       hsl(160 50% 80% / .10);
-    --tone-note-bg:      hsl(220 30% 85% / .10);
-    --tone-success-bg:   hsl(225 80% 85% / .10);
+    --tone-term-bg:       hsl(45 25% 85% / .10);
+    --tone-warn-bg:       hsl(30 90% 80% / .10);
+    --tone-pro-bg:        hsl(160 50% 80% / .10);
+    --tone-note-bg:       hsl(220 30% 85% / .10);
+    --tone-success-bg:    hsl(225 80% 85% / .10);
+    --tone-time-bg:       hsl(330 70% 80% / .10);
 
-    /* rails: keep hue, lift lightness a bit in dark mode */
-    --tone-term-accent:  #D6B48A;
-    --tone-warn-accent:  #FDBA74;
-    --tone-pro-accent:   #34D399;
-    --tone-note-accent:  #A8B9E6;
+    /* rails: keep hue, lift lightness a bit */
+    --tone-term-accent:   #D6B48A;
+    --tone-warn-accent:   #FDBA74;
+    --tone-pro-accent:    #34D399;
+    --tone-note-accent:   #A8B9E6;
     --tone-success-accent:#7C92F2;
+    --tone-time-accent:   #F472B6;
   }
 }
-
-
 
 /* Text rhythm inside callouts */
 .cooked blockquote p + p { margin-top: .25rem; }
