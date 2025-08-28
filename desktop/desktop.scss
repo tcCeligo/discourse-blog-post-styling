@@ -382,70 +382,109 @@ $split-values: str-split($values, "|");
 }
 
 
+/* ---------- global icon lane tuning (applies to all callouts) ---------- */
+:root{
+  --callout-icon-size: 26px;   /* slightly smaller feels crisper */
+  --callout-left-pad: 18px;    /* consistent text inset */
+  --callout-icon-gap: 12px;    /* a bit more breathing room */
+  --callout-icon-nudge: -2px;  /* raise icon onto the text baseline */
+}
+
+/* the lane + icon placement (you already have these selectors) */
+.cooked blockquote:has(> p:first-child img.emoji),
+.cooked blockquote:has(> p:first-child .d-icon),
+.cooked blockquote:has(> p:first-child img:not(.emoji)){
+  padding-left: calc(
+    var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
+  ) !important;
+}
+
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
+  position: absolute !important;
+  left: var(--callout-left-pad);
+  top: 50%;
+  transform: translateY(calc(-50% + var(--callout-icon-nudge)));
+  width: var(--callout-icon-size);
+  height: var(--callout-icon-size);
+}
+
+/* ---------- cohesive color tokens per type ---------- */
+/* TERM — parchment */
 :root {
-  /* Term */
-  --tone-term-bg:     #F8F7EE;  /* parchment background from your swatch */
-  --tone-term-accent: #B08968;  /* warm book-spine brown for the rail */
-
-    /* Heads up / Warning */
-  --tone-amber-bg:   #fff6e6;   /* amber-50 */
-  --tone-amber-accent: #d97706;  /* amber-600 */
-
-  /* Pro tip */
-  --tone-teal-bg:    #ecfdf5;   /* emerald-50 */
-  --tone-teal-accent: #0f766e;   /* teal-700 */
-
-  /* Note */
-  --tone-neutral-bg:  #f6f6f6;   /* neutral-50 */
-  --tone-neutral-accent: #a3a3a3; /* neutral-500 */
-
-  /* Success */
-  --tone-blue-bg:   #eef6ff;   /* blue-50 */
-  --tone-blue-accent: #1d4ed8;  /* blue-600 */
+  --tone-term-bg:     #F8F7EE; /* your swatch */
+  --tone-term-accent: #C29A78; /* softened from #B08968 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --tone-term-bg:     hsl(221 80% 66% / .12);
-    --tone-amber-bg:   hsl(38  92% 50% / .12);
-    --tone-teal-bg:    hsl(174 62% 35% / .14);
-    --tone-neutral-bg:  hsl(245 80% 66% / .12);
-    --tone-blue-bg:   hsl(142 72% 32% / .14);
-  }
+/* HEADS UP — warm peach */
+:root {
+  --tone-warn-bg:     #FFF3E6; /* a hair lighter than current */
+  --tone-warn-accent: #F59E0B; /* softer than #D97706 */
 }
 
-/* TERM — :closed_book: (plus a couple optional book aliases) */
-.cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]),
-.cooked blockquote:has(> p:first-child img.emoji[title=":blue_book:"]),
-.cooked blockquote:has(> p:first-child img.emoji[title=":ledger:"]) {
+/* PRO TIP — mint */
+:root {
+  --tone-pro-bg:      #ECF8F4; /* slightly cooler mint */
+  --tone-pro-accent:  #22C55E; /* green rail in the same family */
+}
+
+/* NOTE — blue-grey (harmonizes with info icon) */
+:root {
+  --tone-note-bg:     #EEF2F7; /* blue-grey tint */
+  --tone-note-accent: #8FA7D6; /* blue-grey rail to match icon */
+}
+
+/* SUCCESS — sky */
+:root {
+  --tone-success-bg:  #EAF2FF; /* your current sky */
+  --tone-success-accent:#5A7BEA; /* softened from #4F6FEA */
+}
+
+/* Map emoji → tokens (keep your existing selectors; only the values change) */
+.cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
   --callout-bg: var(--tone-term-bg);
   --callout-accent: var(--tone-term-accent);
 }
 
-/* HEADS UP — :warning: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
-  --callout-bg: var(--tone-amber-bg);
-  --callout-accent: var(--tone-amber-accent);
+  --callout-bg: var(--tone-warn-bg);
+  --callout-accent: var(--tone-warn-accent);
 }
 
-/* PRO TIP — :hammer_and_wrench: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
-  --callout-bg: var(--tone-teal-bg);
-  --callout-accent: var(--tone-teal-accent);
+  --callout-bg: var(--tone-pro-bg);
+  --callout-accent: var(--tone-pro-accent);
 }
 
-/* NOTE — :information_source: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
-  --callout-bg: var(--tone-neutral-bg);
-  --callout-accent: var(--tone-neutral-accent);
+  --callout-bg: var(--tone-note-bg);
+  --callout-accent: var(--tone-note-accent);
 }
 
-/* SUCCESS — :sports_medal: (and :medal: as a fallback) */
-.cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]),
-.cooked blockquote:has(> p:first-child img.emoji[title=":medal:"]) {
-  --callout-bg: var(--tone-blue-bg);
-  --callout-accent: var(--tone-blue-accent);
+.cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]) {
+  --callout-bg: var(--tone-success-bg);
+  --callout-accent: var(--tone-success-accent);
 }
+
+/* ---------- dark mode tinting (keeps hue, reduces glow) ---------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --tone-term-bg:      hsl(45 25% 85% / .10);
+    --tone-warn-bg:      hsl(30 90% 80% / .10);
+    --tone-pro-bg:       hsl(160 50% 80% / .10);
+    --tone-note-bg:      hsl(220 30% 85% / .10);
+    --tone-success-bg:   hsl(225 80% 85% / .10);
+
+    /* rails: keep hue, lift lightness a bit in dark mode */
+    --tone-term-accent:  #D6B48A;
+    --tone-warn-accent:  #FDBA74;
+    --tone-pro-accent:   #34D399;
+    --tone-note-accent:  #A8B9E6;
+    --tone-success-accent:#7C92F2;
+  }
+}
+
 
 
 /* Text rhythm inside callouts */
