@@ -260,7 +260,7 @@ $split-values: str-split($values, "|");
 .cooked h2 { background-color: #cfd8a4; color: black; }
 
 /* =======================================================================
-   BUILDER-WIDE LAYOUT (apply to each slug in $blog_category)
+   BUILDER-WIDE LAYOUT (SASS nicety): apply to every slug in $blog_category
    ======================================================================= */
 
 %builder-wide-layout {
@@ -272,13 +272,13 @@ $split-values: str-split($values, "|");
   --toc-width-min: 20rem;
   --toc-width-max: 24rem;
 
-  /* cap the content column to a readable width */
-  --content-cap: clamp(720px, 68ch, 960px);
+  /* ✅ cap the content column to a readable width */
+  --content-cap: clamp(1020px, 80ch, 1500px);
 
   /* explicit whitespace to the right of the TOC */
   --toc-trailing-space: 100px;
 
-  /* cap the entire two-column grid (content + TOC) */
+  /* ✅ cap the entire two-column grid (content + TOC) */
   --grid-max: calc(
     var(--content-cap) +
     var(--toc-gap) +
@@ -287,7 +287,7 @@ $split-values: str-split($values, "|");
     2 * var(--page-gutter)
   );
 
-  /* estimate the left sidebar (rail) width + cap the whole site */
+  /* ✅ estimate the left sidebar (rail) width + cap the whole site */
   --left-rail: 288px; /* adjust to match your theme */
   --site-max: calc(var(--left-rail) + var(--grid-max));
 
@@ -361,19 +361,6 @@ $split-values: str-split($values, "|");
     padding-right: 0.25rem;
   }
 
-  /* ---------- Indent sections under each H1 (safe for TOC) ---------- */
-  .topic-post .cooked {
-    --h1-section-indent: 2rem;    /* tweak to taste */
-    padding-left: var(--h1-section-indent);
-  }
-  .topic-post .cooked > h1 {
-    margin-left: calc(-1 * var(--h1-section-indent)); /* keep H1s flush */
-  }
-  /* Optional: keep certain blocks flush as well */
-  /* .topic-post .cooked > :is(hr, .lightbox-wrapper) {
-       margin-left: calc(-1 * var(--h1-section-indent));
-     } */
-
   /* ---------- Center the ENTIRE page on ultra-wide screens ---------- */
   @media (min-width: 1600px) {
     .wrap,
@@ -434,6 +421,18 @@ $split-values: str-split($values, "|");
       position: static;
       margin-top: 1rem;
     }
+  }
+   /* Indent everything that belongs to an H1 section */
+  .topic-post .cooked {
+    --h1-section-indent: 2rem; /* tweak to taste */
+
+    /* indent all top-level nodes after an H1, stopping at the next H1 */
+    > :is(h1 ~ *):not(h1 ~ h1 ~ *) {
+      margin-left: var(--h1-section-indent);
+    }
+
+    /* keep the H1 itself flush left */
+    > h1 { margin-left: 0; }
   }
 }
 
