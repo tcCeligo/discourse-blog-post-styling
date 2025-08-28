@@ -473,7 +473,7 @@ $split-values: str-split($values, "|");
   --callout-accent: var(--tone-success-accent);
 }
 
-.cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"]),
+.cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"]) {
   --callout-bg: var(--tone-time-bg);
   --callout-accent: var(--tone-time-accent);
 }
