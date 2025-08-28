@@ -451,7 +451,6 @@ $split-values: str-split($values, "|");
     --tone-success-bg:    hsl(225 80% 85% / .10);
     --tone-time-bg:       hsl(330 70% 80% / .10);
 
-    /* rails: keep hue, lift lightness a bit */
     --tone-term-accent:   #D6B48A;
     --tone-warn-accent:   #FDBA74;
     --tone-pro-accent:    #34D399;
