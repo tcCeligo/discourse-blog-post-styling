@@ -221,7 +221,7 @@ $split-values: str-split($values, "|");
    ======================================================================= */
 
 %builder-wide-layout {
-  --page-gutter: 16px;
+  --page-gutter: clamp(10px, 2.5vw, 16px);
   --toc-gap: 1.5rem;
 
   --toc-width-min: 20rem;
@@ -314,9 +314,13 @@ $split-values: str-split($values, "|");
     --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
 
   @media (max-width: 924px) {
-    .container.posts { grid-template-columns: 1fr !important; column-gap: 0 !important; padding-right: var(--page-gutter); }
-    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
+  .container.posts {
+    grid-template-columns: 1fr !important;
+    column-gap: 0 !important;
+    padding-right: max(10px, var(--page-gutter));
   }
+    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
+}
 }
 
 /* Apply layout to categories listed in $blog_category */
