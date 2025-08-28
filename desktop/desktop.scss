@@ -205,6 +205,12 @@ $split-values: str-split($values, "|");
         content: open-quote; font-size: 4em; line-height: 0.1em; vertical-align: -0.4em;
       }
       blockquote p { display: inline; }
+
+      /* Remove the theme's decorative quote mark for emoji callouts */
+    .cooked blockquote:has(> p:first-child > img.emoji)::before,
+    .cooked blockquote:has(> p:first-child > img.emoji)::after {
+    content: none !important;
+    }
     }
   }
 
