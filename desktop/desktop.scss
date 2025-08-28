@@ -482,3 +482,31 @@ $split-values: str-split($values, "|");
     width: 22px; height: 22px; transform: none !important;
   }
 }
+
+@media (prefers-color-scheme: dark){
+  :root{
+    /* exact swap: bg ⇄ accent */
+    --tone-term-bg:      var(--tone-term-accent-raw);
+    --tone-term-accent:  var(--tone-term-bg-raw);
+
+    --tone-warn-bg:      var(--tone-warn-accent-raw);
+    --tone-warn-accent:  var(--tone-warn-bg-raw);
+
+    --tone-pro-bg:       var(--tone-pro-accent-raw);
+    --tone-pro-accent:   var(--tone-pro-bg-raw);
+
+    --tone-note-bg:      var(--tone-note-accent-raw);
+    --tone-note-accent:  var(--tone-note-bg-raw);
+
+    --tone-success-bg:   var(--tone-success-accent-raw);
+    --tone-success-accent: var(--tone-success-bg-raw);
+
+    --tone-time-bg:      var(--tone-time-accent-raw);
+    --tone-time-accent:  var(--tone-time-bg-raw);
+
+    /* ensure readable text on the now-darker/saturated backgrounds */
+    --callout-fg: #e9edf6; /* tweak to taste */
+  }
+}
+/* apply the foreground to callout content */
+.cooked blockquote{ color: var(--callout-fg, inherit); }
