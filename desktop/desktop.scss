@@ -444,21 +444,6 @@ $split-values: str-split($values, "|");
 /* Dark mode tinting */
 @media (prefers-color-scheme: dark){
   :root{
-/*    --tone-term-bg:       hsl(45 25% 85% / .10);
-    --tone-warn-bg:       hsl(30 90% 80% / .10);
-    --tone-pro-bg:        hsl(160 50% 80% / .10);
-    --tone-note-bg:       hsl(220 30% 85% / .10);
-    --tone-success-bg:    hsl(225 80% 85% / .10);
-    --tone-time-bg:       hsl(330 70% 80% / .10);
-
-    --tone-term-accent:   #D6B48A;
-    --tone-warn-accent:   #FDBA74;
-    --tone-pro-accent:    #34D399;
-    --tone-note-accent:   #A8B9E6;
-    --tone-success-accent:#7C92F2;
-    --tone-time-accent:   #F472B6;
-  }
-  */
     /* exact swap: bg ⇄ accent */
     --tone-term-bg:      var(--tone-term-accent);
     --tone-term-accent:  var(--tone-term-bg);
@@ -466,7 +451,7 @@ $split-values: str-split($values, "|");
     --tone-warn-bg:      var(--tone-warn-accent);
     --tone-warn-accent:  var(--tone-warn-bg);
 
-    --tone-pro-bg:       var(--tone-pro-accent;
+    --tone-pro-bg:       var(--tone-pro-accent);
     --tone-pro-accent:   var(--tone-pro-bg);
 
     --tone-note-bg:      var(--tone-note-accent);
