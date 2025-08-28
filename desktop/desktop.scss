@@ -384,10 +384,10 @@ $split-values: str-split($values, "|");
 
 :root {
   /* Term / Reference (book) */
-  --tone-sky-bg:     #eef6ff;   /* soft blue */
-  --tone-sky-accent: #1d4ed8;   /* blue-700 */
+  --tone-term-bg:     #F8F7EE;  /* parchment background from your swatch */
+  --tone-term-accent: #B08968;  /* warm book-spine brown for the rail */
 
-  /* Heads up / Warning */
+    /* Heads up / Warning */
   --tone-amber-bg:   #fff6e6;   /* amber-50 */
   --tone-amber-accent:#d97706;  /* amber-600 */
 
@@ -395,9 +395,9 @@ $split-values: str-split($values, "|");
   --tone-teal-bg:    #ecfdf5;   /* emerald-50 */
   --tone-teal-accent:#0f766e;   /* teal-700 */
 
-  /* Note / FYI */
-  --tone-indigo-bg:  #eef2ff;   /* indigo-50 */
-  --tone-indigo-accent:#6366f1; /* indigo-500 */
+  /* Note */
+  --tone-neutral-bg:  #f6f6f6;   /* neutral-50 */
+  --tone-neutral-accent:#a3a3a3; /* neutral-500 */
 
   /* Success */
   --tone-green-bg:   #f0fdf4;   /* green-50 */
@@ -406,10 +406,10 @@ $split-values: str-split($values, "|");
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --tone-sky-bg:     hsl(221 80% 66% / .12);
+    --tone-term-bg:     hsl(221 80% 66% / .12);
     --tone-amber-bg:   hsl(38  92% 50% / .12);
     --tone-teal-bg:    hsl(174 62% 35% / .14);
-    --tone-indigo-bg:  hsl(245 80% 66% / .12);
+    --tone-neutral-bg:  hsl(245 80% 66% / .12);
     --tone-green-bg:   hsl(142 72% 32% / .14);
   }
 }
@@ -418,8 +418,8 @@ $split-values: str-split($values, "|");
 .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]),
 .cooked blockquote:has(> p:first-child img.emoji[title=":blue_book:"]),
 .cooked blockquote:has(> p:first-child img.emoji[title=":ledger:"]) {
-  --callout-bg: var(--tone-sky-bg);
-  --callout-accent: var(--tone-sky-accent);
+  --callout-bg: var(--tone-term-bg);
+  --callout-accent: var(--tone-term-accent);
 }
 
 /* HEADS UP — :warning: */
@@ -436,8 +436,8 @@ $split-values: str-split($values, "|");
 
 /* NOTE — :information_source: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
-  --callout-bg: var(--tone-indigo-bg);
-  --callout-accent: var(--tone-indigo-accent);
+  --callout-bg: var(--tone-neutral-bg);
+  --callout-accent: var(--tone-neutral-accent);
 }
 
 /* SUCCESS — :sports_medal: (and :medal: as a fallback) */
