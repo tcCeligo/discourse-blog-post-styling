@@ -381,26 +381,70 @@ $split-values: str-split($values, "|");
   margin: 0 0 4px 0 !important;
 }
 
-/* Per-emoji palettes */
-/* TERM */ 
-.cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
-  --callout-bg: #f1f8ff; --callout-accent: #1f6feb;
+
+:root {
+  /* Term / Reference (book) */
+  --tone-sky-bg:     #eef6ff;   /* soft blue */
+  --tone-sky-accent: #1d4ed8;   /* blue-700 */
+
+  /* Heads up / Warning */
+  --tone-amber-bg:   #fff6e6;   /* amber-50 */
+  --tone-amber-accent:#d97706;  /* amber-600 */
+
+  /* Pro tip */
+  --tone-teal-bg:    #ecfdf5;   /* emerald-50 */
+  --tone-teal-accent:#0f766e;   /* teal-700 */
+
+  /* Note / FYI */
+  --tone-indigo-bg:  #eef2ff;   /* indigo-50 */
+  --tone-indigo-accent:#6366f1; /* indigo-500 */
+
+  /* Success */
+  --tone-green-bg:   #f0fdf4;   /* green-50 */
+  --tone-green-accent:#16a34a;  /* green-600 */
 }
-/* ⚠️ Heads up */ 
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tone-sky-bg:     hsl(221 80% 66% / .12);
+    --tone-amber-bg:   hsl(38  92% 50% / .12);
+    --tone-teal-bg:    hsl(174 62% 35% / .14);
+    --tone-indigo-bg:  hsl(245 80% 66% / .12);
+    --tone-green-bg:   hsl(142 72% 32% / .14);
+  }
+}
+
+/* TERM — :closed_book: (plus a couple optional book aliases) */
+.cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]),
+.cooked blockquote:has(> p:first-child img.emoji[title=":blue_book:"]),
+.cooked blockquote:has(> p:first-child img.emoji[title=":ledger:"]) {
+  --callout-bg: var(--tone-sky-bg);
+  --callout-accent: var(--tone-sky-accent);
+}
+
+/* HEADS UP — :warning: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
-  --callout-bg: #fff7ed; --callout-accent: #d97706;
+  --callout-bg: var(--tone-amber-bg);
+  --callout-accent: var(--tone-amber-accent);
 }
-/* 🛠️ Pro tip */ 
+
+/* PRO TIP — :hammer_and_wrench: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
-  --callout-bg: #ecfdf5; --callout-accent: #10b981;
+  --callout-bg: var(--tone-teal-bg);
+  --callout-accent: var(--tone-teal-accent);
 }
-/* ℹ️ FYI */ 
+
+/* NOTE — :information_source: */
 .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
-  --callout-bg: #eef2ff; --callout-accent: #6366f1;
+  --callout-bg: var(--tone-indigo-bg);
+  --callout-accent: var(--tone-indigo-accent);
 }
-/* ✅ Success / Completed */
-.cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]) {
-  --callout-bg: #f0fdf4; --callout-accent: #16a34a; 
+
+/* SUCCESS — :sports_medal: (and :medal: as a fallback) */
+.cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]),
+.cooked blockquote:has(> p:first-child img.emoji[title=":medal:"]) {
+  --callout-bg: var(--tone-green-bg);
+  --callout-accent: var(--tone-green-accent);
 }
 
 
