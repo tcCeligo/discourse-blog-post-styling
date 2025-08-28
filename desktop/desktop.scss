@@ -423,17 +423,15 @@ $split-values: str-split($values, "|");
     }
   }
 
-    /* Indent all sections’ content under each H1 */
-  .topic-post .cooked {
-    --h1-section-indent: 2rem;  /* tweak to taste */
+  /* Indent all content, then pull H1s back out so their sections look indented */
+    .topic-post .cooked {
+    --h1-section-indent: 2rem;   /* tweak the indent amount */
+    padding-left: var(--h1-section-indent);
+  }
 
-    /* indent every top-level node that follows an H1 */
-    > h1 ~ :not(h1) {
-      margin-left: var(--h1-section-indent);
-    }
-
-    /* keep every H1 flush left */
-    > h1 { margin-left: 0; }
+  /* every H1 sits flush-left */
+  .topic-post .cooked > h1 {
+    margin-left: calc(-1 * var(--h1-section-indent));
   }
   
 }
