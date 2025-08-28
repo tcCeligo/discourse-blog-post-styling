@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Placeholders (structure shared across categories; only extended in builder-labs)
+   Shared placeholders (structure only). These are extended only in builder-labs.
    ========================================================================== */
 %blog-tag,
 %blog-category {
@@ -97,11 +97,11 @@
 
       blockquote {
         background: var(--primary-very-low); color: var(--primary-high);
-        border-left: 10px solid var(--primary-low-mid);
+        border-left: 10px solid var(--primary-low-mid, var(--primary-low, var(--primary)));
         padding: .5em 10px;
       }
       blockquote:before {
-        color: var(--primary-low-mid);
+        color: var(--primary-low-mid, var(--primary-low, var(--primary)));
         content: open-quote; font-size: 4em; line-height: .1em; vertical-align: -.4em;
       }
       blockquote p { display: inline; }
@@ -143,7 +143,9 @@
   }
 }
 
-/* Wide layout placeholder */
+/* ==========================================================================
+   Wide layout placeholder
+   ========================================================================== */
 %builder-wide-layout {
   --page-gutter: clamp(10px, 2.5vw, 16px);
   --toc-gap: 1.5rem;
@@ -250,29 +252,17 @@
    Concise scoping helpers (slug: builder-labs)
    ========================================================================== */
 $lab-sel: 'body.category-builder-labs';
-
 @mixin in-lab { #{$lab-sel} { @content; } }
-
-@mixin dark-in-lab {
-  @media (prefers-color-scheme: dark){ #{$lab-sel} { @content; } }
-  html.dark #{$lab-sel},
-  html[data-theme="dark"] #{$lab-sel},
-  html[data-theme="Dark"] #{$lab-sel},
-  html[data-theme-color-scheme="dark"] #{$lab-sel} { @content; }
-}
 
 /* ==========================================================================
    Apply (only when slug === builder-labs)
    ========================================================================== */
 @include in-lab {
-  /* extend placeholders only inside builder-labs */
+  /* Extend placeholders only inside builder-labs */
   @extend %blog-category;
   &.archetype-regular { @extend %builder-wide-layout; }
 
-  /* hide comments heading (scoped) */
-  .comments-heading { display: none; }
-
-  /* Tony's headings (scoped) */
+  /* Category-specific headings (kept from your spec) */
   .cooked h1 {
     padding: .25em .5em;
     margin-top: 2em;
@@ -288,9 +278,11 @@ $lab-sel: 'body.category-builder-labs';
     background-color: #cfd8a4; color: #000;
   }
 
-  /* ---- Emoji callouts: tokens + rules (scoped) ---- */
+  /* =========================
+     Emoji Callouts (theme-token driven)
+     ========================= */
 
-  /* knobs & geometry */
+  /* Lane, rhythm, geometry */
   --callout-rail: 10px;
   --callout-radius: 10px;
   --callout-pad-y: 12px;
@@ -302,50 +294,39 @@ $lab-sel: 'body.category-builder-labs';
   --callout-icon-gap: 12px;
   --callout-icon-nudge: -2px;
 
-  /* source palette (light/dark names only) */
-  --tone-term-light:         #F8F7EE;  /* parchment */
-  --tone-term-dark:          #C29A78;
+  /* Concept → core token mapping
+     - Term/Definition      → secondary (docs/neutral)
+     - Hint/Highlight       → tertiary (accent/highlight)
+     - Pro Tip/How-To       → success  (actionable/positive)
+     - Info/Note            → primary  (informational)
+     - Success/Achievement  → success
+     - Time/Effort          → warning  (attention)
+  */
+  --tone-term-accent:     var(--secondary, var(--primary));
+  --tone-term-bg:         var(--secondary-very-low, color-mix(in hsl, var(--tone-term-accent) 12%, transparent));
 
-  --tone-hint-light:         #FFF3E6;  /* warm peach */
-  --tone-hint-dark:          #F59E0B;
+  --tone-hint-accent:     var(--tertiary, var(--primary));
+  --tone-hint-bg:         var(--tertiary-very-low, color-mix(in hsl, var(--tone-hint-accent) 12%, transparent));
 
-  --tone-pro-light:          #ECF8F4;  /* mint */
-  --tone-pro-dark:           #22C55E;
+  --tone-pro-accent:      var(--success, var(--primary));
+  --tone-pro-bg:          var(--success-very-low, color-mix(in hsl, var(--tone-pro-accent) 12%, transparent));
 
-  --tone-note-light:         #EEF2F7;  /* blue-grey */
-  --tone-note-dark:          #8FA7D6;
+  --tone-note-accent:     var(--primary);
+  --tone-note-bg:         var(--primary-very-low, color-mix(in hsl, var(--tone-note-accent) 12%, transparent));
 
-  --tone-success-light:      #EAF2FF;  /* sky */
-  --tone-success-dark:       #5A7BEA;
+  --tone-success-accent:  var(--success, var(--primary));
+  --tone-success-bg:      var(--success-very-low, color-mix(in hsl, var(--tone-success-accent) 12%, transparent));
 
-  --tone-time-light:         #FCE7F3;  /* soft lavender */
-  --tone-time-dark:          #DB2777;
+  --tone-time-accent:     var(--warning, var(--primary));
+  --tone-time-bg:         var(--warning-very-low, color-mix(in hsl, var(--tone-time-accent) 12%, transparent));
 
-  /* published tokens (light mode mapping) */
-  --tone-term-bg:            var(--tone-term-light);
-  --tone-term-accent:        var(--tone-term-dark);
-
-  --tone-hint-bg:            var(--tone-hint-light);
-  --tone-hint-accent:        var(--tone-hint-dark);
-
-  --tone-pro-bg:             var(--tone-pro-light);
-  --tone-pro-accent:         var(--tone-pro-dark);
-
-  --tone-note-bg:            var(--tone-note-light);
-  --tone-note-accent:        var(--tone-note-dark);
-
-  --tone-success-bg:         var(--tone-success-light);
-  --tone-success-accent:     var(--tone-success-dark);
-
-  --tone-time-bg:            var(--tone-time-light);
-  --tone-time-accent:        var(--tone-time-dark);
-
-  /* base callout */
+  /* Base callout: any icon/emoji in first <p> */
   .cooked blockquote:has(> p:first-child img.emoji),
   .cooked blockquote:has(> p:first-child .d-icon),
   .cooked blockquote:has(> p:first-child img:not(.emoji)) {
-    --callout-bg: var(--primary-very-low);
-    --callout-accent: var(--primary-low-mid);
+    /* default base uses primary tokens */
+    --callout-bg: var(--primary-very-low, color-mix(in hsl, var(--primary) 12%, transparent));
+    --callout-accent: var(--primary-low, color-mix(in hsl, var(--primary) 45%, transparent));
 
     position: relative;
     background: var(--callout-bg);
@@ -359,7 +340,7 @@ $lab-sel: 'body.category-builder-labs';
     ) !important;
   }
 
-  /* remove decorative quote marks */
+  /* Remove theme’s decorative quotes for icon callouts */
   .cooked blockquote:has(> p:first-child img.emoji)::before,
   .cooked blockquote:has(> p:first-child .d-icon)::before,
   .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
@@ -367,7 +348,7 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child .d-icon)::after,
   .cooked blockquote:has(> p:first-child img:not(.emoji))::after { content: none !important; }
 
-  /* icon placement */
+  /* Icon placement */
   .cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
   .cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
   .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
@@ -375,18 +356,17 @@ $lab-sel: 'body.category-builder-labs';
     left: var(--callout-left-pad);
     top: 50%;
     transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-    width: var(--callout-icon-size);
-    height: var(--callout-icon-size);
+    width: var(--callout-icon-size); height: var(--callout-icon-size);
   }
 
-  /* title spacing */
+  /* Title line spacing */
   .cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
   .cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
   .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
     margin: 0 0 4px 0 !important;
   }
 
-  /* emoji → tone mapping */
+  /* Emoji → tone mapping (concept-driven) */
   .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
     --callout-bg: var(--tone-term-bg);
     --callout-accent: var(--tone-term-accent);
@@ -412,11 +392,11 @@ $lab-sel: 'body.category-builder-labs';
     --callout-accent: var(--tone-time-accent);
   }
 
-  /* rhythm */
+  /* Text rhythm inside callouts */
   .cooked blockquote p + p { margin-top: .25rem; }
   .cooked blockquote strong { font-weight: 700; }
 
-  /* mobile */
+  /* Mobile lane collapse */
   @media (max-width: 640px){
     .cooked blockquote:has(> p:first-child img.emoji),
     .cooked blockquote:has(> p:first-child .d-icon),
@@ -434,29 +414,6 @@ $lab-sel: 'body.category-builder-labs';
     }
   }
 
-  /* callout text color (scoped) */
+  /* Foreground if a tone ends up strong; defaults to inherit */
   .cooked blockquote{ color: var(--callout-fg, inherit); }
-}
-
-/* Dark-mode swap (only in builder-labs) */
-@include dark-in-lab {
-  --tone-term-bg:            var(--tone-term-dark);
-  --tone-term-accent:        var(--tone-term-light);
-
-  --tone-hint-bg:            var(--tone-hint-dark);
-  --tone-hint-accent:        var(--tone-hint-light);
-
-  --tone-pro-bg:             var(--tone-pro-dark);
-  --tone-pro-accent:         var(--tone-pro-light);
-
-  --tone-note-bg:            var(--tone-note-dark);
-  --tone-note-accent:        var(--tone-note-light);
-
-  --tone-success-bg:         var(--tone-success-dark);
-  --tone-success-accent:     var(--tone-success-light);
-
-  --tone-time-bg:            var(--tone-time-dark);
-  --tone-time-accent:        var(--tone-time-light);
-
-  --callout-fg: #e9edf6;
 }
