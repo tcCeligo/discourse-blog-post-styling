@@ -71,6 +71,7 @@ $split-values: str-split($values, "|");
       margin-bottom: 1em;
       @if $image_display_style == "responsive crop" { background-size: cover; width: 100%; }
     }
+  }
       /* avatar circle */
   #post_1 .topic-avatar { display: none !important; }
 
@@ -80,7 +81,6 @@ $split-values: str-split($values, "|");
   /* (optional) also hide the little “edited” info if present */
   #post_1 .post-info.edits { display: none !important; }
 
-  }
 
   .topic-body { width: 100%; }
 
