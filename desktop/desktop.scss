@@ -382,8 +382,8 @@ $split-values: str-split($values, "|");
 }
 
 /* Per-emoji palettes */
-/* 💡 Tip */ 
-.cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
+/* TERM */ 
+.cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
   --callout-bg: #f1f8ff; --callout-accent: #1f6feb;
 }
 /* ⚠️ Heads up */ 
