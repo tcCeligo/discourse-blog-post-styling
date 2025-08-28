@@ -205,12 +205,6 @@ $split-values: str-split($values, "|");
         content: open-quote; font-size: 4em; line-height: 0.1em; vertical-align: -0.4em;
       }
       blockquote p { display: inline; }
-
-      /* Remove the theme's decorative quote mark for emoji callouts */
-    .cooked blockquote:has(> p:first-child > img.emoji)::before,
-    .cooked blockquote:has(> p:first-child > img.emoji)::after {
-    content: none !important;
-    }
     }
   }
 
@@ -434,3 +428,113 @@ $split-values: str-split($values, "|");
 @each $slug in str-split($blog_category, ",") {
   body.category-#{$slug}.archetype-regular { @extend %builder-wide-layout; }
 }
+
+/* =======================================================================
+   EMOJI CALLOUTS (blockquote-based, classless)
+   ======================================================================= */
+
+/* Base “callout” styling: any blockquote whose FIRST paragraph starts with an emoji/icon */
+.cooked blockquote:has(> p:first-child img.emoji),
+.cooked blockquote:has(> p:first-child .d-icon),
+.cooked blockquote:has(> p:first-child img:not(.emoji)) {
+  --callout-bg: var(--primary-very-low);
+  --callout-accent: var(--primary-low-mid);
+
+  position: relative;
+  background: var(--callout-bg);
+  border-left: 10px solid var(--callout-accent);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 16px 0 16px 25px;   /* ≈25px indent requested */
+}
+
+/* Remove theme’s decorative quote mark for emoji callouts (works with wrapped icons too) */
+.cooked blockquote:has(> p:first-child img.emoji)::before,
+.cooked blockquote:has(> p:first-child .d-icon)::before,
+.cooked blockquote:has(> p:first-child img:not(.emoji))::before,
+.cooked blockquote:has(> p:first-child img.emoji)::after,
+.cooked blockquote:has(> p:first-child .d-icon)::after,
+.cooked blockquote:has(> p:first-child img:not(.emoji))::after {
+  content: none !important;
+}
+
+/* Icon positioning + space for it (emoji or d-icon) */
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
+  position: relative;
+  padding-left: 46px !important; /* room for icon */
+  margin: 0 0 4px 0 !important;
+}
+
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
+  position: absolute !important;
+  left: 12px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px;
+  line-height: 1;
+}
+
+/* Default per-emoji color themes (can be overridden by color tokens below) */
+
+/* 💡 Tip */
+.cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
+  --callout-bg: #f1f8ff;
+  --callout-accent: #1f6feb;
+}
+
+/* ⚠️ Warning / Heads up */
+.cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
+  --callout-bg: #fff7ed;
+  --callout-accent: #d97706;
+}
+
+/* 🛠️ Pro tip */
+.cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
+  --callout-bg: #ecfdf5;
+  --callout-accent: #10b981;
+}
+
+/* ℹ️ Info / FYI */
+.cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
+  --callout-bg: #eef2ff;
+  --callout-accent: #6366f1;
+}
+
+/* ----- Optional COLOR TOKENS (hidden squares to override colors) ----- */
+/* Add 🟨 🟦 🟩 🟧 🟥 🟪 right after the main emoji on the first line */
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":yellow_square:"]) {
+  --callout-bg: #fffbe6; --callout-accent: #eab308;
+}
+.cooked blockquote > p:first-child img.emoji[title=":yellow_square:"] { display: none !important; }
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":blue_square:"]) {
+  --callout-bg: #eff6ff; --callout-accent: #2563eb;
+}
+.cooked blockquote > p:first-child img.emoji[title=":blue_square:"] { display: none !important; }
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":green_square:"]) {
+  --callout-bg: #ecfdf5; --callout-accent: #10b981;
+}
+.cooked blockquote > p:first-child img.emoji[title=":green_square:"] { display: none !important; }
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":orange_square:"]) {
+  --callout-bg: #fff7ed; --callout-accent: #f97316;
+}
+.cooked blockquote > p:first-child img.emoji[title=":orange_square:"] { display: none !important; }
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":red_square:"]) {
+  --callout-bg: #fff1f2; --callout-accent: #e11d48;
+}
+.cooked blockquote > p:first-child img.emoji[title=":red_square:"] { display: none !important; }
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":purple_square:"]) {
+  --callout-bg: #f5f3ff; --callout-accent: #7c3aed;
+}
+.cooked blockquote > p:first-child img.emoji[title=":purple_square:"] { display: none !important; }
+
+/* Fine-tune text rhythm inside callouts */
+.cooked blockquote p + p { margin-top: 0.25rem; }
+.cooked blockquote strong { font-weight: 700; }
