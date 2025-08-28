@@ -208,11 +208,19 @@ $split-values: str-split($values, "|");
 /* =========================
    Tony's heading styles (shared)
    ========================= */
-.cooked h1, .cooked h2 {
+.cooked h1 {
   padding: .25em .5em;
   margin-top: 2em;
   margin-bottom: 1em;
+  padding-block: .75em; 
 }
+.cooked h2 {
+  padding: .25em .5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding-block: .25em; 
+}
+
 .cooked h1 { background-color: #000; color: #fff; }
 .cooked h2 { background-color: #cfd8a4; color: #000; }
 
