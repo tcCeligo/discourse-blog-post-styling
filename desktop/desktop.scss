@@ -269,7 +269,7 @@ $lab-sel: 'body.category-builder-labs';
   @extend %blog-category;
   &.archetype-regular { @extend %builder-wide-layout; }
 
-  /* Category-specific headings (as requested) */
+  /* Category-specific headings */
   .cooked h1 {
     padding: .25em .5em;
     margin-top: 2em;
@@ -286,7 +286,9 @@ $lab-sel: 'body.category-builder-labs';
   }
 
   /* =========================================
-     Builder Labs — Callouts (theme-token driven)
+     Builder Labs — Callouts
+     Light mode uses the exact palette from the screenshot.
+     Dark mode is defined below with the same hues.
      ========================================= */
 
   /* geometry */
@@ -300,45 +302,20 @@ $lab-sel: 'body.category-builder-labs';
   --callout-icon-gap: 12px;
   --callout-icon-nudge: -2px;
 
-  /* base tones (from theme) */
-  --tone-term:    var(--secondary, var(--primary));
-  --tone-hint:    var(--tertiary, var(--primary));
-  --tone-pro:     var(--success, var(--primary));
-  --tone-note:    var(--primary);
-  --tone-success: var(--success, var(--primary));
-  --tone-time:    var(--warning, var(--tertiary));
+  /* LIGHT — exact colors */
+  --term-bg:     #F8F7EE;  --term-rail:     #C29A78;  /* TERM */
+  --hint-bg:     #FFF3E6;  --hint-rail:     #F59E0B;  /* HEADS UP */
+  --pro-bg:      #ECF8F4;  --pro-rail:      #22C55E;  /* PRO TIP */
+  --note-bg:     #EEF2F7;  --note-rail:     #8FA7D6;  /* NOTE */
+  --success-bg:  #EAF2FF;  --success-rail:  #5A7BEA;  /* SUCCESS */
+  --time-bg:     #FCE7F3;  --time-rail:     #DB2777;  /* ESTIMATED TIME */
 
-  /* mix strategy for LIGHT */
-  --surface-base: white;
-  --mix-surface:  16%;  /* background tint strength */
-  --mix-rail:     62%;  /* left rail strength */
-  --fg-strong:    #0f172a; /* readable text on light tints */
-
-  /* derived per-tone (LIGHT) */
-  --term-bg:     color-mix(in hsl, var(--tone-term) var(--mix-surface), var(--surface-base));
-  --term-rail:   color-mix(in hsl, var(--tone-term) var(--mix-rail),    var(--surface-base));
-
-  --hint-bg:     color-mix(in hsl, var(--tone-hint) var(--mix-surface), var(--surface-base));
-  --hint-rail:   color-mix(in hsl, var(--tone-hint) var(--mix-rail),    var(--surface-base));
-
-  --pro-bg:      color-mix(in hsl, var(--tone-pro)  var(--mix-surface), var(--surface-base));
-  --pro-rail:    color-mix(in hsl, var(--tone-pro)  var(--mix-rail),    var(--surface-base));
-
-  --note-bg:     color-mix(in hsl, var(--tone-note) var(--mix-surface), var(--surface-base));
-  --note-rail:   color-mix(in hsl, var(--tone-note) var(--mix-rail),    var(--surface-base));
-
-  --success-bg:  color-mix(in hsl, var(--tone-success) var(--mix-surface), var(--surface-base));
-  --success-rail:color-mix(in hsl, var(--tone-success) var(--mix-rail),    var(--surface-base));
-
-  --time-bg:     color-mix(in hsl, var(--tone-time) var(--mix-surface), var(--surface-base));
-  --time-rail:   color-mix(in hsl, var(--tone-time) var(--mix-rail),    var(--surface-base));
-
-  /* Base callout panel (default to primary tone if no emoji-specific rule matches) */
+  /* base callout (fallback if no emoji-specific rule matches) */
   .cooked blockquote:has(> p:first-child img.emoji),
   .cooked blockquote:has(> p:first-child .d-icon),
   .cooked blockquote:has(> p:first-child img:not(.emoji)) {
-    --callout-bg:     color-mix(in hsl, var(--primary) var(--mix-surface), var(--surface-base));
-    --callout-accent: color-mix(in hsl, var(--primary) var(--mix-rail),    var(--surface-base));
+    --callout-bg: var(--note-bg);
+    --callout-accent: var(--note-rail);
 
     position: relative;
     background: var(--callout-bg);
@@ -348,10 +325,10 @@ $lab-sel: 'body.category-builder-labs';
     margin: 16px 0 16px var(--callout-indent);
 
     padding-left: calc(var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)) !important;
-    color: var(--callout-fg, var(--fg-strong));
+    color: var(--callout-fg, #2a3350);
   }
 
-  /* remove theme’s large quote marks when an icon/emoji starts the block */
+  /* remove theme’s decorative quotes */
   .cooked blockquote:has(> p:first-child img.emoji)::before,
   .cooked blockquote:has(> p:first-child .d-icon)::before,
   .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
@@ -373,9 +350,11 @@ $lab-sel: 'body.category-builder-labs';
   /* compact title line */
   .cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
   .cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child { margin: 0 0 4px 0 !important; }
+  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
+    margin: 0 0 4px 0 !important;
+  }
 
-  /* concept → tone mapping */
+  /* emoji → tone mapping */
   .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":star:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg); --callout-accent: var(--pro-rail); }
@@ -387,7 +366,7 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote p + p { margin-top: .25rem; }
   .cooked blockquote strong { font-weight: 700; }
 
-  /* mobile lane collapse */
+  /* mobile */
   @media (max-width: 640px){
     .cooked blockquote:has(> p:first-child img.emoji),
     .cooked blockquote:has(> p:first-child .d-icon),
@@ -403,33 +382,36 @@ $lab-sel: 'body.category-builder-labs';
       position: static !important; width: 22px; height: 22px; transform: none !important;
     }
   }
+
+  /* ensure text color if a tone is strong */
+  .cooked blockquote{ color: var(--callout-fg, inherit); }
 }
 
-/* ---------- DARK: same tones, darker surfaces/stronger rails (scoped) ---------- */
+/* ---------- DARK variant (same hues, deeper panels, brighter rails) ---------- */
 @include dark-in-lab {
-  --surface-base: black;
-  --mix-surface:  22%;
-  --mix-rail:     68%;
-  --fg-strong:    #e6edf3;
+  /* how dark/light the transforms should be */
+  --bg-darken: 22%;     /* background tint strength toward black */
+  --rail-whiten: 30%;   /* how much white to mix into rails for pop on dark */
+  --fg-strong: #e6edf3;
 
-  /* recompute derived (DARK) */
-  --term-bg:     color-mix(in hsl, var(--tone-term) var(--mix-surface), var(--surface-base));
-  --term-rail:   color-mix(in hsl, var(--tone-term) var(--mix-rail),    var(--surface-base));
+  /* recompute each tone for dark surfaces */
+  --term-bg:     color-mix(in hsl, #C29A78 var(--bg-darken), black);
+  --term-rail:   color-mix(in hsl, white var(--rail-whiten), #C29A78);
 
-  --hint-bg:     color-mix(in hsl, var(--tone-hint) var(--mix-surface), var(--surface-base));
-  --hint-rail:   color-mix(in hsl, var(--tone-hint) var(--mix-rail),    var(--surface-base));
+  --hint-bg:     color-mix(in hsl, #F59E0B var(--bg-darken), black);
+  --hint-rail:   color-mix(in hsl, white var(--rail-whiten), #F59E0B);
 
-  --pro-bg:      color-mix(in hsl, var(--tone-pro)  var(--mix-surface), var(--surface-base));
-  --pro-rail:    color-mix(in hsl, var(--tone-pro)  var(--mix-rail),    var(--surface-base));
+  --pro-bg:      color-mix(in hsl, #22C55E var(--bg-darken), black);
+  --pro-rail:    color-mix(in hsl, white var(--rail-whiten), #22C55E);
 
-  --note-bg:     color-mix(in hsl, var(--tone-note) var(--mix-surface), var(--surface-base));
-  --note-rail:   color-mix(in hsl, var(--tone-note) var(--mix-rail),    var(--surface-base));
+  --note-bg:     color-mix(in hsl, #8FA7D6 var(--bg-darken), black);
+  --note-rail:   color-mix(in hsl, white var(--rail-whiten), #8FA7D6);
 
-  --success-bg:  color-mix(in hsl, var(--tone-success) var(--mix-surface), var(--surface-base));
-  --success-rail:color-mix(in hsl, var(--tone-success) var(--mix-rail),    var(--surface-base));
+  --success-bg:  color-mix(in hsl, #5A7BEA var(--bg-darken), black);
+  --success-rail:color-mix(in hsl, white var(--rail-whiten), #5A7BEA);
 
-  --time-bg:     color-mix(in hsl, var(--tone-time) var(--mix-surface), var(--surface-base));
-  --time-rail:   color-mix(in hsl, var(--tone-time) var(--mix-rail),    var(--surface-base));
+  --time-bg:     color-mix(in hsl, #DB2777 var(--bg-darken), black);
+  --time-rail:   color-mix(in hsl, white var(--rail-whiten), #DB2777);
 
   .cooked blockquote{ color: var(--fg-strong); }
 }
