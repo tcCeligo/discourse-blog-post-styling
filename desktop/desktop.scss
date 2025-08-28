@@ -342,6 +342,7 @@ $split-values: str-split($values, "|");
   /* keep callouts from pushing out the right edge */
   .cooked blockquote { margin-right: 0; }
 }
+}
 
 
 /* Apply layout to categories listed in $blog_category */
