@@ -282,7 +282,7 @@ $lab-sel: 'body.category-builder-labs';
     margin-top: 2em;
     margin-bottom: 1em;
     padding-block: .25em;
-    background-color: #b2b2b2; /* <-- updated brand gray */
+    background-color: #b2b2b2; /* brand gray for H2 */
     color: #000;
   }
 
@@ -303,7 +303,7 @@ $lab-sel: 'body.category-builder-labs';
 
   /* brand hues (adjust to official hexes if needed) */
   --brand-primary: #2f5bea;  /* NOTE */
-  --brand-amber:   #f59e0b;  /* HEADS UP / ESTIMATED TIME rail alt */
+  --brand-amber:   #f59e0b;  /* HEADS UP */
   --brand-green:   #22c55e;  /* PRO TIP */
   --brand-indigo:  #5a7bea;  /* SUCCESS */
   --brand-rose:    #db2777;  /* TIME */
@@ -317,22 +317,35 @@ $lab-sel: 'body.category-builder-labs';
   --tone-success: var(--brand-indigo);
   --tone-time:    var(--brand-rose);
 
-  /* LIGHT: rails fixed to brand hue, panels are tints */
+  /* LIGHT: rails fixed to brand hue; panels = stronger, per-tone tints */
   --fg-strong: #2a3350;
   --light-surface: white;
-  --tint-term:    16%;
-  --tint-hint:    14%;
-  --tint-pro:     14%;
-  --tint-note:    16%;
-  --tint-success: 16%;
-  --tint-time:    18%;
 
+  /* Increased separation (↑ numbers = more color on the panel) */
+  --tint-term:    30%;
+  --tint-hint:    26%;
+  --tint-pro:     22%;
+  --tint-note:    30%;
+  --tint-success: 28%;
+  --tint-time:    34%;
+
+  /* default HSL mix */
   --term-bg:     color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface));
   --hint-bg:     color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
   --pro-bg:      color-mix(in hsl, var(--tone-pro)     var(--tint-pro),     var(--light-surface));
   --note-bg:     color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface));
   --success-bg:  color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface));
   --time-bg:     color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface));
+
+  /* Optional: better perceptual separation in supporting browsers */
+  @supports (color: oklch(50% 0.1 200)) {
+    --term-bg:     color-mix(in oklch, var(--tone-term)    var(--tint-term),    var(--light-surface));
+    --hint-bg:     color-mix(in oklch, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
+    --pro-bg:      color-mix(in oklch, var(--tone-pro)     var(--tint-pro),     var(--light-surface));
+    --note-bg:     color-mix(in oklch, var(--tone-note)    var(--tint-note),    var(--light-surface));
+    --success-bg:  color-mix(in oklch, var(--tone-success) var(--tint-success), var(--light-surface));
+    --time-bg:     color-mix(in oklch, var(--tone-time)    var(--tint-time),    var(--light-surface));
+  }
 
   /* rails fixed (same in dark) */
   --term-rail:     var(--tone-term);
@@ -439,6 +452,15 @@ $lab-sel: 'body.category-builder-labs';
   --note-bg:     color-mix(in hsl, var(--note-rail)    24%, var(--lab-surface-dark));
   --success-bg:  color-mix(in hsl, var(--success-rail) 22%, var(--lab-surface-dark));
   --time-bg:     color-mix(in hsl, var(--time-rail)    28%, var(--lab-surface-dark));
+
+  @supports (color: oklch(50% 0.1 200)) {
+    --term-bg:     color-mix(in oklch, var(--term-rail)    26%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    20%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     18%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    24%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 22%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in oklch, var(--time-rail)    28%, var(--lab-surface-dark));
+  }
 
   .cooked blockquote{
     color: var(--fg-strong);
