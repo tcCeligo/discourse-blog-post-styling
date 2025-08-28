@@ -383,25 +383,25 @@ $split-values: str-split($values, "|");
 
 
 :root {
-  /* Term / Reference (book) */
+  /* Term */
   --tone-term-bg:     #F8F7EE;  /* parchment background from your swatch */
   --tone-term-accent: #B08968;  /* warm book-spine brown for the rail */
 
     /* Heads up / Warning */
   --tone-amber-bg:   #fff6e6;   /* amber-50 */
-  --tone-amber-accent:#d97706;  /* amber-600 */
+  --tone-amber-accent: #d97706;  /* amber-600 */
 
   /* Pro tip */
   --tone-teal-bg:    #ecfdf5;   /* emerald-50 */
-  --tone-teal-accent:#0f766e;   /* teal-700 */
+  --tone-teal-accent: #0f766e;   /* teal-700 */
 
   /* Note */
   --tone-neutral-bg:  #f6f6f6;   /* neutral-50 */
-  --tone-neutral-accent:#a3a3a3; /* neutral-500 */
+  --tone-neutral-accent: #a3a3a3; /* neutral-500 */
 
   /* Success */
-  --tone-green-bg:   #f0fdf4;   /* green-50 */
-  --tone-green-accent:#16a34a;  /* green-600 */
+  --tone-blue-bg:   #eef6ff;   /* blue-50 */
+  --tone-blue-accent: #1d4ed8;  /* blue-600 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -410,7 +410,7 @@ $split-values: str-split($values, "|");
     --tone-amber-bg:   hsl(38  92% 50% / .12);
     --tone-teal-bg:    hsl(174 62% 35% / .14);
     --tone-neutral-bg:  hsl(245 80% 66% / .12);
-    --tone-green-bg:   hsl(142 72% 32% / .14);
+    --tone-blue-bg:   hsl(142 72% 32% / .14);
   }
 }
 
@@ -443,8 +443,8 @@ $split-values: str-split($values, "|");
 /* SUCCESS — :sports_medal: (and :medal: as a fallback) */
 .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]),
 .cooked blockquote:has(> p:first-child img.emoji[title=":medal:"]) {
-  --callout-bg: var(--tone-green-bg);
-  --callout-accent: var(--tone-green-accent);
+  --callout-bg: var(--tone-blue-bg);
+  --callout-accent: var(--tone-blue-accent);
 }
 
 
