@@ -1,19 +1,12 @@
 /// str-split function found at: https://github.com/sass-projects/stringy/blob/master/src/scss/_str-split.scss
 /// License: MIT
 
-/// String split (utility used to read comma-delimited theme settings)
 @function str-split($string, $separator: null, $limit: null) {
   $string: unquote($string);
-
-  @if type-of($string) != "string" {
-    @error "`str-split` function expecting a string for $string; #{type-of($string)} given.";
-  }
+  @if type-of($string) != "string" { @error "`str-split` expects a string; #{type-of($string)} given."; }
 
   $result: zip(());
-
-  @if not $separator {
-    @return ($string);
-  }
+  @if not $separator { @return ($string); }
 
   @if $separator == "" {
     @for $i from 1 through str-length($string) {
@@ -41,9 +34,7 @@
   @if $limit and $limit > 0 {
     $limit: if($limit > length($result), length($result), $limit);
     $return: ();
-    @for $i from 1 through $limit {
-      $return: append($return, nth($result, $i));
-    }
+    @for $i from 1 through $limit { $return: append($return, nth($result, $i)); }
     @return $return;
   }
 
@@ -55,15 +46,11 @@
    ========================= */
 $values: $blog_category;
 $split-values: str-split($values, ",");
-@each $value in $split-values {
-  .category-#{$value} { @extend %blog-category; }
-}
+@each $value in $split-values { .category-#{$value} { @extend %blog-category; } }
 
 $values: $blog_tag;
 $split-values: str-split($values, "|");
-@each $value in $split-values {
-  .tag-#{$value} { @extend %blog-tag; }
-}
+@each $value in $split-values { .tag-#{$value} { @extend %blog-tag; } }
 
 .comments-heading { display: none; }
 
@@ -82,26 +69,20 @@ $split-values: str-split($values, "|");
       background-size: contain;
       height: 440px;
       margin-bottom: 1em;
-      @if $image_display_style == "responsive crop" {
-        background-size: cover;
-        width: 100%;
-      }
+      @if $image_display_style == "responsive crop" { background-size: cover; width: 100%; }
     }
   }
 
   .topic-body { width: 100%; }
 
   .topic-avatar {
-    height: 20px;
-    width: 20px;
-    background: none;
+    height: 20px; width: 20px; background: none;
     img.avatar { height: 20px; width: 20px; }
-
     .avatar-flair {
       background-size: 8px 8px;
       width: 10px; height: 10px;
       top: unset; bottom: -5px; right: -3px;
-      .d-icon { height: 0.45em; width: 0.45em; }
+      .d-icon { height: .45em; width: .45em; }
     }
   }
 
@@ -110,36 +91,25 @@ $split-values: str-split($values, "|");
   #post_1 {
     .topic-body {
       padding-top: 8px; border-top: none;
-
       &.highlighted { animation: none; }
 
       .topic-meta-data {
         flex-direction: column; align-items: unset;
         padding: 0; margin-left: 6px; margin-bottom: 2px;
 
-        .post-infos {
-          justify-content: space-between;
-          .post-info.edits { order: 1; }
-        }
+        .post-infos { justify-content: space-between; .post-info.edits { order: 1; } }
       }
 
-      .contents {
-        border-top: 1px solid var(--primary-low);
-        margin-left: 0; padding: 0;
-      }
+      .contents { border-top: 1px solid var(--primary-low); margin-left: 0; padding: 0; }
     }
 
-    .topic-map.--op {
-      padding-left: 0;
+    .topic-map.--op { padding-left: 0;
       .comments-heading { display: block; width: 100%; margin-top: 1em; }
       .topic-map__users-list { display: none; }
     }
 
     .cooked {
-      big {
-        font-size: 2rem; line-height: 2rem; letter-spacing: 1px;
-        display: inline-block; font-family: Georgia;
-      }
+      big { font-size: 2rem; line-height: 2rem; letter-spacing: 1px; display: inline-block; font-family: Georgia; }
       & > p:first-child + div.lightbox-wrapper { display: none; & + p { margin-top: -15px; } }
       & > p img:not(.emoji) { display: none; }
       & > p ~ p img:not(.emoji) { display: block; }
@@ -151,37 +121,25 @@ $split-values: str-split($values, "|");
   .topic-status-info,
   .topic-timer-info,
   .topic-area > .loading-container,
-  .small-action .small-action-desc {
-    width: 100%; max-width: 100%;
-  }
+  .small-action .small-action-desc { width: 100%; max-width: 100%; }
 
   .post-notice { max-width: 519px; font-size: var(--font-down-2); }
 
-  .small-action {
-    font-size: 0.75em;
-    .small-action-desc {
-      max-width: 500px;
-      .small-action-contents {
-        display: flex; align-items: center;
-        .avatar { height: 15px; width: 15px; }
-      }
+  .small-action { font-size: .75em;
+    .small-action-desc { max-width: 500px;
+      .small-action-contents { display: flex; align-items: center; .avatar { height: 15px; width: 15px; } }
     }
   }
 
   // From Simon's original Blog Post plugin
   #topic-title h1 { font-size: 2.5em; }
-  #topic-title a.edit-topic .d-icon { font-size: 0.5em; }
+  #topic-title a.edit-topic .d-icon { font-size: .5em; }
 
   .topic-meta-data { font-size: small; }
-  .cooked { padding: 0.5em 1em; }
+  .cooked { padding: .5em 1em; }
 
   .topic-post {
-    .topic-body {
-      margin-left: 0 !important;   // remove Discourse's left gutter
-      padding-left: 0 !important;
-      max-width: 720px;            // was 500px; widen base blog layout
-    }
-
+    .topic-body { margin-left: 0 !important; padding-left: 0 !important; max-width: 720px; }
     &:first-child {
       font-size: 1.25em; line-height: 1.4;
       padding-bottom: 0; padding-top: 4px;
@@ -193,22 +151,21 @@ $split-values: str-split($values, "|");
       nav.post-controls .actions, .topic-map, .post-admin-menu { font-size: 14px; }
 
       figure { margin: 0; }
-      figcaption { margin-top: -16px; font-size: 0.8em; font-weight: bold; }
+      figcaption { margin-top: -16px; font-size: .8em; font-weight: bold; }
 
       blockquote {
         background: var(--primary-very-low); color: var(--primary-high);
         border-left: 10px solid var(--primary-low-mid);
-        padding: 0.5em 10px;
+        padding: .5em 10px;
       }
       blockquote:before {
         color: var(--primary-low-mid);
-        content: open-quote; font-size: 4em; line-height: 0.1em; vertical-align: -0.4em;
+        content: open-quote; font-size: 4em; line-height: .1em; vertical-align: -.4em;
       }
       blockquote p { display: inline; }
     }
   }
 
-  /* Hide the timeline/progress in certain cases */
   .timeline-toggle,
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
@@ -217,19 +174,15 @@ $split-values: str-split($values, "|");
   .container.posts {
     justify-content: center;
     grid-template-columns: 65% 5%;
-    & > .row { width: 750px; } // fixed from "&.row"
+    & > .row { width: 750px; }
     .topic-navigation .d-toc-main { min-width: 11.25em; }
   }
 
-  #topic-title {
-    display: flex; justify-content: center;
-    .title-wrapper {
-      width: 70%;
-      .topic-category { margin-top: 0.25em; }
-    }
+  #topic-title { display: flex; justify-content: center;
+    .title-wrapper { width: 70%; .topic-category { margin-top: .25em; } }
   }
 
-  .topic-area > .loading-container { max-width: 750px; }  // was 500
+  .topic-area > .loading-container { max-width: 750px; }
 
   @media screen and (max-width: 1350px) {
     .container.posts {
@@ -243,55 +196,44 @@ $split-values: str-split($values, "|");
 
   @media screen and (max-width: 924px) {
     .container.posts { grid-template-columns: 100%; }
-    #topic-title { justify-content: flex-start; } // fixed from "left"
+    #topic-title { justify-content: flex-start; }
   }
 }
 
 /* =========================
    Tony's heading styles (shared)
    ========================= */
-.cooked h1,
-.cooked h2 {
-  padding: 0.25em 0.5em;    // spacing so text isn’t jammed
-  margin-top: 2em;          // ≈ 2 line breaks above
-  margin-bottom: 1em;       // ≈ 1 line break below
+.cooked h1, .cooked h2 {
+  padding: .25em .5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
 }
-.cooked h1 { background-color: black; color: white; }
-.cooked h2 { background-color: #cfd8a4; color: black; }
+.cooked h1 { background-color: #000; color: #fff; }
+.cooked h2 { background-color: #cfd8a4; color: #000; }
 
 /* =======================================================================
-   BUILDER-WIDE LAYOUT (SASS nicety): apply to every slug in $blog_category
+   BUILDER-WIDE LAYOUT (apply to every slug in $blog_category)
    ======================================================================= */
 
 %builder-wide-layout {
-  /* knobs */
   --page-gutter: 16px;
   --toc-gap: 1.5rem;
 
-  /* desktop defaults (overridden responsively below) */
   --toc-width-min: 20rem;
   --toc-width-max: 24rem;
 
-  /* ✅ cap the content column to a readable width */
   --content-cap: clamp(1020px, 80ch, 1500px);
 
-  /* explicit whitespace to the right of the TOC */
   --toc-trailing-space: 100px;
 
-  /* ✅ cap the entire two-column grid (content + TOC) */
   --grid-max: calc(
-    var(--content-cap) +
-    var(--toc-gap) +
-    var(--toc-width-max) +
-    var(--toc-trailing-space) +
-    2 * var(--page-gutter)
+    var(--content-cap) + var(--toc-gap) + var(--toc-width-max) +
+    var(--toc-trailing-space) + 2 * var(--page-gutter)
   );
 
-  /* ✅ estimate the left sidebar (rail) width + cap the whole site */
   --left-rail: 288px; /* adjust to match your theme */
   --site-max: calc(var(--left-rail) + var(--grid-max));
 
-  /* 1) Remove outer gutters */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
     max-width: none !important;
     width: 100% !important;
@@ -299,20 +241,15 @@ $split-values: str-split($values, "|");
     padding-right: var(--page-gutter) !important;
   }
 
-  /* 2) Title area follows the new width */
   #topic-title { justify-content: flex-start !important; }
   #topic-title .title-wrapper {
     width: 100% !important;
     max-width: var(--content-cap) !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0 !important; padding: 0 !important;
   }
 
-  /* 3) Two-column layout: Content | TOC */
   .container.posts {
     display: grid !important;
-
-    /* keep the grid from growing forever and center it */
     width: min(100%, var(--grid-max));
     margin-inline: auto;
 
@@ -323,26 +260,20 @@ $split-values: str-split($values, "|");
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
 
-    /* extra whitespace to the right of the TOC */
     padding-right: var(--toc-trailing-space);
   }
   .container.posts > .row { width: auto !important; }
 
-  /* 4) Content column flush + fluid */
   .topic-post .topic-body {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    max-width: var(--content-cap) !important;
-    width: 100% !important;
+    margin-left: 0 !important; padding-left: 0 !important;
+    max-width: var(--content-cap) !important; width: 100% !important;
   }
   .topic-post .cooked { padding-left: 0 !important; }
 
-  /* 5) TOC lane + link text uses the full lane width */
   .container.posts .topic-navigation {
     grid-column: 2 / 3;
     align-self: start;
-    position: sticky;
-    top: 6rem;    /* adjust to your header height */
+    position: sticky; top: 6rem;
     margin: 0;
   }
   .container.posts .topic-navigation .d-toc-main {
@@ -355,76 +286,35 @@ $split-values: str-split($values, "|");
   .container.posts .topic-navigation .d-toc-item > a {
     display: block !important;
     width: 100% !important;
-    max-width: none !important;      /* remove anchor caps */
-    white-space: normal !important;  /* wrap across full lane */
+    max-width: none !important;
+    white-space: normal !important;
     overflow-wrap: anywhere;
-    padding-right: 0.25rem;
+    padding-right: .25rem;
   }
 
-  /* ---------- Center the ENTIRE page on ultra-wide screens ---------- */
   @media (min-width: 1600px) {
-    .wrap,
-    .d-wrap,
-    #main-outlet-wrap,
-    #main-outlet {
-      width: min(100%, var(--site-max)) !important;  /* cap total page width */
-      margin-inline: auto !important;                /* center the page */
+    .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
+      width: min(100%, var(--site-max)) !important;
+      margin-inline: auto !important;
     }
   }
 
-  /* ---------- Responsive TOC narrowing via CSS variables ---------- */
-  @media (max-width: 1800px) {
-    & {
-      --toc-width-min: 18rem;
-      --toc-width-max: 20rem;
-      --toc-gap: 1.25rem;
-      --toc-trailing-space: 64px;
-    }
-  }
+  @media (max-width: 1800px) { & {
+    --toc-width-min: 18rem; --toc-width-max: 20rem; --toc-gap: 1.25rem; --toc-trailing-space: 64px; } }
+  @media (max-width: 1600px) { & {
+    --toc-width-min: 16rem; --toc-width-max: 18rem; --toc-gap: 1.25rem; --toc-trailing-space: 48px; } }
+  @media (max-width: 1440px) { & {
+    --toc-width-min: 14rem; --toc-width-max: 16rem; --toc-gap: 1rem; --toc-trailing-space: 32px; } }
+  @media (max-width: 1280px) { & {
+    --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
 
-  @media (max-width: 1600px) {
-    & {
-      --toc-width-min: 16rem;
-      --toc-width-max: 18rem;
-      --toc-gap: 1.25rem;
-      --toc-trailing-space: 48px;
-    }
-  }
-
-  @media (max-width: 1440px) {
-    & {
-      --toc-width-min: 14rem;
-      --toc-width-max: 16rem;
-      --toc-gap: 1rem;
-      --toc-trailing-space: 32px;
-    }
-  }
-
-  @media (max-width: 1280px) {
-    & {
-      --toc-width-min: 12rem;
-      --toc-width-max: 14rem;
-      --toc-gap: 0.75rem;
-      --toc-trailing-space: 16px;
-    }
-  }
-
-  /* 6) Small screens: stack TOC below content */
   @media (max-width: 924px) {
-    .container.posts {
-      grid-template-columns: 1fr !important;
-      column-gap: 0 !important;
-      padding-right: var(--page-gutter); /* drop the extra right-space */
-    }
-    .container.posts .topic-navigation {
-      grid-column: 1 / -1;
-      position: static;
-      margin-top: 1rem;
-    }
+    .container.posts { grid-template-columns: 1fr !important; column-gap: 0 !important; padding-right: var(--page-gutter); }
+    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
   }
 }
 
-/* Apply the wide layout to each category slug listed in $blog_category */
+/* Apply layout to categories listed in $blog_category */
 @each $slug in str-split($blog_category, ",") {
   body.category-#{$slug}.archetype-regular { @extend %builder-wide-layout; }
 }
@@ -433,7 +323,19 @@ $split-values: str-split($values, "|");
    EMOJI CALLOUTS (blockquote-based, classless)
    ======================================================================= */
 
-/* Base “callout” styling: any blockquote whose FIRST paragraph starts with an emoji/icon */
+/* ---- knobs ---- */
+:root{
+  --callout-rail: 10px;                 /* left accent rail width */
+  --callout-radius: 10px;
+  --callout-pad-y: 12px;
+  --callout-pad-x: 16px;
+  --callout-indent: 25px;               /* requested indent */
+  --callout-icon-size: 28px;            /* 26–32px look good */
+  --callout-icon-gap: 10px;
+  --callout-icon-nudge: -4px;           /* negative raises icon slightly */
+}
+
+/* Base callout: blockquote where FIRST <p> starts with an emoji/icon */
 .cooked blockquote:has(> p:first-child img.emoji),
 .cooked blockquote:has(> p:first-child .d-icon),
 .cooked blockquote:has(> p:first-child img:not(.emoji)) {
@@ -442,138 +344,67 @@ $split-values: str-split($values, "|");
 
   position: relative;
   background: var(--callout-bg);
-  border-left: 10px solid var(--callout-accent);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin: 16px 0 16px 25px;   /* ≈25px indent requested */
+  border-left: var(--callout-rail) solid var(--callout-accent);
+  border-radius: var(--callout-radius);
+  padding: var(--callout-pad-y) var(--callout-pad-x);
+  margin: 16px 0 16px var(--callout-indent);
+
+  /* reserve an internal icon lane */
+  padding-left: calc(
+    var(--callout-pad-x) + var(--callout-icon-size) + var(--callout-icon-gap)
+  );
 }
 
-/* Remove theme’s decorative quote mark for emoji callouts (works with wrapped icons too) */
+/* Remove the theme’s decorative quote mark */
 .cooked blockquote:has(> p:first-child img.emoji)::before,
 .cooked blockquote:has(> p:first-child .d-icon)::before,
 .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
 .cooked blockquote:has(> p:first-child img.emoji)::after,
 .cooked blockquote:has(> p:first-child .d-icon)::after,
-.cooked blockquote:has(> p:first-child img:not(.emoji))::after {
-  content: none !important;
-}
+.cooked blockquote:has(> p:first-child img:not(.emoji))::after { content: none !important; }
 
-/* Icon positioning + space for it (emoji or d-icon) */
-.cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
-.cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
-.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
-  position: relative;
-  padding-left: 46px !important; /* room for icon */
-  margin: 0 0 4px 0 !important;
-}
-
+/* Place the icon inside the callout and vertically center it */
 .cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
 .cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
 .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
   position: absolute !important;
-  left: 12px; top: 50%; transform: translateY(-50%);
-  width: 28px; height: 28px;
-  line-height: 1;
-}
-
-/* Default per-emoji color themes (can be overridden by color tokens below) */
-
-/* 💡 Tip */
-.cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
-  --callout-bg: #f1f8ff;
-  --callout-accent: #1f6feb;
-}
-
-/* ⚠️ Warning / Heads up */
-.cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
-  --callout-bg: #fff7ed;
-  --callout-accent: #d97706;
-}
-
-/* 🛠️ Pro tip */
-.cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
-  --callout-bg: #ecfdf5;
-  --callout-accent: #10b981;
-}
-
-/* ℹ️ Info / FYI */
-.cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
-  --callout-bg: #eef2ff;
-  --callout-accent: #6366f1;
-}
-
-/* Fine-tune text rhythm inside callouts */
-.cooked blockquote p + p { margin-top: 0.25rem; }
-.cooked blockquote strong { font-weight: 700; }
-
-/* === Callout icon baseline alignment fix === */
-/* Tweak these if you want */
-:root{
-  --callout-icon-size: 28px;   /* 26–32px look good */
-  --callout-icon-left: -36px;  /* how far into the rail it sits */
-  --callout-icon-top: .15em;   /* baseline offset (raise/lower icon) */
-}
-
-/* ensure the first line can position the icon */
-.cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
-.cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
-.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child{
-  position: relative;
-}
-
-/* put the icon on the first line’s baseline (not vertical center) */
-.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
-.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
-.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
-  position: absolute;
-  width: var(--callout-icon-size);
-  height: var(--callout-icon-size);
-  left: var(--callout-icon-left);
-  top: var(--callout-icon-top);   /* ← baseline alignment */
-  transform: none;                /* stop vertical centering */
-}
-/* =========================================================
-   Callout icon alignment — robust version
-   (centers icon in the callout and reserves a lane for it)
-   ========================================================= */
-
-:root{
-  /* easy knobs to tune */
-  --callout-icon-size: 28px;   /* 26–32 look good */
-  --callout-left-pad: 16px;    /* text padding from the inside edge */
-  --callout-icon-gap: 10px;    /* space between icon and text */
-  --callout-icon-nudge: -1px;  /* small vertical nudge (negative = slightly higher) */
-}
-
-/* 1) Reserve space for the icon and make the blockquote the positioning context */
-.cooked blockquote:has(> p:first-child img.emoji),
-.cooked blockquote:has(> p:first-child .d-icon),
-.cooked blockquote:has(> p:first-child img:not(.emoji)){
-  position: relative;
-  /* left rail (already there) + padding for text + icon lane */
-  padding-left: calc(
-    var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
-  ) !important;
-}
-
-/* 2) Place the icon inside the callout box (not outside the rail) */
-.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
-.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
-.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
-  position: absolute !important;
-  left: var(--callout-left-pad);               /* start of the icon lane */
+  left: var(--callout-pad-x);
   top: 50%;
   transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-  width: var(--callout-icon-size);
-  height: var(--callout-icon-size);
+  width: var(--callout-icon-size); height: var(--callout-icon-size);
 }
 
-/* 3) Mobile: drop the absolute positioning and let the icon sit inline */
+/* Title line spacing */
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
+  margin: 0 0 4px 0 !important;
+}
+
+/* Per-emoji palettes */
+/* 💡 Tip */ .cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
+  --callout-bg: #f1f8ff; --callout-accent: #1f6feb;
+}
+/* ⚠️ Heads up */ .cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
+  --callout-bg: #fff7ed; --callout-accent: #d97706;
+}
+/* 🛠️ Pro tip */ .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
+  --callout-bg: #ecfdf5; --callout-accent: #10b981;
+}
+/* ℹ️ FYI */ .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
+  --callout-bg: #eef2ff; --callout-accent: #6366f1;
+}
+
+/* Text rhythm inside callouts */
+.cooked blockquote p + p { margin-top: .25rem; }
+.cooked blockquote strong { font-weight: 700; }
+
+/* Mobile: collapse icon lane & keep icon inline */
 @media (max-width: 640px){
   .cooked blockquote:has(> p:first-child img.emoji),
   .cooked blockquote:has(> p:first-child .d-icon),
   .cooked blockquote:has(> p:first-child img:not(.emoji)){
-    padding-left: 14px !important;   /* normal padding on small screens */
+    padding-left: var(--callout-pad-x) !important;
   }
   .cooked blockquote > p:first-child{
     display: flex; align-items: center; gap: .5rem;
@@ -582,25 +413,6 @@ $split-values: str-split($values, "|");
   .cooked blockquote > p:first-child .d-icon,
   .cooked blockquote > p:first-child img:not(.emoji){
     position: static !important;
-    width: 22px; height: 22px;
-    transform: none !important;
-  }
-}
-
-
-/* Mobile: keep things tidy if space is tight */
-@media (max-width: 640px){
-  .cooked blockquote > p:first-child{
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-  }
-  .cooked blockquote > p:first-child img.emoji,
-  .cooked blockquote > p:first-child .d-icon,
-  .cooked blockquote > p:first-child img:not(.emoji){
-    position: static;
-    width: 24px; height: 24px;
-    transform: none;
-    left: auto; top: auto;
+    width: 22px; height: 22px; transform: none !important;
   }
 }
