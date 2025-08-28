@@ -73,6 +73,11 @@ $split-values: str-split($values, "|");
     }
   }
 
+    /* ✅ Hide the byline under the title for the first post */
+  #post_1 .topic-avatar,
+  #post_1 .topic-body .topic-meta-data,
+  #post_1 .post-info.edits { display: none !important; }
+  
   .topic-body { width: 100%; }
 
   .topic-avatar {
