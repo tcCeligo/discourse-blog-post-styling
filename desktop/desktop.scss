@@ -92,9 +92,7 @@ $split-values: str-split($values, "|");
   .topic-body { width: 100%; }
 
   .topic-avatar {
-    height: 20px;
-    width: 20px;
-    background: none;
+    height: 20px; width: 20px; background: none;
     img.avatar { height: 20px; width: 20px; }
 
     .avatar-flair {
@@ -151,9 +149,7 @@ $split-values: str-split($values, "|");
   .topic-status-info,
   .topic-timer-info,
   .topic-area > .loading-container,
-  .small-action .small-action-desc {
-    width: 100%; max-width: 100%;
-  }
+  .small-action .small-action-desc { width: 100%; max-width: 100%; }
 
   .post-notice { max-width: 519px; font-size: var(--font-down-2); }
 
@@ -168,7 +164,6 @@ $split-values: str-split($values, "|");
     }
   }
 
-  // From Simon's original Blog Post plugin
   #topic-title h1 { font-size: 2.5em; }
   #topic-title a.edit-topic .d-icon { font-size: 0.5em; }
 
@@ -177,9 +172,9 @@ $split-values: str-split($values, "|");
 
   .topic-post {
     .topic-body {
-      margin-left: 0 !important;   // remove Discourse's left gutter
+      margin-left: 0 !important;
       padding-left: 0 !important;
-      max-width: 720px;            // was 500px; widen base blog layout
+      max-width: 720px;
     }
 
     &:first-child {
@@ -208,16 +203,14 @@ $split-values: str-split($values, "|");
     }
   }
 
-  /* Hide the timeline/progress in certain cases */
   .timeline-toggle,
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
 
-  /* Base blog layout (centered) — overridden by the wide layout when scoped */
   .container.posts {
     justify-content: center;
     grid-template-columns: 65% 5%;
-    & > .row { width: 750px; } // fixed from "&.row"
+    & > .row { width: 750px; }
     .topic-navigation .d-toc-main { min-width: 11.25em; }
   }
 
@@ -229,7 +222,7 @@ $split-values: str-split($values, "|");
     }
   }
 
-  .topic-area > .loading-container { max-width: 750px; }  // was 500
+  .topic-area > .loading-container { max-width: 750px; }
 
   @media screen and (max-width: 1350px) {
     .container.posts {
@@ -243,7 +236,7 @@ $split-values: str-split($values, "|");
 
   @media screen and (max-width: 924px) {
     .container.posts { grid-template-columns: 100%; }
-    #topic-title { justify-content: flex-start; } // fixed from "left"
+    #topic-title { justify-content: flex-start; }
   }
 }
 
@@ -252,9 +245,9 @@ $split-values: str-split($values, "|");
    ========================= */
 .cooked h1,
 .cooked h2 {
-  padding: 0.25em 0.5em;    // spacing so text isn’t jammed
-  margin-top: 2em;          // ≈ 2 line breaks above
-  margin-bottom: 1em;       // ≈ 1 line break below
+  padding: 0.25em 0.5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
 }
 .cooked h1 { background-color: black; color: white; }
 .cooked h2 { background-color: #cfd8a4; color: black; }
@@ -334,6 +327,9 @@ $split-values: str-split($values, "|");
     padding-left: 0 !important;
     max-width: var(--content-cap) !important;
     width: 100% !important;
+
+    /* NEW: allow out-dented H1 to be visible */
+    overflow: visible;
   }
   .topic-post .cooked { padding-left: 0 !important; }
 
@@ -342,7 +338,7 @@ $split-values: str-split($values, "|");
     grid-column: 2 / 3;
     align-self: start;
     position: sticky;
-    top: 6rem;    /* adjust to your header height */
+    top: 6rem;
     margin: 0;
   }
   .container.posts .topic-navigation .d-toc-main {
@@ -355,76 +351,47 @@ $split-values: str-split($values, "|");
   .container.posts .topic-navigation .d-toc-item > a {
     display: block !important;
     width: 100% !important;
-    max-width: none !important;      /* remove anchor caps */
-    white-space: normal !important;  /* wrap across full lane */
+    max-width: none !important;
+    white-space: normal !important;
     overflow-wrap: anywhere;
     padding-right: 0.25rem;
   }
 
-  /* --- Indent all content under H1s, keep H1s flush, without clipping --- */
-.topic-post .topic-body {
-  overflow: visible; /* let out-dented H1 show fully */
-}
-
-.topic-post .cooked {
-  --h1-section-indent: 2rem;   /* adjust to taste */
-  padding-left: var(--h1-section-indent);
-}
-
-/* keep every H1 visually flush-left */
-.topic-post .cooked > h1 {
-  position: relative;
-  left: calc(-1 * var(--h1-section-indent));  /* out-dent visually */
-  margin-left: 0;                              /* no negative margin needed */
-}
-  
+  /* ---------- Indent sections under each H1 (TOC-safe) ---------- */
+  .topic-post .cooked {
+    --h1-section-indent: 2rem;           /* tweak to taste */
+    padding-left: var(--h1-section-indent);
+  }
+  .topic-post .cooked > h1 {
+    position: relative;                   /* avoid negative margins being clipped */
+    left: calc(-1 * var(--h1-section-indent));
+    margin-left: 0;
+  }
+  /* Optional: keep certain blocks flush as well
+  .topic-post .cooked > :is(hr, .lightbox-wrapper) {
+    position: relative; left: calc(-1 * var(--h1-section-indent));
+  } */
 
   /* ---------- Center the ENTIRE page on ultra-wide screens ---------- */
   @media (min-width: 1600px) {
-    .wrap,
-    .d-wrap,
-    #main-outlet-wrap,
-    #main-outlet {
-      width: min(100%, var(--site-max)) !important;  /* cap total page width */
-      margin-inline: auto !important;                /* center the page */
+    .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
+      width: min(100%, var(--site-max)) !important;
+      margin-inline: auto !important;
     }
   }
 
   /* ---------- Responsive TOC narrowing via CSS variables ---------- */
   @media (max-width: 1800px) {
-    & {
-      --toc-width-min: 18rem;
-      --toc-width-max: 20rem;
-      --toc-gap: 1.25rem;
-      --toc-trailing-space: 64px;
-    }
+    & { --toc-width-min: 18rem; --toc-width-max: 20rem; --toc-gap: 1.25rem; --toc-trailing-space: 64px; }
   }
-
   @media (max-width: 1600px) {
-    & {
-      --toc-width-min: 16rem;
-      --toc-width-max: 18rem;
-      --toc-gap: 1.25rem;
-      --toc-trailing-space: 48px;
-    }
+    & { --toc-width-min: 16rem; --toc-width-max: 18rem; --toc-gap: 1.25rem; --toc-trailing-space: 48px; }
   }
-
   @media (max-width: 1440px) {
-    & {
-      --toc-width-min: 14rem;
-      --toc-width-max: 16rem;
-      --toc-gap: 1rem;
-      --toc-trailing-space: 32px;
-    }
+    & { --toc-width-min: 14rem; --toc-width-max: 16rem; --toc-gap: 1rem; --toc-trailing-space: 32px; }
   }
-
   @media (max-width: 1280px) {
-    & {
-      --toc-width-min: 12rem;
-      --toc-width-max: 14rem;
-      --toc-gap: 0.75rem;
-      --toc-trailing-space: 16px;
-    }
+    & { --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: 0.75rem; --toc-trailing-space: 16px; }
   }
 
   /* 6) Small screens: stack TOC below content */
@@ -432,7 +399,7 @@ $split-values: str-split($values, "|");
     .container.posts {
       grid-template-columns: 1fr !important;
       column-gap: 0 !important;
-      padding-right: var(--page-gutter); /* drop the extra right-space */
+      padding-right: var(--page-gutter);
     }
     .container.posts .topic-navigation {
       grid-column: 1 / -1;
