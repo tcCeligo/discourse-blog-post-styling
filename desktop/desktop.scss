@@ -497,6 +497,7 @@ $split-values: str-split($values, "|");
   .topic-post .cooked .lab-callout { margin-left: 0; }
 }
 
+.lab-callout { outline: 2px dashed #f40 !important; }
 
   
 }
