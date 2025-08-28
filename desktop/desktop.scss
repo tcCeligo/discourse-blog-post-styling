@@ -208,11 +208,18 @@ $split-values: str-split($values, "|");
 /* =========================
    Tony's heading styles (shared)
    ========================= */
-.cooked h1, .cooked h2 {
+.cooked h1 {
+  padding: .25em .5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding-block: 1em;
+}
+.cooked {
   padding: .25em .5em;
   margin-top: 2em;
   margin-bottom: 1em;
 }
+
 .cooked h1 { background-color: #000; color: #fff; }
 .cooked h2 { background-color: #cfd8a4; color: #000; }
 
@@ -314,21 +321,21 @@ $split-values: str-split($values, "|");
     --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
 
 
-  @media (max-width: 924px) {
-  /* keep a minimum gutter even on tiny screens */
-  :root { --page-gutter: clamp(10px, 3vw, 16px); }
+  /* Mobile gutter: exactly 10px on both sides */
+:root { --mobile-gutter: 10px; }
 
-  /* give the grid equal left/right padding, not just right */
+@media (max-width: 924px) {
+  /* give the grid a 10px left & right pad */
   .container.posts {
     grid-template-columns: 1fr !important;
     column-gap: 0 !important;
-    padding-inline: var(--page-gutter) !important;  /* ← was only padding-right */
+    padding-inline: var(--mobile-gutter) !important; /* 10px each side */
   }
 
-  /* final-mile protection so text never hits the edge */
+  /* undo the “final-mile” padding we added earlier */
   .topic-post .topic-body,
   .topic-post .cooked {
-    padding-right: var(--page-gutter) !important;
+    padding-right: 0 !important;  /* prevent double-guttering */
   }
 }
 }
