@@ -399,8 +399,7 @@ $split-values: str-split($values, "|");
   --callout-bg: #eef2ff; --callout-accent: #6366f1;
 }
 /* ✅ Success / Completed */
-.cooked blockquote:has(> p:first-child img.emoji[title=":white_check_mark:"]),
-.cooked blockquote:has(> p:first-child img.emoji[title=":heavy_check_mark:"]) {
+.cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]),
   --callout-bg: #f0fdf4; --callout-accent: #16a34a; 
 }
 
