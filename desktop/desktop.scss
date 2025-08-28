@@ -361,18 +361,23 @@ $split-values: str-split($values, "|");
     padding-right: 0.25rem;
   }
 
-  /* ---------- Indent sections under each H1 (safe for TOC) ---------- */
-  .topic-post .cooked {
-    --h1-section-indent: 2rem;    /* tweak to taste */
-    padding-left: var(--h1-section-indent);
-  }
-  .topic-post .cooked > h1 {
-    margin-left: calc(-1 * var(--h1-section-indent)); /* keep H1s flush */
-  }
-  /* Optional: keep certain blocks flush as well */
-  /* .topic-post .cooked > :is(hr, .lightbox-wrapper) {
-       margin-left: calc(-1 * var(--h1-section-indent));
-     } */
+  /* --- Indent all content under H1s, keep H1s flush, without clipping --- */
+.topic-post .topic-body {
+  overflow: visible; /* let out-dented H1 show fully */
+}
+
+.topic-post .cooked {
+  --h1-section-indent: 2rem;   /* adjust to taste */
+  padding-left: var(--h1-section-indent);
+}
+
+/* keep every H1 visually flush-left */
+.topic-post .cooked > h1 {
+  position: relative;
+  left: calc(-1 * var(--h1-section-indent));  /* out-dent visually */
+  margin-left: 0;                              /* no negative margin needed */
+}
+  
 
   /* ---------- Center the ENTIRE page on ultra-wide screens ---------- */
   @media (min-width: 1600px) {
