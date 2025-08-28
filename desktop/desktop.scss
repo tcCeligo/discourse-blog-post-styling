@@ -313,13 +313,23 @@ $split-values: str-split($values, "|");
   @media (max-width: 1280px) { & {
     --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
 
+
   @media (max-width: 924px) {
+  /* keep a minimum gutter even on tiny screens */
+  :root { --page-gutter: clamp(10px, 3vw, 16px); }
+
+  /* give the grid equal left/right padding, not just right */
   .container.posts {
     grid-template-columns: 1fr !important;
     column-gap: 0 !important;
-    padding-right: max(10px, var(--page-gutter));
+    padding-inline: var(--page-gutter) !important;  /* ← was only padding-right */
   }
-    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
+
+  /* final-mile protection so text never hits the edge */
+  .topic-post .topic-body,
+  .topic-post .cooked {
+    padding-right: var(--page-gutter) !important;
+  }
 }
 }
 
