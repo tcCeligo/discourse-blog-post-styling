@@ -333,7 +333,7 @@ $split-values: str-split($values, "|");
    EMOJI CALLOUTS (blockquote-based, classless)
    ======================================================================= */
 
-/* ---- unified knobs + tokens ---- */
+/* ---- unified knobs + tokens (LIGHT/DARK sources + published tokens) ---- */
 :root{
   /* spacing & geometry */
   --callout-rail: 10px;
@@ -342,30 +342,49 @@ $split-values: str-split($values, "|");
   --callout-pad-x: 16px;
   --callout-indent: 25px;
 
-  /* icon lane (final values) */
+  /* icon lane */
   --callout-left-pad: 18px;
   --callout-icon-size: 26px;
   --callout-icon-gap: 12px;
   --callout-icon-nudge: -2px;
 
-  /* color tokens */
-  --tone-term-bg:      #F8F7EE;
-  --tone-term-accent:  #C29A78;
+  /* ORIGINAL SOURCE PALETTE — named as light/dark (no bg/accent) */
+  --tone-term-light:        #F8F7EE;  /* parchment */
+  --tone-term-dark:         #C29A78;
 
-  --tone-warn-bg:      #FFF3E6;
-  --tone-warn-accent:  #F59E0B;
+  --tone-warn-light:        #FFF3E6;  /* warm peach */
+  --tone-warn-dark:         #F59E0B;
 
-  --tone-pro-bg:       #ECF8F4;
-  --tone-pro-accent:   #22C55E;
+  --tone-pro-light:         #ECF8F4;  /* mint */
+  --tone-pro-dark:          #22C55E;
 
-  --tone-note-bg:      #EEF2F7;
-  --tone-note-accent:  #8FA7D6;
+  --tone-note-light:        #EEF2F7;  /* blue-grey */
+  --tone-note-dark:         #8FA7D6;
 
-  --tone-success-bg:   #EAF2FF;
-  --tone-success-accent:#5A7BEA;
+  --tone-success-light:     #EAF2FF;  /* sky */
+  --tone-success-dark:      #5A7BEA;
 
-  --tone-time-bg:      #FCE7F3;
-  --tone-time-accent:  #DB2777;
+  --tone-time-light:        #FCE7F3;  /* soft lavender */
+  --tone-time-dark:         #DB2777;
+
+  /* PUBLISHED TOKENS USED BY THE CSS (bg/accent) — LIGHT MODE mapping */
+  --tone-term-bg:           var(--tone-term-light);
+  --tone-term-accent:       var(--tone-term-dark);
+
+  --tone-warn-bg:           var(--tone-warn-light);
+  --tone-warn-accent:       var(--tone-warn-dark);
+
+  --tone-pro-bg:            var(--tone-pro-light);
+  --tone-pro-accent:        var(--tone-pro-dark);
+
+  --tone-note-bg:           var(--tone-note-light);
+  --tone-note-accent:       var(--tone-note-dark);
+
+  --tone-success-bg:        var(--tone-success-light);
+  --tone-success-accent:    var(--tone-success-dark);
+
+  --tone-time-bg:           var(--tone-time-light);
+  --tone-time-accent:       var(--tone-time-dark);
 }
 
 /* Base callout: blockquote where FIRST <p> starts with an emoji/icon */
@@ -441,31 +460,30 @@ $split-values: str-split($values, "|");
   --callout-accent: var(--tone-time-accent);
 }
 
-/* Dark mode tinting */
+/* Dark mode: swap published tokens to use the opposite source */
 @media (prefers-color-scheme: dark){
   :root{
-    /* exact swap: bg ⇄ accent */
-    --tone-term-bg:      var(--tone-term-accent);
-    --tone-term-accent:  var(--tone-term-bg);
+    --tone-term-bg:           var(--tone-term-dark);
+    --tone-term-accent:       var(--tone-term-light);
 
-    --tone-warn-bg:      var(--tone-warn-accent);
-    --tone-warn-accent:  var(--tone-warn-bg);
+    --tone-warn-bg:           var(--tone-warn-dark);
+    --tone-warn-accent:       var(--tone-warn-light);
 
-    --tone-pro-bg:       var(--tone-pro-accent);
-    --tone-pro-accent:   var(--tone-pro-bg);
+    --tone-pro-bg:            var(--tone-pro-dark);
+    --tone-pro-accent:        var(--tone-pro-light);
 
-    --tone-note-bg:      var(--tone-note-accent);
-    --tone-note-accent:  var(--tone-note-bg);
+    --tone-note-bg:           var(--tone-note-dark);
+    --tone-note-accent:       var(--tone-note-light);
 
-    --tone-success-bg:   var(--tone-success-accent);
-    --tone-success-accent: var(--tone-success-bg);
+    --tone-success-bg:        var(--tone-success-dark);
+    --tone-success-accent:    var(--tone-success-light);
 
-    --tone-time-bg:      var(--tone-time-accent);
-    --tone-time-accent:  var(--tone-time-bg);
+    --tone-time-bg:           var(--tone-time-dark);
+    --tone-time-accent:       var(--tone-time-light);
 
-    /* ensure readable text on the now-darker/saturated backgrounds */
-    --callout-fg: #e9edf6; /* tweak to taste */
-   }
+    /* readable text on stronger backgrounds */
+    --callout-fg: #e9edf6;
+  }
 }
 
 /* Text rhythm inside callouts */
@@ -489,7 +507,6 @@ $split-values: str-split($values, "|");
     width: 22px; height: 22px; transform: none !important;
   }
 }
-
 
 /* apply the foreground to callout content */
 .cooked blockquote{ color: var(--callout-fg, inherit); }
