@@ -502,39 +502,50 @@ $split-values: str-split($values, "|");
   --callout-accent: #6366f1;
 }
 
-/* ----- Optional COLOR TOKENS (hidden squares to override colors) ----- */
-/* Add 🟨 🟦 🟩 🟧 🟥 🟪 right after the main emoji on the first line */
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":yellow_square:"]) {
-  --callout-bg: #fffbe6; --callout-accent: #eab308;
-}
-.cooked blockquote > p:first-child img.emoji[title=":yellow_square:"] { display: none !important; }
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":blue_square:"]) {
-  --callout-bg: #eff6ff; --callout-accent: #2563eb;
-}
-.cooked blockquote > p:first-child img.emoji[title=":blue_square:"] { display: none !important; }
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":green_square:"]) {
-  --callout-bg: #ecfdf5; --callout-accent: #10b981;
-}
-.cooked blockquote > p:first-child img.emoji[title=":green_square:"] { display: none !important; }
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":orange_square:"]) {
-  --callout-bg: #fff7ed; --callout-accent: #f97316;
-}
-.cooked blockquote > p:first-child img.emoji[title=":orange_square:"] { display: none !important; }
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":red_square:"]) {
-  --callout-bg: #fff1f2; --callout-accent: #e11d48;
-}
-.cooked blockquote > p:first-child img.emoji[title=":red_square:"] { display: none !important; }
-
-.cooked blockquote:has(> p:first-child img.emoji[title=":purple_square:"]) {
-  --callout-bg: #f5f3ff; --callout-accent: #7c3aed;
-}
-.cooked blockquote > p:first-child img.emoji[title=":purple_square:"] { display: none !important; }
-
 /* Fine-tune text rhythm inside callouts */
 .cooked blockquote p + p { margin-top: 0.25rem; }
 .cooked blockquote strong { font-weight: 700; }
+
+/* === Callout icon baseline alignment fix === */
+/* Tweak these if you want */
+:root{
+  --callout-icon-size: 28px;   /* 26–32px look good */
+  --callout-icon-left: -36px;  /* how far into the rail it sits */
+  --callout-icon-top: .15em;   /* baseline offset (raise/lower icon) */
+}
+
+/* ensure the first line can position the icon */
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child{
+  position: relative;
+}
+
+/* put the icon on the first line’s baseline (not vertical center) */
+.cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
+.cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
+.cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji){
+  position: absolute;
+  width: var(--callout-icon-size);
+  height: var(--callout-icon-size);
+  left: var(--callout-icon-left);
+  top: var(--callout-icon-top);   /* ← baseline alignment */
+  transform: none;                /* stop vertical centering */
+}
+
+/* Mobile: keep things tidy if space is tight */
+@media (max-width: 640px){
+  .cooked blockquote > p:first-child{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .cooked blockquote > p:first-child img.emoji,
+  .cooked blockquote > p:first-child .d-icon,
+  .cooked blockquote > p:first-child img:not(.emoji){
+    position: static;
+    width: 24px; height: 24px;
+    transform: none;
+    left: auto; top: auto;
+  }
+}
