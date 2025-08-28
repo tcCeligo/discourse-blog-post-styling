@@ -422,18 +422,20 @@ $split-values: str-split($values, "|");
       margin-top: 1rem;
     }
   }
-   /* Indent everything that belongs to an H1 section */
-  .topic-post .cooked {
-    --h1-section-indent: 2rem; /* tweak to taste */
 
-    /* indent all top-level nodes after an H1, stopping at the next H1 */
-    > :is(h1 ~ *):not(h1 ~ h1 ~ *) {
+    /* Indent all sections’ content under each H1 */
+  .topic-post .cooked {
+    --h1-section-indent: 2rem;  /* tweak to taste */
+
+    /* indent every top-level node that follows an H1 */
+    > h1 ~ :not(h1) {
       margin-left: var(--h1-section-indent);
     }
 
-    /* keep the H1 itself flush left */
+    /* keep every H1 flush left */
     > h1 { margin-left: 0; }
   }
+  
 }
 
 /* Apply the wide layout to each category slug listed in $blog_category */
