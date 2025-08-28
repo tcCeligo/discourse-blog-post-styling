@@ -441,6 +441,12 @@ $split-values: str-split($values, "|");
   --tone-success-accent:#5A7BEA; /* softened from #4F6FEA */
 }
 
+/* ESTIMATED TIME */
+:root{
+  --tone-time-bg:     #F3E8FF; /* soft lavender */
+  --tone-time-accent: #8B5CF6; /* indigo/violet rail */
+}
+
 /* Map emoji → tokens (keep your existing selectors; only the values change) */
 .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) {
   --callout-bg: var(--tone-term-bg);
@@ -465,6 +471,11 @@ $split-values: str-split($values, "|");
 .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]) {
   --callout-bg: var(--tone-success-bg);
   --callout-accent: var(--tone-success-accent);
+}
+
+.cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"]),
+  --callout-bg: var(--tone-time-bg);
+  --callout-accent: var(--tone-time-accent);
 }
 
 /* ---------- dark mode tinting (keeps hue, reduces glow) ---------- */
