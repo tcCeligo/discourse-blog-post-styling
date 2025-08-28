@@ -382,18 +382,28 @@ $split-values: str-split($values, "|");
 }
 
 /* Per-emoji palettes */
-/* 💡 Tip */ .cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
+/* 💡 Tip */ 
+.cooked blockquote:has(> p:first-child img.emoji[title=":bulb:"]) {
   --callout-bg: #f1f8ff; --callout-accent: #1f6feb;
 }
-/* ⚠️ Heads up */ .cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
+/* ⚠️ Heads up */ 
+.cooked blockquote:has(> p:first-child img.emoji[title=":warning:"]) {
   --callout-bg: #fff7ed; --callout-accent: #d97706;
 }
-/* 🛠️ Pro tip */ .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
+/* 🛠️ Pro tip */ 
+.cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) {
   --callout-bg: #ecfdf5; --callout-accent: #10b981;
 }
-/* ℹ️ FYI */ .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
+/* ℹ️ FYI */ 
+.cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) {
   --callout-bg: #eef2ff; --callout-accent: #6366f1;
 }
+/* ✅ Success / Completed */
+.cooked blockquote:has(> p:first-child img.emoji[title=":white_check_mark:"]),
+.cooked blockquote:has(> p:first-child img.emoji[title=":heavy_check_mark:"]) {
+  --callout-bg: #f0fdf4; --callout-accent: #16a34a; 
+}
+
 
 /* Text rhythm inside callouts */
 .cooked blockquote p + p { margin-top: .25rem; }
