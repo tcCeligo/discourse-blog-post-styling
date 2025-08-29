@@ -303,20 +303,6 @@ $lab-sel: 'body.category-builder-labs';
     color: #000;
   }
 
-  /* Remove right menu in Builder Labs */
-  .topic-navigation,
-  #suggested-topics,
-  #topic-progress-wrapper,
-  .timeline-container {
-    display: none !important;
-  }
-
-  .container.posts {
-    grid-template-columns: 1fr !important;
-    column-gap: 0 !important;
-    padding-right: 0 !important;
-  }
-
   /* =========================================
      Builder Labs — Brand-based Callouts
      ========================================= */
@@ -524,4 +510,61 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"]) { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
+}
+
+
+/* Remove left main menu + stretch content full width */
+.sidebar-wrapper,
+.sidebar-container,
+.d-sidebar {
+  display: none !important;
+}
+
+.wrap,
+.d-wrap,
+#main-outlet-wrap,
+#main-outlet {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Make topic content truly full width */
+@include in-lab {
+  /* Single-column content area; no right rail / TOC */
+  .topic-navigation { display: none !important; }
+
+  .container.posts {
+    grid-template-columns: 1fr !important; /* one column */
+    column-gap: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    margin-inline: 0 !important;
+  }
+
+  .container.posts > .row {
+    width: 100% !important;
+  }
+
+  /* Remove width caps introduced earlier */
+  #topic-title .title-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .topic-post .topic-body {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    max-width: none !important;  /* override 720px / var(--content-cap) */
+    width: 100% !important;
+  }
+
+  /* Optional: remove inner padding so content spans edge-to-edge */
+  .topic-post .cooked {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
