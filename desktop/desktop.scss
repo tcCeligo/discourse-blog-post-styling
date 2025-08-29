@@ -384,3 +384,54 @@ body.category-builder-labs .cooked h3 { scroll-margin-top: 84px; }
     margin-bottom: 1rem;
   }
 }
+/* ====== Topic layout: TOC on the left, content on the right (category-scoped) ====== */
+body.category-builder-labs .wrap,
+body.category-builder-labs .wrap .container {
+  max-width: 1440px !important;
+}
+
+body.category-builder-labs .topic-area {
+  display: grid !important;
+  grid-template-columns: 22rem minmax(0, 1fr);
+  column-gap: 2rem;
+}
+
+/* Left rail: built-in TOC */
+body.category-builder-labs .topic-navigation {
+  grid-column: 1 / 2 !important;
+  align-self: start;
+  position: sticky;
+  top: 76px;                                   /* adjust to your header height */
+  max-height: calc(100vh - 96px);
+  overflow: auto;
+  z-index: 1;
+}
+
+/* Content column */
+body.category-builder-labs .topic-body,
+body.category-builder-labs .post-stream,
+body.category-builder-labs .topic-posts,
+body.category-builder-labs .topic-post,
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
+}
+
+/* Prevent headings from hiding under sticky header when jumping from TOC */
+body.category-builder-labs .cooked h1,
+body.category-builder-labs .cooked h2,
+body.category-builder-labs .cooked h3 { scroll-margin-top: 84px; }
+
+/* If a right-side timeline appears, keep it with content column */
+body.category-builder-labs .timeline-container { grid-column: 2 / 3; }
+
+/* Mobile/tablet fallback */
+@media (max-width: 1024px) {
+  body.category-builder-labs .wrap,
+  body.category-builder-labs .wrap .container { max-width: 100% !important; }
+  body.category-builder-labs .topic-area { display: block !important; }
+  body.category-builder-labs .topic-navigation {
+    position: static !important;
+    max-height: none !important;
+    margin-bottom: 1rem;
+  }
+}
