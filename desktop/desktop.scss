@@ -469,11 +469,11 @@ $lab-sel: 'body.category-builder-labs';
   --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
 
    @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail) 54%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail) 42%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in oklch, var(--term-rail)   44%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)   42%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
     --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 64%, var(--lab-surface-dark)); /* a bit cheerier */
+    --success-bg:  color-mix(in oklch, var(--success-rail) 44%, var(--lab-surface-dark)); /* a bit cheerier */
     --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
   }
 
