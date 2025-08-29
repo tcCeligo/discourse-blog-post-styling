@@ -545,3 +545,45 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
+
+
+/* =========================================
+   Fix remaining left-edge mismatches
+   ========================================= */
+
+/* 1) Header: kill centering and use the same gutter as the page */
+body.category-builder-labs .d-header .wrap,
+body.category-builder-labs .d-header .contents {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: var(--page-gutter) !important;
+  padding-right: var(--page-gutter) !important;
+}
+
+/* Some themes add extra left margin on the title/brand area */
+body.category-builder-labs .d-header .title,
+body.category-builder-labs .d-header .panel {
+  margin-left: 0 !important;
+}
+
+/* 2) TOC: remove the built-in left rule and padding that offsets the list */
+body.category-builder-labs .topic-navigation .d-toc-main {
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* (Optional) If you still want a subtle guide line, keep it without shifting text) */
+/*
+body.category-builder-labs .topic-navigation .d-toc-main {
+  position: relative;
+}
+body.category-builder-labs .topic-navigation .d-toc-main::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--primary-low);
+}
+*/
