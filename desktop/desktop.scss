@@ -516,3 +516,37 @@ body.category-builder-labs {
     }
   }
 }
+/* --- callout tuning pack (builder-labs only) --- */
+body.category-builder-labs {
+  /* widen spacing between similar panels */
+  --tint-term:    24%;   /* slightly deeper TERM */
+  --tint-pro:     16%;   /* PRO TIP a touch darker = more serious */
+  --tint-note:    80%;   /* NOTE a touch lighter = airier */
+  --tint-time:    58%;   /* Time a hair lighter to move off Success */
+
+  /* subtle edge definition */
+  --callout-rail: 14px;  /* +2px looks great at this size */
+  .cooked blockquote {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.42),
+      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
+  }
+}
+
+/* Dark mode spacing to keep the same “distance” between tones */
+@media (prefers-color-scheme: dark) {
+  body.category-builder-labs {
+    --term-bg:    color-mix(in hsl, var(--term-rail) 38%, var(--lab-surface-dark));
+    --pro-bg:     color-mix(in hsl, var(--pro-rail) 28%, var(--lab-surface-dark));
+    --note-bg:    color-mix(in hsl, var(--note-rail) 44%, var(--lab-surface-dark));
+    --success-bg: color-mix(in hsl, var(--success-rail) 48%, var(--lab-surface-dark));
+  }
+  @supports (color: oklch(50% 0.1 200)) {
+    body.category-builder-labs {
+      --term-bg:    color-mix(in oklch, var(--term-rail) 38%, var(--lab-surface-dark));
+      --pro-bg:     color-mix(in oklch, var(--pro-rail) 28%, var(--lab-surface-dark));
+      --note-bg:    color-mix(in oklch, var(--note-rail) 44%, var(--lab-surface-dark));
+      --success-bg: color-mix(in oklch, var(--success-rail) 48%, var(--lab-surface-dark));
+    }
+  }
+}
