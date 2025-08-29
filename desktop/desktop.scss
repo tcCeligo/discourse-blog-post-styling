@@ -534,3 +534,26 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
+
+/* Align primary header with TOC grid in Builder Labs */
+body.category-builder-labs #main-outlet {
+  display: grid !important;
+  grid-template-columns:
+    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
+    minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap, 2rem) !important;
+}
+
+/* Force both title and content into the right column */
+body.category-builder-labs #topic-title,
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
+}
+
+/* Title wrapper width stays constrained */
+body.category-builder-labs #topic-title .title-wrapper {
+  width: 100% !important;
+  max-width: var(--content-cap, 1020px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
