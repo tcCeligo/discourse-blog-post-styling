@@ -619,3 +619,49 @@ body.category-builder-labs #topic-title {
 body.category-builder-labs .container.posts > .row {
   grid-column: 2 / 3 !important; /* content stays in the right column */
 }
+
+
+/* ================================
+   Builder Labs — left-align layout
+   ================================ */
+
+/* (1) Tighten page gutter slightly so the TOC sits closer to the edge */
+body.category-builder-labs { 
+  --page-gutter: clamp(6px, 1.25vw, 12px) !important;
+}
+
+/* Ensure everything uses the reduced gutter */
+body.category-builder-labs .wrap,
+body.category-builder-labs .d-wrap,
+body.category-builder-labs #main-outlet-wrap,
+body.category-builder-labs #main-outlet {
+  padding-left: var(--page-gutter) !important;
+  padding-right: var(--page-gutter) !important;
+}
+
+/* (2) Do NOT center the title grid or posts grid — stretch them to the left gutter */
+body.category-builder-labs #topic-title,
+body.category-builder-labs .container.posts {
+  width: 100% !important;
+  margin-inline: 0 !important;   /* instead of auto */
+}
+
+/* (3) Keep the shared two-column grid for both title bar and content */
+body.category-builder-labs #topic-title {
+  display: grid !important;
+  grid-template-columns:
+    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
+    minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap, 2rem) !important;
+}
+
+/* (4) Content stays in the right column; TOC remains left */
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
+}
+
+/* (5) Optional: bump TOC size a hair for readability (already set earlier, safe to duplicate) */
+body.category-builder-labs .container.posts .topic-navigation {
+  font-size: 1.08em;
+  line-height: 1.5;
+}
