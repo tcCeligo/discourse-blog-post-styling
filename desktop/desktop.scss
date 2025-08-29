@@ -237,3 +237,23 @@
     grid-column:1/2 !important;  /* stack vertically */
   }
 }
+
+/* page shell */
+.page-with-toc {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+}
+
+/* TOC column */
+.page-with-toc .toc {
+  position: sticky;              /* not fixed */
+  top: var(--header-height, 72px);
+  align-self: start;
+  max-height: calc(100vh - var(--header-height, 72px));
+  overflow: auto;
+  z-index: 0;                    /* so it won’t overlay content */
+}
+
+/* main column */
+.page-with-toc .content { min-width: 0; }
