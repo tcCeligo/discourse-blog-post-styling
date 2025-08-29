@@ -1,144 +1,25 @@
 /* ===============================================
-   Builder Labs — clean grid + callouts (complete)
+   Builder Labs — unified layout + callouts
    =============================================== */
 
 /* --- Tunables ------------------------------------------------------ */
-body.category-builder-labs {
-  --site-gutter: clamp(10px, 2.5vw, 16px);
+:where(.category-builder-labs){
+  --site-gutter: 24px;              /* adjust until it lines up with your desired black line */
   --toc-gap: 2rem;
-  --toc-width-min: 18rem;
-  --toc-width-max: 22rem;
-}
+  --toc-min: 18rem;
+  --toc-max: 22rem;
 
-/* --- Hide any sidebar / reserved widths ---------------------------- */
-body.category-builder-labs,
-body.category-builder-labs :root { --d-sidebar-width: 0px !important; }
-
-body.category-builder-labs .sidebar-wrapper,
-body.category-builder-labs .sidebar-container,
-body.category-builder-labs .discourse-sidebar,
-body.category-builder-labs .d-sidebar,
-body.category-builder-labs .hamburger-panel {
-  display: none !important;
-  width: 0 !important;
-  min-width: 0 !important;
-}
-
-body.category-builder-labs.has-sidebar .wrap,
-body.category-builder-labs.has-sidebar .d-wrap,
-body.category-builder-labs .sidebar-wrapper + .wrap,
-body.category-builder-labs .sidebar-wrapper + .d-wrap,
-body.category-builder-labs #main-outlet-wrap {
-  margin-left: 0 !important;
-}
-
-/* --- Make header and outlet share the same left gutter ------------- */
-body.category-builder-labs .d-header .wrap,
-body.category-builder-labs .d-header .contents {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
-}
-
-body.category-builder-labs #main-outlet-wrap,
-body.category-builder-labs #main-outlet {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
-}
-
-/* --- Single shared grid: [ TOC | Content ] ------------------------- */
-body.category-builder-labs #main-outlet {
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-}
-
-/* Title row uses the same grid so its left edge == TOC left edge */
-body.category-builder-labs #topic-title {
-  grid-column: 1 / -1 !important;          /* span both grid columns */
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Put the actual title wrapper starting at the very left (TOC edge) */
-body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 1 / -1 !important;           /* start at left grid edge */
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* TOC in the left column, content in the right column */
-body.category-builder-labs .container.posts .topic-navigation { grid-column: 1 / 2 !important; }
-body.category-builder-labs .container.posts > .row            { grid-column: 2 / 3 !important; }
-
-/* Remove TOC’s default left rule/padding that offsets text */
-body.category-builder-labs .topic-navigation .d-toc-main {
-  border-left: none !important;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-}
-
-/* Keep TOC readable */
-body.category-builder-labs .container.posts .topic-navigation {
-  align-self: start;
-  position: sticky; top: 6rem;
-  font-size: 1.08rem;
-  line-height: 1.5;
-  margin: 0 !important;
-}
-
-/* --- Blog / post niceties (kept from earlier) ---------------------- */
-body.category-builder-labs .topic-timeline { display: none; }
-body.category-builder-labs .topic-map.--bottom { display: none !important; }
-
-body.category-builder-labs .topic-post .topic-body {
-  margin-left: 0 !important; padding-left: 0 !important; max-width: 720px;
-}
-
-body.category-builder-labs .topic-post:first-child {
-  font-size: 1.25em; line-height: 1.4; padding-top: 4px; padding-bottom: 0;
-}
-body.category-builder-labs .topic-post:first-child .cooked { padding: 0; }
-
-body.category-builder-labs .timeline-toggle,
-body.category-builder-labs #topic-progress-wrapper.docked,
-body.category-builder-labs .timeline-container.timeline-docked { display: none !important; }
-
-/* Headings treatment */
-body.category-builder-labs .cooked h1 {
-  margin: 2em 0 1em 0; padding: .75em .5em; background: #000; color: #fff;
-}
-body.category-builder-labs .cooked h2 {
-  margin: 2em 0 1em 0; padding: .25em .5em; background: #b2b2b2; color: #000;
-}
-
-/* --- Brand callouts (kept) ---------------------------------------- */
-body.category-builder-labs{
   --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
   --callout-pad-x: 16px;
   --callout-indent: 26px;
-
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
   --callout-icon-gap: 20px;
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
+  /* Brand hues */
   --brand-lagoon:      #86B0B6;
   --brand-driftwood:   #887E6F;
   --brand-peach:       #F3B38F;
@@ -149,6 +30,7 @@ body.category-builder-labs{
   --brand-wheatgrass:  #D6C56B;
   --brand-aspen:       #CED8A3;
 
+  /* Semantic mapping */
   --tone-term:    var(--brand-peach);
   --tone-hint:    var(--brand-lagoon);
   --tone-pro:     var(--brand-chaparral);
@@ -167,57 +49,103 @@ body.category-builder-labs{
   --tint-time:    58%;
 }
 
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji),
-body.category-builder-labs .cooked blockquote:has(> p:first-child .d-icon),
-body.category-builder-labs .cooked blockquote:has(> p:first-child img:not(.emoji)) {
+/* --- Kill sidebar / rails ------------------------------------------ */
+:where(.category-builder-labs, .category-builder-labs :root){ --d-sidebar-width: 0 !important; }
+:where(.category-builder-labs) :is(.sidebar-wrapper, .sidebar-container,
+  .discourse-sidebar, .d-sidebar, .hamburger-panel){
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+}
+
+/* --- Header + wrappers honor same gutter --------------------------- */
+:where(.category-builder-labs) :is(.d-header .wrap, .d-header .contents,
+  .wrap, .d-wrap, #main-outlet-wrap, #main-outlet){
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: var(--site-gutter) !important;
+  padding-right: var(--site-gutter) !important;
+}
+
+/* --- Main outlet grid ---------------------------------------------- */
+:where(.category-builder-labs) #main-outlet{
+  display: grid !important;
+  grid-template-columns: minmax(var(--toc-min), var(--toc-max)) minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap) !important;
+}
+
+/* TOC left, content right */
+:where(.category-builder-labs) .container.posts{ display: contents !important; }
+:where(.category-builder-labs) .container.posts .topic-navigation{ grid-column: 1 / 2 !important; }
+:where(.category-builder-labs) .container.posts > .row{ grid-column: 2 / 3 !important; }
+
+/* Title row aligns with same gutter */
+:where(.category-builder-labs) #topic-title{
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns: minmax(var(--toc-min), var(--toc-max)) minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+:where(.category-builder-labs) #topic-title .title-wrapper{
+  grid-column: 1 / -1 !important;  /* left edge = TOC edge */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* --- TOC cleanup --------------------------------------------------- */
+:where(.category-builder-labs) .topic-navigation :is(.d-toc, .d-toc-main){
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+:where(.category-builder-labs) .container.posts .topic-navigation{
+  position: sticky; top: 6rem;
+  align-self: start;
+  font-size: 1.08rem; line-height: 1.5;
+  margin: 0 !important;
+}
+
+/* --- General blog niceties ---------------------------------------- */
+:where(.category-builder-labs) :is(.topic-timeline, .topic-map.--bottom,
+  #topic-progress-wrapper.docked, .timeline-container.timeline-docked){ display: none !important; }
+
+:where(.category-builder-labs) .topic-post .topic-body{
+  margin-left: 0 !important; padding-left: 0 !important; max-width: 720px;
+}
+:where(.category-builder-labs) .topic-post:first-child{
+  font-size: 1.25em; line-height: 1.4; padding-top: 4px; padding-bottom: 0;
+}
+:where(.category-builder-labs) .topic-post:first-child .cooked{ padding: 0; }
+
+/* Headings treatment */
+:where(.category-builder-labs) .cooked h1{
+  margin: 2em 0 1em 0; padding: .75em .5em; background: #000; color: #fff;
+}
+:where(.category-builder-labs) .cooked h2{
+  margin: 2em 0 1em 0; padding: .25em .5em; background: #b2b2b2; color: #000;
+}
+
+/* --- Callouts ------------------------------------------------------ */
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child){
   --callout-bg: var(--note-bg);
   --callout-accent: var(--note-rail);
-
   position: relative;
   background: var(--callout-bg);
   border-left: var(--callout-rail) solid var(--callout-accent);
   border-radius: var(--callout-radius);
   padding: var(--callout-pad-y) var(--callout-pad-x);
   margin: 16px 0 16px var(--callout-indent);
-  padding-left: calc(var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)) !important;
-
   color: var(--callout-fg, var(--fg-strong));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.45),
-    0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
 }
 
-/* Emoji → tone mapping */
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])      { --callout-bg: color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface)); --callout-accent: var(--tone-term); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])       { --callout-bg: color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface)); --callout-accent: var(--tone-hint); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: color-mix(in hsl, var(--tone-pro)     var(--tint-pro),     var(--light-surface)); --callout-accent: var(--tone-pro); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])             { --callout-bg: color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface)); --callout-accent: var(--tone-note); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])    { --callout-bg: color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface)); --callout-accent: var(--tone-success); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])       { --callout-bg: color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface)); --callout-accent: var(--tone-time); }
-
-/* Mobile: collapse the icon lane without shrinking icons */
-@media (max-width: 640px){
-  body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji),
-  body.category-builder-labs .cooked blockquote:has(> p:first-child .d-icon),
-  body.category-builder-labs .cooked blockquote:has(> p:first-child img:not(.emoji)){
-    padding-left: var(--callout-pad-x) !important;
-  }
-  body.category-builder-labs .cooked blockquote > p:first-child{
-    display: flex; align-items: center; gap: .5rem;
-  }
-  body.category-builder-labs {
-    --callout-rail: 14px;
-    --callout-icon-size: 26px;
-    --callout-left-pad: calc(var(--callout-rail) + 8px);
-  }
-}
-
-/* Dark variant for panels/edges */
+/* --- Dark mode ----------------------------------------------------- */
 @media (prefers-color-scheme: dark){
-  body.category-builder-labs {
+  :where(.category-builder-labs){
     --lab-surface-dark: #0c0f14;
     --fg-strong: #edf2f8;
-
     --term-bg:     color-mix(in hsl,  var(--tone-term)    54%, var(--lab-surface-dark));
     --hint-bg:     color-mix(in hsl,  var(--tone-hint)    42%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in hsl,  var(--tone-pro)     42%, var(--lab-surface-dark));
@@ -225,174 +153,9 @@ body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[titl
     --success-bg:  color-mix(in hsl,  var(--tone-success) 64%, var(--lab-surface-dark));
     --time-bg:     color-mix(in hsl,  var(--tone-time)    50%, var(--lab-surface-dark));
   }
-
-  body.category-builder-labs .cooked blockquote{
+  :where(.category-builder-labs) .cooked blockquote{
     color: var(--fg-strong);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.07),
-      0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.07),
+                0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
   }
-}
-
-
-/* =========================================================
-   FINAL ALIGNMENT PATCH (put this at the very end)
-   Makes title and TOC share the same left edge.
-   ========================================================= */
-
-/* Page gutter + TOC sizing (tweak if you want) */
-body.category-builder-labs {
-  --site-gutter: clamp(10px, 2.5vw, 16px);
-  --toc-gap: 2rem;
-  --toc-width-min: 18rem;
-  --toc-width-max: 22rem;
-}
-
-/* Ensure header and outlet honor the same gutter */
-body.category-builder-labs .d-header .wrap,
-body.category-builder-labs .d-header .contents,
-body.category-builder-labs #main-outlet-wrap,
-body.category-builder-labs #main-outlet {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
-}
-
-/* Kill any sidebar/left-rail offsets */
-body.category-builder-labs,
-body.category-builder-labs :root { --d-sidebar-width: 0px !important; }
-body.category-builder-labs .sidebar-wrapper,
-body.category-builder-labs .sidebar-container,
-body.category-builder-labs .discourse-sidebar,
-body.category-builder-labs .d-sidebar { display:none !important; width:0 !important; }
-
-/* =======================
-   Title: left-align it
-   ======================= */
-
-/* Discourse centers this by default; force it left */
-body.category-builder-labs #topic-title {
-  display: flex !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-
-  /* remove any theme centering/width caps */
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* The inner wrapper is what usually gets max-width + auto margins */
-body.category-builder-labs #topic-title .title-wrapper {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Optional: nudge the H1 visually if needed (usually not required)
-   body.category-builder-labs #topic-title .title-wrapper h1 { margin-left: 0 !important; } */
-
-/* ===================================
-   Two-column grid for body content
-   =================================== */
-
-body.category-builder-labs #main-outlet {
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-}
-
-/* TOC in left col, content in right col */
-body.category-builder-labs .container.posts {
-  display: contents !important; /* use the parent grid above */
-}
-body.category-builder-labs .container.posts .topic-navigation { grid-column: 1 / 2 !important; }
-body.category-builder-labs .container.posts > .row            { grid-column: 2 / 3 !important; }
-
-/* Strip TOC’s default left rule/padding that makes it look indented */
-body.category-builder-labs .topic-navigation .d-toc-main {
-  border-left: none !important;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-}
-
-/* Keep the TOC sticky & readable */
-body.category-builder-labs .container.posts .topic-navigation {
-  align-self: start;
-  position: sticky; top: 6rem;
-  font-size: 1.08rem; line-height: 1.5;
-  margin: 0 !important;
-}
-/* =========================================================
-   FINAL CLEAN ALIGNMENT PATCH
-   ========================================================= */
-
-/* Shared gutter token */
-body.category-builder-labs {
-  --site-gutter: 2rem;     /* adjust this until it matches your black line */
-  --toc-gap: 2rem;
-  --toc-width-min: 18rem;
-  --toc-width-max: 22rem;
-}
-
-/* Remove Discourse’s centering on wraps */
-body.category-builder-labs .wrap,
-body.category-builder-labs .d-wrap,
-body.category-builder-labs #main-outlet-wrap,
-body.category-builder-labs #main-outlet {
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  width: 100% !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
-}
-
-/* Force the header bar to use the same gutter */
-body.category-builder-labs .d-header .wrap,
-body.category-builder-labs .d-header .contents {
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
-}
-
-/* Two-column grid for Labs pages */
-body.category-builder-labs #main-outlet {
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-}
-
-/* TOC on the left, content on the right */
-body.category-builder-labs .container.posts {
-  display: contents !important;
-}
-body.category-builder-labs .container.posts .topic-navigation { grid-column: 1 / 2 !important; }
-body.category-builder-labs .container.posts > .row            { grid-column: 2 / 3 !important; }
-
-/* Title row shares the same grid and lines up with TOC */
-body.category-builder-labs #topic-title {
-  grid-column: 1 / -1 !important;
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 2 / 3 !important;  /* start in the content column */
-  margin: 0 !important;
-  padding: 0 !important;
 }
