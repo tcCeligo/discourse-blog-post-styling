@@ -279,3 +279,52 @@ body.category-builder-labs {
 :is(body.category-builder-labs) .container.posts .topic-navigation * {
   transform: none !important;
 }
+
+
+/* Scope strictly to the Builder Labs category page */
+body.category-builder-labs #main-outlet,
+body.category-builder-labs #main-outlet-wrap {
+  overflow: visible !important;   /* sticky needs this */
+}
+
+/* Turn the posts container into a 2-column grid: [TOC | Content] */
+body.category-builder-labs .container.posts {
+  display: grid !important;
+  grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+  column-gap: 2rem;
+}
+
+/* Put the Discourse TOC in the left column and make it sticky */
+body.category-builder-labs .container.posts .topic-navigation {
+  grid-column: 1 / 2 !important;
+  align-self: start;
+  position: sticky;
+  top: 76px;                /* adjust if your header is taller/shorter */
+  max-height: calc(100vh - 96px);
+  overflow: auto;
+  z-index: 1;
+}
+
+/* Put the actual topic content (the posts) in the right column */
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
+}
+
+/* Optional: remove the TOC’s default left border/padding so it hugs the rail */
+body.category-builder-labs .topic-navigation .d-toc-main {
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Narrow screens: fall back to single column */
+@media (max-width: 1024px){
+  body.category-builder-labs .container.posts {
+    display: block !important;
+  }
+  body.category-builder-labs .container.posts .topic-navigation {
+    position: static !important;
+    max-height: none !important;
+    margin-bottom: 1rem;
+  }
+}
