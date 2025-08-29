@@ -1,9 +1,15 @@
 /* ==========================================================================
    NO-OP legacy placeholders (safe to remove if you prefer hard failures)
    ========================================================================== */
+
 %blog-tag {}
 %blog-category {}
 %builder-wide-layout {}
+
+/* ==========================================================================
+   Global default: hide COMMENTS heading everywhere (explicitly re-enabled in Builder Labs only)
+   ========================================================================== */
+.comments-heading { display: none; }
 
 /* ==========================================================================
    Base mixins (only take effect when included inside builder-labs)
