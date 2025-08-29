@@ -1,7 +1,6 @@
 /* ==========================================================================
    NO-OP legacy placeholders (safe to remove if you prefer hard failures)
    ========================================================================== */
- 
 %blog-tag {}
 %blog-category {}
 %builder-wide-layout {}
@@ -126,6 +125,7 @@
     }
   }
 
+  /* Hide floating timeline/progress UI */
   .timeline-toggle,
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
@@ -162,7 +162,7 @@
 }
 
 /* ==========================================================================
-   Wide layout mixin
+   Wide layout mixin (keeps right-hand TOC; expands content grid)
    ========================================================================== */
 @mixin builder_wide_layout() {
   --page-gutter: clamp(10px, 2.5vw, 16px);
@@ -286,6 +286,36 @@ $lab-sel: 'body.category-builder-labs';
   @include blog_base();
   &.archetype-regular { @include builder_wide_layout(); }
 
+  /* Hide the main left menu (sidebar) just for Builder Labs */
+  .sidebar-wrapper,
+  .sidebar-container,
+  .d-sidebar { display: none !important; }
+
+  /* Stretch content to the full available width (keep TOC visible) */
+  .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Remove content caps so posts can fully expand next to the TOC */
+  #topic-title .title-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important; padding: 0 !important;
+  }
+  .topic-post .topic-body {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    max-width: none !important;  /* overrides the cap from blog_base / wide mixin */
+    width: 100% !important;
+  }
+  .topic-post .cooked {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
   /* Headings */
   .cooked h1 {
     padding: .25em .5em;
@@ -316,7 +346,7 @@ $lab-sel: 'body.category-builder-labs';
 
   /* icon lane */
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
-  --callout-icon-gap: 20px; /* was 14px; adds more space after the icon */
+  --callout-icon-gap: 20px; /* adds more space after the icon */
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
@@ -330,10 +360,10 @@ $lab-sel: 'body.category-builder-labs';
   --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
   --brand-wheatgrass: #D6C56B;
   --brand-aspen: #CED8A3;
-   
+
   /* semantic → brand hue */
-  --tone-term:    var(--brand-peach);      /* swapped */
-  --tone-hint:    var(--brand-lagoon); 
+  --tone-term:    var(--brand-peach);
+  --tone-hint:    var(--brand-lagoon);
   --tone-pro:     var(--brand-chaparral);
   --tone-note:    var(--brand-aspen);
   --tone-success: var(--brand-periwinkle);
@@ -344,10 +374,10 @@ $lab-sel: 'body.category-builder-labs';
   --light-surface: #ffffff;
 
   /* per-tone tint strengths (light mode) */
-  --tint-term:    66%;  
+  --tint-term:    66%;
   --tint-hint:    34%;
   --tint-pro:     18%;
-  --tint-note:    36%;  
+  --tint-note:    36%;
   --tint-success: 70%;
   --tint-time:    58%;
 
@@ -399,7 +429,7 @@ $lab-sel: 'body.category-builder-labs';
       0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
   }
 
-  /* remove theme’s decorative quote marks */
+  /* remove theme decorative quote marks */
   .cooked blockquote:has(> p:first-child img.emoji)::before,
   .cooked blockquote:has(> p:first-child .d-icon)::before,
   .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
@@ -468,7 +498,7 @@ $lab-sel: 'body.category-builder-labs';
 /* ---------- DARK variant (rails fixed, panels distinct) ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
-  --fg-strong: #edf2f8; /* was #e8eef6 — a bit brighter for readability */
+  --fg-strong: #edf2f8;
 
   /* rails unchanged (brand anchors) */
   --term-rail:    var(--tone-term);
@@ -479,23 +509,22 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* panels: lift mixes to separate tones more clearly */
-  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark)); /* was 42% */
-  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark)); /* was 54% */
-  --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));    /* was 38% */
-  --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));   /* was 50% */
-  --success-bg:  color-mix(in hsl, var(--success-rail) 64%, var(--lab-surface-dark));  /* +9%  */
-  --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
+  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark));
+  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark));
+  --pro-bg:      color-mix(in hsl,  var(--pro-rail) 42%, var(--lab-surface-dark));
+  --note-bg:     color-mix(in hsl,  var(--note-rail) 58%, var(--lab-surface-dark));
+  --success-bg:  color-mix(in hsl,  var(--success-rail) 64%, var(--lab-surface-dark));
+  --time-bg:     color-mix(in hsl,  var(--time-rail) 50%, var(--lab-surface-dark));
 
-   @supports (color: oklch(50% 0.1 200)) {
+  @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--term-rail)   74%, var(--lab-surface-dark));
     --hint-bg:     color-mix(in oklch, var(--hint-rail)   42%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
     --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark)); /* a bit cheerier */
+    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark));
     --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
   }
 
-  /* subtler, hue-aware edge instead of black */
   .cooked blockquote{
     color: var(--fg-strong);
     box-shadow:
@@ -505,66 +534,9 @@ $lab-sel: 'body.category-builder-labs';
 
   /* mapping (same emoji keys as light mode) */
   .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])  { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"]) { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
-}
-
-
-/* Remove left main menu + stretch content full width */
-.sidebar-wrapper,
-.sidebar-container,
-.d-sidebar {
-  display: none !important;
-}
-
-.wrap,
-.d-wrap,
-#main-outlet-wrap,
-#main-outlet {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* Make topic content truly full width */
-@include in-lab {
-  /* Single-column content area; no right rail / TOC */
-  .topic-navigation { display: none !important; }
-
-  .container.posts {
-    grid-template-columns: 1fr !important; /* one column */
-    column-gap: 0 !important;
-    padding-right: 0 !important;
-    width: 100% !important;
-    margin-inline: 0 !important;
-  }
-
-  .container.posts > .row {
-    width: 100% !important;
-  }
-
-  /* Remove width caps introduced earlier */
-  #topic-title .title-wrapper {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .topic-post .topic-body {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    max-width: none !important;  /* override 720px / var(--content-cap) */
-    width: 100% !important;
-  }
-
-  /* Optional: remove inner padding so content spans edge-to-edge */
-  .topic-post .cooked {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])              { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])     { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])        { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
