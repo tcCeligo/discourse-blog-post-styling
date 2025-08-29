@@ -52,7 +52,14 @@
 
     .topic-map.--op {
       padding-left: 0;
-      .comments-heading { display: block; width: 100%; margin-top: 1em; }
+
+      /* Hardened: comments heading scoped ONLY to builder-labs */
+      body.category-builder-labs & .comments-heading {
+        display: block;
+        width: 100%;
+        margin-top: 1em;
+      }
+
       .topic-map__users-list { display: none; }
     }
 
@@ -303,7 +310,7 @@ $lab-sel: 'body.category-builder-labs';
 
   /* icon lane */
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
-  --callout-icon-gap: 20px; /* adds more space after the icon */
+  --callout-icon-gap: 20px; /* was 14px; adds more space after the icon */
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
@@ -319,7 +326,7 @@ $lab-sel: 'body.category-builder-labs';
   --brand-aspen: #CED8A3;
    
   /* semantic → brand hue */
-  --tone-term:    var(--brand-peach);      
+  --tone-term:    var(--brand-peach);      /* swapped */
   --tone-hint:    var(--brand-lagoon); 
   --tone-pro:     var(--brand-chaparral);
   --tone-note:    var(--brand-aspen);
@@ -455,7 +462,7 @@ $lab-sel: 'body.category-builder-labs';
 /* ---------- DARK variant (rails fixed, panels distinct) ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
-  --fg-strong: #edf2f8; /* brighter for readability */
+  --fg-strong: #edf2f8; /* was #e8eef6 — a bit brighter for readability */
 
   /* rails unchanged (brand anchors) */
   --term-rail:    var(--tone-term);
@@ -466,19 +473,19 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* panels: lift mixes to separate tones more clearly */
-  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark)); 
-  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark)); 
-  --pro-bg:      color-mix(in hsl,  var(--pro-rail)  42%, var(--lab-surface-dark)); 
-  --note-bg:     color-mix(in hsl,  var(--note-rail) 58%, var(--lab-surface-dark)); 
-  --success-bg:  color-mix(in hsl,  var(--success-rail) 64%, var(--lab-surface-dark));
-  --time-bg:     color-mix(in hsl,  var(--time-rail) 50%, var(--lab-surface-dark));
+  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark)); /* was 42% */
+  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark)); /* was 54% */
+  --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));    /* was 38% */
+  --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));   /* was 50% */
+  --success-bg:  color-mix(in hsl, var(--success-rail) 64%, var(--lab-surface-dark));  /* +9%  */
+  --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
 
-  @supports (color: oklch(50% 0.1 200)) {
+   @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--term-rail)   74%, var(--lab-surface-dark));
     --hint-bg:     color-mix(in oklch, var(--hint-rail)   42%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)    42%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)   58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark)); 
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark)); /* a bit cheerier */
     --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
   }
 
@@ -493,8 +500,8 @@ $lab-sel: 'body.category-builder-labs';
   /* mapping (same emoji keys as light mode) */
   .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])  { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"]) { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
