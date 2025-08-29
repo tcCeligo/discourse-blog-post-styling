@@ -123,7 +123,7 @@
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
 
-  /* Base blog layout (centered) — overridden by wide layout when scoped */
+  /* Base blog layout (centered by default theme) — we’ll override in wide layout */
   .container.posts {
     justify-content: center;
     grid-template-columns: 65% 5%;
@@ -159,7 +159,7 @@
    ========================================================================== */
 @mixin builder_wide_layout() {
   /* Layout tokens */
-  --page-gutter: clamp(10px, 2.5vw, 16px);
+  --page-gutter: clamp(8px, 1.6vw, 16px);
   --toc-gap: 2rem;
 
   --toc-width-min: 18rem;
@@ -173,39 +173,52 @@
     var(--toc-trailing-space) + 2 * var(--page-gutter)
   );
 
-  --left-rail: 288px; /* default Discourse sidebar width */
-  --site-max: calc(var(--grid-max)); /* left rail removed in Labs */
-
-  /* Remove left rail whitespace & let the page breathe */
+  /* Remove any left-rail spacing and ensure full-width, no centering */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
     max-width: none !important;
     width: 100% !important;
     padding-left: var(--page-gutter) !important;
     padding-right: var(--page-gutter) !important;
     margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
-  /* Make the page title align to the same grid as the content */
-  #topic-title {
+  /* Title row shares the same two-column grid as posts and starts at left gutter */
+  #main-outlet {
     display: grid !important;
     grid-template-columns:
       minmax(var(--toc-width-min), var(--toc-width-max))
       minmax(0, 1fr) !important;
     column-gap: var(--toc-gap) !important;
-    justify-content: stretch !important;
   }
-  #topic-title .title-wrapper {
-    grid-column: 2 / 3;
+
+  /* Title uses the same grid and is NOT centered; it spans both columns
+     so its left edge equals the TOC’s left edge */
+  #topic-title {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns:
+      minmax(var(--toc-width-min), var(--toc-width-max))
+      minmax(0, 1fr) !important;
+    column-gap: var(--toc-gap) !important;
     width: 100% !important;
-    max-width: var(--content-cap) !important;
-    margin: 0 !important; padding: 0 !important;
+    margin-inline: 0 !important;
+  }
+
+  /* Title content spans both columns; no max-width re-centering */
+  #topic-title .title-wrapper {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Posts grid (TOC + content) */
   .container.posts {
     display: grid !important;
-    width: min(100%, var(--grid-max));
-    margin-inline: auto;
+    width: 100% !important;
+    margin-inline: 0 !important;
 
     grid-template-columns:
       minmax(var(--toc-width-min), var(--toc-width-max))
@@ -216,7 +229,11 @@
 
     padding-right: var(--toc-trailing-space);
   }
-  .container.posts > .row { width: auto !important; grid-column: 2 / 3; }
+
+  .container.posts > .row {
+    width: auto !important;
+    grid-column: 2 / 3; /* content column */
+  }
 
   .topic-post .topic-body {
     margin-left: 0 !important; padding-left: 0 !important;
@@ -249,15 +266,15 @@
     padding-right: .25rem;
   }
 
-  /* Wider screens center the whole grid within the site max width */
+  /* No re-centering at very wide viewports */
   @media (min-width: 1600px) {
     .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
-      width: min(100%, var(--site-max)) !important;
-      margin-inline: auto !important;
+      width: 100% !important;
+      margin-inline: 0 !important;
     }
   }
 
-  /* Tweak breakpoints */
+  /* Tweak breakpoints (keep grid proportions without centering) */
   @media (max-width: 1800px) { & {
     --toc-width-min: 18rem; --toc-width-max: 20rem; --toc-gap: 1.25rem; --toc-trailing-space: 64px; } }
   @media (max-width: 1600px) { & {
@@ -271,6 +288,7 @@
     /* Stack TOC over content */
     #topic-title {
       display: block !important;
+      margin-inline: 0 !important;
     }
     .container.posts {
       grid-template-columns: 1fr !important;
@@ -526,142 +544,4 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
-}
-
-/* ==========================================================================
-   Alignment overrides — keep title aligned with TOC left edge
-   ========================================================================== */
-
-/* Two-column grid at the outlet (TOC + content) */
-body.category-builder-labs #main-outlet {
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap, 2rem) !important;
-}
-
-/* Let the title span both columns so its left edge = TOC left edge */
-body.category-builder-labs #topic-title {
-  grid-column: 1 / -1 !important;
-  max-width: var(--grid-max) !important;
-  width: min(100%, var(--grid-max)) !important;
-  margin-inline: auto !important;
-
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap, 2rem) !important;
-}
-
-/* Title wrapper fills the title row */
-body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 1 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Keep the content row in the right column */
-body.category-builder-labs .container.posts > .row {
-  grid-column: 2 / 3 !important;
-}
-
-/* -----------------------------------------------------------
-   Builder Labs: kill all leftover left-rail offsets completely
-   (Discourse reserves space even when the sidebar is hidden)
-   ----------------------------------------------------------- */
-body.category-builder-labs,
-body.category-builder-labs :root {
-  --d-sidebar-width: 0px !important; /* nuke reserved width */
-}
-
-/* Hide rail & ensure it contributes no layout width */
-body.category-builder-labs .sidebar-wrapper,
-body.category-builder-labs .sidebar-container,
-body.category-builder-labs .discourse-sidebar,
-body.category-builder-labs .d-sidebar {
-  display: none !important;
-  width: 0 !important;
-  min-width: 0 !important;
-}
-
-/* Remove the margin-left that many themes apply when a sidebar exists */
-body.category-builder-labs.has-sidebar .wrap,
-body.category-builder-labs.has-sidebar .d-wrap,
-body.category-builder-labs .sidebar-wrapper + .wrap,
-body.category-builder-labs .sidebar-wrapper + .d-wrap,
-body.category-builder-labs .d-header .wrap,
-body.category-builder-labs #main-outlet-wrap,
-body.category-builder-labs #main-outlet {
-  margin-left: 0 !important;
-}
-
-/* Start the outlet grid right at the page gutter */
-body.category-builder-labs #main-outlet {
-  padding-left: clamp(10px, 2.5vw, 16px) !important; /* same token used elsewhere */
-}
-
-/* Keep title & content using the same grid so their left edge = TOC left edge */
-body.category-builder-labs #topic-title {
-  grid-column: 1 / -1 !important;
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap, 2rem) !important;
-  width: min(100%, var(--grid-max)) !important;
-  margin-inline: auto !important;
-}
-
-body.category-builder-labs .container.posts > .row {
-  grid-column: 2 / 3 !important; /* content stays in the right column */
-}
-
-
-/* ================================
-   Builder Labs — left-align layout
-   ================================ */
-
-/* (1) Tighten page gutter slightly so the TOC sits closer to the edge */
-body.category-builder-labs { 
-  --page-gutter: clamp(6px, 1.25vw, 12px) !important;
-}
-
-/* Ensure everything uses the reduced gutter */
-body.category-builder-labs .wrap,
-body.category-builder-labs .d-wrap,
-body.category-builder-labs #main-outlet-wrap,
-body.category-builder-labs #main-outlet {
-  padding-left: var(--page-gutter) !important;
-  padding-right: var(--page-gutter) !important;
-}
-
-/* (2) Do NOT center the title grid or posts grid — stretch them to the left gutter */
-body.category-builder-labs #topic-title,
-body.category-builder-labs .container.posts {
-  width: 100% !important;
-  margin-inline: 0 !important;   /* instead of auto */
-}
-
-/* (3) Keep the shared two-column grid for both title bar and content */
-body.category-builder-labs #topic-title {
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap, 2rem) !important;
-}
-
-/* (4) Content stays in the right column; TOC remains left */
-body.category-builder-labs .container.posts > .row {
-  grid-column: 2 / 3 !important;
-}
-
-/* (5) Optional: bump TOC size a hair for readability (already set earlier, safe to duplicate) */
-body.category-builder-labs .container.posts .topic-navigation {
-  font-size: 1.08em;
-  line-height: 1.5;
 }
