@@ -286,6 +286,121 @@ $lab-sel: 'body.category-builder-labs';
   @include blog_base();
   &.archetype-regular { @include builder_wide_layout(); }
 
+   /* ================================
+   Auto-collapsing LEFT main sidebar
+   (overlay; expands on hover/focus)
+   ================================ */
+
+:root {
+  --left-rail: 288px;           /* expanded width (match your theme) */
+  --sidebar-collapsed: 12px;    /* visible handle when collapsed */
+  --sidebar-transition: 180ms;
+  --header-h: var(--header-height, 3.5rem);
+}
+
+/* Make the left sidebar overlay the page and collapse by default */
+.sidebar-wrapper,
+.sidebar-container,
+.d-sidebar {
+  position: fixed !important;
+  top: var(--header-h);
+  bottom: 0;
+  left: 0;
+  width: var(--sidebar-collapsed);
+  overflow: hidden;
+  z-index: 100; /* above content but below modals */
+  transition:
+    width var(--sidebar-transition) ease,
+    box-shadow var(--sidebar-transition) ease;
+  box-shadow: none;
+  pointer-events: auto;
+  background: var(--secondary, var(--primary-very-low, #fff));
+}
+
+/* Expand on hover or keyboard focus inside */
+.sidebar-wrapper:hover,
+.sidebar-wrapper:focus-within,
+.sidebar-container:hover,
+.sidebar-container:focus-within,
+.d-sidebar:hover,
+.d-sidebar:focus-within {
+  width: var(--left-rail);
+  box-shadow: 0 0 0 1px var(--primary-low), 0 10px 30px rgba(0,0,0,.16);
+}
+
+/* Keep a small 'handle' always visible for hover */
+.sidebar-wrapper::after,
+.sidebar-container::after,
+.d-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: var(--sidebar-collapsed);
+  cursor: ew-resize;
+  /* subtle hint so users discover it */
+  background: linear-gradient(to left, color-mix(in hsl, var(--primary, #888) 12%, transparent), transparent);
+  pointer-events: none; /* sidebar still receives the hover */
+}
+
+/* When collapsed, hide labels/text but keep icons visible */
+.sidebar-wrapper:not(:hover):not(:focus-within),
+.sidebar-container:not(:hover):not(:focus-within),
+.d-sidebar:not(:hover):not(:focus-within) {
+  /* Try to keep just the icon column; adjust selectors per your theme */
+  .sidebar-section-title,
+  .sidebar-section-header,
+  .sidebar-section-link .text,
+  .sidebar-section-item .text,
+  .sidebar-footer,
+  .sidebar-section .name,
+  .sidebar-section .badge,
+  .sidebar-section .description {
+    display: none !important;
+  }
+
+  /* Tighten padding so icons center nicely in the thin rail */
+  .sidebar-section,
+  .sidebar-section-link,
+  .sidebar-section-item {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+
+/* Let the main content use the full width; sidebar overlays it */
+.wrap,
+.d-wrap,
+#main-outlet-wrap,
+#main-outlet {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* If your layout previously reserved a left rail via CSS vars, zero it out */
+:root {
+  --left-rail: var(--left-rail, 0); /* safeguard if other code reads it */
+}
+
+/* Responsive: on small screens the sidebar behaves the same but without shadow */
+@media (max-width: 700px) {
+  .sidebar-wrapper,
+  .sidebar-container,
+  .d-sidebar {
+    box-shadow: none !important;
+  }
+}
+
+/* Accessibility: ensure focus ring is visible when tabbing into the collapsed rail */
+.sidebar-wrapper :focus-visible,
+.sidebar-container :focus-visible,
+.d-sidebar :focus-visible {
+  outline: 2px solid var(--tertiary, #4c9ffe);
+  outline-offset: 2px;
+}
+
+   
   /* Headings */
   .cooked h1 {
     padding: .25em .5em;
