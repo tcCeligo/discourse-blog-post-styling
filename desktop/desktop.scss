@@ -1,15 +1,9 @@
 /* ==========================================================================
    NO-OP legacy placeholders (safe to remove if you prefer hard failures)
    ========================================================================== */
-
 %blog-tag {}
 %blog-category {}
 %builder-wide-layout {}
-
-/* ==========================================================================
-   Global default: hide COMMENTS heading everywhere (explicitly re-enabled in Builder Labs only)
-   ========================================================================== */
-.comments-heading { display: none; }
 
 /* ==========================================================================
    Base mixins (only take effect when included inside builder-labs)
@@ -162,7 +156,7 @@
 }
 
 /* ==========================================================================
-   Wide layout mixin
+   Wide layout mixin (TOC on the LEFT now)
    ========================================================================== */
 @mixin builder_wide_layout() {
   --page-gutter: clamp(10px, 2.5vw, 16px);
@@ -196,30 +190,27 @@
     margin: 0 !important; padding: 0 !important;
   }
 
+  /* FLIPPED: TOC first, content second */
   .container.posts {
     display: grid !important;
     width: min(100%, var(--grid-max));
     margin-inline: auto;
 
     grid-template-columns:
-      minmax(0, 1fr)
-      minmax(var(--toc-width-min), var(--toc-width-max)) !important;
+      minmax(var(--toc-width-min), var(--toc-width-max)) /* TOC (left) */
+      minmax(0, 1fr) /* Content (right) */ !important;
 
     column-gap: var(--toc-gap) !important;
     justify-content: stretch !important;
 
     padding-right: var(--toc-trailing-space);
   }
+
   .container.posts > .row { width: auto !important; }
 
-  .topic-post .topic-body {
-    margin-left: 0 !important; padding-left: 0 !important;
-    max-width: var(--content-cap) !important; width: 100% !important;
-  }
-  .topic-post .cooked { padding-left: 0 !important; }
-
+  /* Place the TOC in column 1 */
   .container.posts .topic-navigation {
-    grid-column: 2 / 3;
+    grid-column: 1 / 2;
     align-self: start;
     position: sticky; top: 6rem;
     margin: 0;
@@ -239,6 +230,18 @@
     overflow-wrap: anywhere;
     padding-right: .25rem;
   }
+
+  /* Place the main content in column 2 */
+  .container.posts > .row,
+  .topic-post .topic-body {
+    grid-column: 2 / 3 !important;
+  }
+
+  .topic-post .topic-body {
+    margin-left: 0 !important; padding-left: 0 !important;
+    max-width: var(--content-cap) !important; width: 100% !important;
+  }
+  .topic-post .cooked { padding-left: 0 !important; }
 
   @media (min-width: 1600px) {
     .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -262,7 +265,10 @@
       column-gap: 0 !important;
       padding-right: max(10px, var(--page-gutter));
     }
+    /* On mobile: TOC stacks above content */
     .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
+    .container.posts > .row,
+    .topic-post .topic-body { grid-column: 1 / -1 !important; }
   }
 }
 
@@ -285,6 +291,15 @@ $lab-sel: 'body.category-builder-labs';
 @include in-lab {
   @include blog_base();
   &.archetype-regular { @include builder_wide_layout(); }
+
+  /* Hide the main navigation menu ONLY inside Builder Labs */
+  /* Left sidebar (if enabled) */
+  .sidebar-wrapper { display: none !important; }
+  /* Top header: hide nav pills / buttons / hamburger / search, keep title */
+  .d-header .wrap .contents .nav-pills,
+  .d-header .wrap .contents .header-buttons,
+  .d-header .wrap .contents .hamburger-dropdown,
+  .d-header .wrap .contents .search-menu { display: none !important; }
 
   /* Headings */
   .cooked h1 {
