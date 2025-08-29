@@ -74,7 +74,6 @@
     }
   }
 
-  // From Simon's original Blog Post plugin
   #topic-title h1 { font-size: 2.5em; }
   #topic-title a.edit-topic .d-icon { font-size: .5em; }
 
@@ -154,6 +153,7 @@
   --toc-width-max: 24rem;
 
   --content-cap: clamp(1020px, 80ch, 1500px);
+
   --toc-trailing-space: 100px;
 
   --grid-max: calc(
@@ -282,7 +282,7 @@ $lab-sel: 'body.category-builder-labs';
     margin-top: 2em;
     margin-bottom: 1em;
     padding-block: .25em;
-    background-color: #b2b2b2; /* brand gray */
+    background-color: #b2b2b2; /* requested */
     color: #000;
   }
 
@@ -322,12 +322,12 @@ $lab-sel: 'body.category-builder-labs';
   --light-surface: #ffffff;
 
   /* per-tone tint strengths (↑ = more colorful panel) */
-  --tint-term:    42%;
-  --tint-hint:    56%;
-  --tint-pro:     38%;
-  --tint-note:    48%;
-  --tint-success: 44%;
-  --tint-time:    58%;
+  --tint-term:    36%; /* darker/neutral */
+  --tint-hint:    62%; /* brighter peach */
+  --tint-pro:     30%; /* darker/greener than NOTE */
+  --tint-note:    60%; /* lighter/bluer */
+  --tint-success: 56%;
+  --tint-time:    64%;
 
   /* HSL fallback */
   --term-bg:     color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface));
@@ -452,20 +452,20 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* Per-tone panel mixes for clear differentiation */
-  --term-bg:     color-mix(in hsl, var(--term-rail)    34%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl, var(--hint-rail)    30%, var(--lab-surface-dark));
-  --pro-bg:      color-mix(in hsl, var(--pro-rail)     28%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl, var(--note-rail)    36%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl, var(--success-rail) 32%, var(--lab-surface-dark));
-  --time-bg:     color-mix(in hsl, var(--time-rail)    38%, var(--lab-surface-dark));
+  --term-bg:     color-mix(in hsl, var(--term-rail)    36%, var(--lab-surface-dark));
+  --hint-bg:     color-mix(in hsl, var(--hint-rail)    32%, var(--lab-surface-dark));
+  --pro-bg:      color-mix(in hsl, var(--pro-rail)     30%, var(--lab-surface-dark));
+  --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark));
+  --success-bg:  color-mix(in hsl, var(--success-rail) 34%, var(--lab-surface-dark));
+  --time-bg:     color-mix(in hsl, var(--time-rail)    42%, var(--lab-surface-dark));
 
   @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)    34%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    30%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)     28%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)    36%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 32%, var(--lab-surface-dark));
-    --time-bg:     color-mix(in oklch, var(--time-rail)    38%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in oklch, var(--term-rail)    36%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    32%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     30%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    40%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 34%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
   }
 
   .cooked blockquote{
