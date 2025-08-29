@@ -480,3 +480,39 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]){ --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])    { --callout-bg: var(--time-bg);   --callout-accent: var(--time-rail); }
 }
+
+
+/* --- callout tuning pack (builder-labs) --- */
+body.category-builder-labs {
+  /* more separation */
+  --tint-pro: 18%;      /* was 22% → darker, reads as “serious tip” */
+  --tint-note: 78%;     /* was 66% → lighter, airy “note” */
+  --tint-term: 26%;     /* was 28% → hair darker to step off NOTE */
+
+  /* tiny visual polish */
+  --callout-rail: 15px; /* +1px for a bit more presence */
+  --callout-icon-nudge: -1px;
+
+  /* soften the glossy top highlight a touch */
+  .cooked blockquote {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.45),
+      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
+  }
+}
+
+/* Dark mode: keep rails fixed, nudge panel mixes for clearer spacing */
+@media (prefers-color-scheme: dark) {
+  body.category-builder-labs {
+    --note-bg:    color-mix(in hsl, var(--note-rail) 44%, var(--lab-surface-dark));   /* +4% */
+    --pro-bg:     color-mix(in hsl, var(--pro-rail) 28%, var(--lab-surface-dark));    /* -2% */
+    --term-bg:    color-mix(in hsl, var(--term-rail) 38%, var(--lab-surface-dark));   /* +2% */
+  }
+  @supports (color: oklch(50% 0.1 200)) {
+    body.category-builder-labs {
+      --note-bg:  color-mix(in oklch, var(--note-rail) 44%, var(--lab-surface-dark));
+      --pro-bg:   color-mix(in oklch, var(--pro-rail) 28%, var(--lab-surface-dark));
+      --term-bg:  color-mix(in oklch, var(--term-rail) 38%, var(--lab-surface-dark));
+    }
+  }
+}
