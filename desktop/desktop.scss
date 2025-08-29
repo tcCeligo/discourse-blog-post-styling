@@ -458,17 +458,17 @@ $lab-sel: 'body.category-builder-labs';
 
   /* panels: lift mixes to separate tones more clearly */
   --term-bg:     color-mix(in hsl, var(--term-rail)    40%, var(--lab-surface-dark));  /* +4% */
-  --hint-bg:     color-mix(in hsl, var(--hint-rail)    46%, var(--lab-surface-dark));  /* +12% */
-  --pro-bg:      color-mix(in hsl, var(--pro-rail)     38%, var(--lab-surface-dark));  /* +8%  */
-  --note-bg:     color-mix(in hsl, var(--note-rail)    50%, var(--lab-surface-dark));  /* +10% */
+  --hint-bg:     color-mix(in hsl, var(--hint-rail)    54%, var(--lab-surface-dark));   /* was 46% */
+  --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));    /* was 38% */
+  --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));   /* was 50% */
   --success-bg:  color-mix(in hsl, var(--success-rail) 64%, var(--lab-surface-dark));  /* +9%  */
   --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
 
-  @supports (color: oklch(50% 0.1 200)) {
+   @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--term-rail)    34%, var(--lab-surface-dark)); /* was 40% */
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    50%, var(--lab-surface-dark)); /* was 46% */
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)     38%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark)); /* was 50% */
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    54%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
     --success-bg:  color-mix(in oklch, var(--success-rail) 64%, var(--lab-surface-dark)); /* a bit cheerier */
     --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
   }
