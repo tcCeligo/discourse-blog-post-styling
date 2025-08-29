@@ -303,6 +303,20 @@ $lab-sel: 'body.category-builder-labs';
     color: #000;
   }
 
+  /* Remove right menu in Builder Labs */
+  .topic-navigation,
+  #suggested-topics,
+  #topic-progress-wrapper,
+  .timeline-container {
+    display: none !important;
+  }
+
+  .container.posts {
+    grid-template-columns: 1fr !important;
+    column-gap: 0 !important;
+    padding-right: 0 !important;
+  }
+
   /* =========================================
      Builder Labs — Brand-based Callouts
      ========================================= */
