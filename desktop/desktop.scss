@@ -1,55 +1,5 @@
 /* ==========================================================================
-   Builder Labs — Full CSS (scoped to slug: builder-labs)
-   - SUCCESS = Periwinkle
-   - HELPFUL HINT = Peach
-   - NOTE = Karl
-   - Rails stay the same in light & dark
-   - Helpful Hint star gets a cool (Karl) badge to improve contrast on Peach
-   ========================================================================== */
-
-
-/* (Optional) utility from earlier snippets — safe to keep even if unused */
-@function str-split($string, $separator: null, $limit: null) {
-  $string: unquote($string);
-  @if type-of($string) != "string" { @error "`str-split` expects a string; #{type-of($string)} given."; }
-
-  $result: zip(());
-  @if not $separator { @return ($string); }
-
-  @if $separator == "" {
-    @for $i from 1 through str-length($string) { $result: append($result, str-slice($string, $i, $i)); }
-    @return $result;
-  }
-
-  $running: true;
-  $progress: $string;
-  $length: str-length($separator);
-
-  @while $running {
-    $index: str-index($progress, $separator);
-    @if $index {
-      $result: append($result, str-slice($progress, 1, ($index - 1)));
-      $progress: str-slice($progress, ($index + $length));
-    } @else {
-      $running: false;
-    }
-  }
-
-  $result: append($result, $progress);
-
-  @if $limit and $limit > 0 {
-    $limit: if($limit > length($result), length($result), $limit);
-    $return: ();
-    @for $i from 1 through $limit { $return: append($return, nth($result, $i)); }
-    @return $return;
-  }
-
-  @return $result;
-}
-
-
-/* ==========================================================================
-   Minimal base placeholders (styles applied only when extended in scope)
+   Base placeholders (only take effect when extended inside builder-labs)
    ========================================================================== */
 %blog-tag,
 %blog-category {
@@ -67,7 +17,7 @@
     }
   }
 
-  /* Hide the byline under the title for the first post */
+  /* Hide byline under the title for the first post */
   #post_1 .topic-avatar,
   #post_1 .topic-body .topic-meta-data,
   #post_1 .post-info.edits { display: none !important; }
@@ -118,7 +68,8 @@
 
   .small-action {
     font-size: .75em;
-    .small-action-desc { max-width: 500px;
+    .small-action-desc {
+      max-width: 500px;
       .small-action-contents { display: flex; align-items: center; .avatar { height: 15px; width: 15px; } }
     }
   }
@@ -145,11 +96,11 @@
 
       blockquote {
         background: var(--primary-very-low); color: var(--primary-high);
-        border-left: 10px solid var(--primary-low-mid);
+        border-left: 10px solid var(--primary-low-mid, var(--primary-low, var(--primary)));
         padding: .5em 10px;
       }
       blockquote:before {
-        color: var(--primary-low-mid);
+        color: var(--primary-low-mid, var(--primary-low, var(--primary)));
         content: open-quote; font-size: 4em; line-height: .1em; vertical-align: -.4em;
       }
       blockquote p { display: inline; }
@@ -191,7 +142,6 @@
   }
 }
 
-
 /* ==========================================================================
    Wide layout placeholder
    ========================================================================== */
@@ -210,7 +160,7 @@
     var(--toc-trailing-space) + 2 * var(--page-gutter)
   );
 
-  --left-rail: 288px; /* adjust to match your theme */
+  --left-rail: 288px; /* match theme */
   --site-max: calc(var(--left-rail) + var(--grid-max));
 
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -297,9 +247,8 @@
   }
 }
 
-
 /* ==========================================================================
-   Concise scoping helpers (slug: builder-labs only)
+   Concise scoping helpers (slug: builder-labs)
    ========================================================================== */
 $lab-sel: 'body.category-builder-labs';
 @mixin in-lab { #{$lab-sel} { @content; } }
@@ -311,9 +260,8 @@ $lab-sel: 'body.category-builder-labs';
   html[data-theme-color-scheme="dark"] #{$lab-sel} { @content; }
 }
 
-
 /* ==========================================================================
-   APPLY (only when slug === builder-labs)
+   Apply (only when slug === builder-labs)
    ========================================================================== */
 @include in-lab {
   @extend %blog-category;
@@ -322,15 +270,18 @@ $lab-sel: 'body.category-builder-labs';
   /* Headings */
   .cooked h1 {
     padding: .25em .5em;
-    margin-top: 2em; margin-bottom: 1em;
+    margin-top: 2em;
+    margin-bottom: 1em;
     padding-block: .75em;
     background-color: #000; color: #fff;
   }
   .cooked h2 {
     padding: .25em .5em;
-    margin-top: 2em; margin-bottom: 1em;
+    margin-top: 2em;
+    margin-bottom: 1em;
     padding-block: .25em;
-    background-color: #b2b2b2; color: #000; /* brand gray */
+    background-color: #b2b2b2; /* brand gray */
+    color: #000;
   }
 
   /* =========================================
@@ -358,22 +309,22 @@ $lab-sel: 'body.category-builder-labs';
 
   /* semantic → brand hue */
   --tone-term:    var(--brand-driftwood);
-  --tone-hint:    var(--brand-peach);       /* Peach for Helpful Hint */
+  --tone-hint:    var(--brand-peach);       /* changed to Peach */
   --tone-pro:     var(--brand-chaparral);
-  --tone-note:    var(--brand-karl);        /* Karl for Note */
-  --tone-success: var(--brand-periwinkle);  /* Periwinkle for Success */
+  --tone-note:    var(--brand-karl);        /* changed to Karl */
+  --tone-success: var(--brand-periwinkle);  /* keep Periwinkle */
   --tone-time:    var(--brand-beaujolais);
 
   /* LIGHT: panel tints + shared text color */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
-  /* per-tone tint strengths (light mode) */
-  --tint-term:    32%;
-  --tint-hint:    72%;  /* brighter Peach */
-  --tint-pro:     26%;
-  --tint-note:    60%;
-  --tint-success: 74%;
+  /* per-tone tint strengths */
+  --tint-term:    36%;
+  --tint-hint:    66%;  /* Peach brighter */
+  --tint-pro:     30%;
+  --tint-note:    54%;  /* Karl moderate */
+  --tint-success: 70%;  /* cheerful Periwinkle */
   --tint-time:    64%;
 
   /* HSL fallback */
@@ -399,7 +350,7 @@ $lab-sel: 'body.category-builder-labs';
   --hint-rail:     var(--tone-hint);
   --pro-rail:      var(--tone-pro);
   --note-rail:     var(--tone-note);
-  --success-rail:  var(--tone-success);
+  --success-rail:  var(--tone-success); /* Periwinkle rail */
   --time-rail:     var(--tone-time);
 
   /* base callout (applies when first <p> starts with emoji/icon) */
@@ -442,7 +393,6 @@ $lab-sel: 'body.category-builder-labs';
     top: 50%;
     transform: translateY(calc(-50% + var(--callout-icon-nudge)));
     width: var(--callout-icon-size); height: var(--callout-icon-size);
-    z-index: 1; /* above badge puck */
   }
 
   /* compact title line */
@@ -450,48 +400,15 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
   .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
     margin: 0 0 4px 0 !important;
-    position: relative;
   }
 
-  /* ---------- Unified icon badge “puck” (LIGHT) ---------- */
-  /* default badge tokens based on the per-card rail */
-  --badge-fg: #1c2433; /* glyph color for .d-icon */
-  --badge-bg: color-mix(in oklch, var(--callout-accent) 22%, #fff);
-
-  /* draw a rounded badge behind the first-line icon */
-  .cooked blockquote > p:first-child::before {
-    content: "";
-    position: absolute;
-    left: var(--callout-left-pad);
-    top: 50%;
-    transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-    width: calc(var(--callout-icon-size) + 10px);
-    height: calc(var(--callout-icon-size) + 10px);
-    border-radius: 8px;
-    background: var(--badge-bg);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.55),
-      0 1px 2px rgba(0,0,0,.12);
-    z-index: 0;
-  }
-  /* tint .d-icon glyphs for readability (emoji colors can’t be changed) */
-  .cooked blockquote > p:first-child .d-icon { color: var(--badge-fg); }
-
-  /* emoji → tone mapping (sets rail/panel per type) */
+  /* emoji → tone mapping */
   .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg); --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]){ --callout-bg: var(--note-bg); --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"]){ --callout-bg: var(--note-bg); --callout-accent: var(--note-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]){ --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])    { --callout-bg: var(--time-bg);   --callout-accent: var(--time-rail); }
-
-  /* --- Helpful Hint (Peach) — SPECIAL BADGE for contrast --- */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"]) {
-    /* cool badge so orange star doesn’t melt into Peach */
-    --badge-bg: color-mix(in oklch, var(--brand-karl) 72%, #fff);
-  }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"])
-  > p:first-child img.emoji { filter: drop-shadow(0 1px 0 rgba(0,0,0,.18)); }
 
   /* rhythm */
   .cooked blockquote p + p { margin-top: .25rem; }
@@ -513,15 +430,12 @@ $lab-sel: 'body.category-builder-labs';
       position: static !important;
       width: 22px; height: 22px; transform: none !important;
     }
-    /* hide the badge puck on mobile for simplicity */
-    .cooked blockquote > p:first-child::before { display: none; }
   }
 
   .cooked blockquote{ color: var(--callout-fg, inherit); }
 }
 
-
-/* ---------- DARK variant (rails fixed, panels distinct, badges tuned) ---------- */
+/* ---------- DARK variant (rails fixed, panels distinct) ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
   --fg-strong: #e8eef6;
@@ -535,12 +449,21 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* Per-tone panel mixes for clear differentiation */
-  --term-bg:     color-mix(in oklch, var(--term-rail)    34%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in oklch, var(--hint-rail)    40%, var(--lab-surface-dark)); /* Peach pop */
-  --pro-bg:      color-mix(in oklch, var(--pro-rail)     34%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in oklch, var(--note-rail)    44%, var(--lab-surface-dark)); /* Karl cooler */
-  --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark)); /* Periwinkle */
-  --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
+  --term-bg:     color-mix(in hsl, var(--term-rail)    36%, var(--lab-surface-dark));
+  --hint-bg:     color-mix(in hsl, var(--hint-rail)    34%, var(--lab-surface-dark)); /* Peach pop */
+  --pro-bg:      color-mix(in hsl, var(--pro-rail)     30%, var(--lab-surface-dark));
+  --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark)); /* Karl cooler */
+  --success-bg:  color-mix(in hsl, var(--success-rail) 45%, var(--lab-surface-dark)); /* Periwinkle */
+  --time-bg:     color-mix(in hsl, var(--time-rail)    42%, var(--lab-surface-dark));
+
+  @supports (color: oklch(50% 0.1 200)) {
+    --term-bg:     color-mix(in oklch, var(--term-rail)    36%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    34%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     30%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    40%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 45%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
+  }
 
   .cooked blockquote{
     color: var(--fg-strong);
@@ -548,19 +471,6 @@ $lab-sel: 'body.category-builder-labs';
       inset 0 1px 0 rgba(255,255,255,.04),
       0 0 0 1px rgba(0,0,0,.25);
   }
-
-  /* Badges in dark: brighter mix off the dark surface */
-  --badge-fg: #f4f7fb;
-  --badge-bg: color-mix(in oklch, var(--callout-accent) 46%, var(--lab-surface-dark));
-  .cooked blockquote > p:first-child::before { background: var(--badge-bg); }
-  .cooked blockquote > p:first-child .d-icon { color: var(--badge-fg); }
-
-  /* Helpful Hint (Peach) — cool Karl badge for contrast */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"]) {
-    --badge-bg: color-mix(in oklch, var(--brand-karl) 58%, var(--lab-surface-dark));
-  }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"])
-  > p:first-child img.emoji { filter: drop-shadow(0 1px 0 rgba(0,0,0,.65)); }
 
   /* ensure mappings pick up the dark variables */
   .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
