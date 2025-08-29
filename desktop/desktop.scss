@@ -233,3 +233,99 @@ body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[titl
       0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
   }
 }
+
+
+/* =========================================================
+   FINAL ALIGNMENT PATCH (put this at the very end)
+   Makes title and TOC share the same left edge.
+   ========================================================= */
+
+/* Page gutter + TOC sizing (tweak if you want) */
+body.category-builder-labs {
+  --site-gutter: clamp(10px, 2.5vw, 16px);
+  --toc-gap: 2rem;
+  --toc-width-min: 18rem;
+  --toc-width-max: 22rem;
+}
+
+/* Ensure header and outlet honor the same gutter */
+body.category-builder-labs .d-header .wrap,
+body.category-builder-labs .d-header .contents,
+body.category-builder-labs #main-outlet-wrap,
+body.category-builder-labs #main-outlet {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: var(--site-gutter) !important;
+  padding-right: var(--site-gutter) !important;
+}
+
+/* Kill any sidebar/left-rail offsets */
+body.category-builder-labs,
+body.category-builder-labs :root { --d-sidebar-width: 0px !important; }
+body.category-builder-labs .sidebar-wrapper,
+body.category-builder-labs .sidebar-container,
+body.category-builder-labs .discourse-sidebar,
+body.category-builder-labs .d-sidebar { display:none !important; width:0 !important; }
+
+/* =======================
+   Title: left-align it
+   ======================= */
+
+/* Discourse centers this by default; force it left */
+body.category-builder-labs #topic-title {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+
+  /* remove any theme centering/width caps */
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* The inner wrapper is what usually gets max-width + auto margins */
+body.category-builder-labs #topic-title .title-wrapper {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Optional: nudge the H1 visually if needed (usually not required)
+   body.category-builder-labs #topic-title .title-wrapper h1 { margin-left: 0 !important; } */
+
+/* ===================================
+   Two-column grid for body content
+   =================================== */
+
+body.category-builder-labs #main-outlet {
+  display: grid !important;
+  grid-template-columns:
+    minmax(var(--toc-width-min), var(--toc-width-max))
+    minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap) !important;
+}
+
+/* TOC in left col, content in right col */
+body.category-builder-labs .container.posts {
+  display: contents !important; /* use the parent grid above */
+}
+body.category-builder-labs .container.posts .topic-navigation { grid-column: 1 / 2 !important; }
+body.category-builder-labs .container.posts > .row            { grid-column: 2 / 3 !important; }
+
+/* Strip TOC’s default left rule/padding that makes it look indented */
+body.category-builder-labs .topic-navigation .d-toc-main {
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Keep the TOC sticky & readable */
+body.category-builder-labs .container.posts .topic-navigation {
+  align-self: start;
+  position: sticky; top: 6rem;
+  font-size: 1.08rem; line-height: 1.5;
+  margin: 0 !important;
+}
