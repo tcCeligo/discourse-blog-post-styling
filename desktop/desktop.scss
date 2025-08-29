@@ -435,3 +435,57 @@ body.category-builder-labs .timeline-container { grid-column: 2 / 3; }
     margin-bottom: 1rem;
   }
 }
+
+
+/* ===== Right-rail TOC, content left — category scoped ===== */
+body.category-builder-labs .wrap,
+body.category-builder-labs .wrap .container { max-width: 1440px !important; }
+
+/* Make ONLY the first post’s content a 2-col grid: [content | TOC] */
+body.category-builder-labs .topic-post:first-of-type .cooked {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) 20rem;  /* content | TOC width */
+  column-gap: 2rem;
+  align-items: start;
+}
+
+/* Put the TOC in the right column and make it sticky */
+body.category-builder-labs .topic-post:first-of-type .cooked > .toc-container,
+body.category-builder-labs .topic-post:first-of-type .cooked > nav.topic-navigation,
+body.category-builder-labs .topic-post:first-of-type .cooked > .d-toc {
+  grid-column: 2 !important;
+  position: sticky;
+  top: 76px;                                    /* adjust to your header height */
+  max-height: calc(100vh - 96px);
+  overflow: auto;
+  z-index: 0;
+}
+
+/* All other content stays in the left column */
+body.category-builder-labs .topic-post:first-of-type .cooked > :not(.toc-container):not(.topic-navigation):not(.d-toc) {
+  grid-column: 1 !important;
+}
+
+/* Keep in-page links from hiding under a sticky header */
+body.category-builder-labs .cooked h1,
+body.category-builder-labs .cooked h2,
+body.category-builder-labs .cooked h3 { scroll-margin-top: 84px; }
+
+/* Optional: if the Discourse timeline overlaps, hide it just for this scope */
+/* body.category-builder-labs .timeline-container { display: none !important; } */
+
+/* Mobile/tablet: stack, no sticky */
+@media (max-width: 1100px) {
+  body.category-builder-labs .wrap,
+  body.category-builder-labs .wrap .container { max-width: 100% !important; }
+  body.category-builder-labs .topic-post:first-of-type .cooked {
+    display: block !important;
+  }
+  body.category-builder-labs .topic-post:first-of-type .cooked > .toc-container,
+  body.category-builder-labs .topic-post:first-of-type .cooked > nav.topic-navigation,
+  body.category-builder-labs .topic-post:first-of-type .cooked > .d-toc {
+    position: static !important;
+    max-height: none !important;
+    margin-top: 1rem;
+  }
+}
