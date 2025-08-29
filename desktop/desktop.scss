@@ -446,9 +446,9 @@ $lab-sel: 'body.category-builder-labs';
 /* ---------- DARK variant (rails fixed, panels distinct) ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
-  --fg-strong: #e8eef6;
+  --fg-strong: #edf2f8; /* was #e8eef6 — a bit brighter for readability */
 
-  /* Rails stay identical to light (brand anchors) */
+  /* rails unchanged (brand anchors) */
   --term-rail:    var(--tone-term);
   --hint-rail:    var(--tone-hint);
   --pro-rail:     var(--tone-pro);
@@ -456,29 +456,31 @@ $lab-sel: 'body.category-builder-labs';
   --success-rail: var(--tone-success);
   --time-rail:    var(--tone-time);
 
-  /* Per-tone panel mixes (darker for separation) */
-  --term-bg:     color-mix(in hsl,   var(--term-rail)    38%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl,   var(--hint-rail)    34%, var(--lab-surface-dark));
-  --pro-bg:      color-mix(in hsl,   var(--pro-rail)     28%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl,   var(--note-rail)    44%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl,   var(--success-rail) 48%, var(--lab-surface-dark));
-  --time-bg:     color-mix(in hsl,   var(--time-rail)    42%, var(--lab-surface-dark));
+  /* panels: lift mixes to separate tones more clearly */
+  --term-bg:     color-mix(in hsl, var(--term-rail)    40%, var(--lab-surface-dark));  /* +4% */
+  --hint-bg:     color-mix(in hsl, var(--hint-rail)    46%, var(--lab-surface-dark));  /* +12% */
+  --pro-bg:      color-mix(in hsl, var(--pro-rail)     38%, var(--lab-surface-dark));  /* +8%  */
+  --note-bg:     color-mix(in hsl, var(--note-rail)    50%, var(--lab-surface-dark));  /* +10% */
+  --success-bg:  color-mix(in hsl, var(--success-rail) 54%, var(--lab-surface-dark));  /* +9%  */
+  --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
 
   @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)    38%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    34%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)     28%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)    44%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 48%, var(--lab-surface-dark));
-    --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in oklch, var(--term-rail)    40%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    46%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     38%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    50%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 54%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
   }
 
+  /* subtler, hue-aware edge instead of black */
   .cooked blockquote{
     color: var(--fg-strong);
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.04),
-      0 0 0 1px rgba(0,0,0,.25);
+      inset 0 1px 0 rgba(255,255,255,.07),
+      0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
   }
+}
 
   /* mapping (same emoji keys as light mode) */
   .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
