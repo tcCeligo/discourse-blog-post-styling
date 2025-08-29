@@ -310,8 +310,9 @@ $lab-sel: 'body.category-builder-labs';
   --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
 
   /* semantic → brand hue */
-  --tone-term:    var(--brand-driftwood);
-  --tone-hint:    var(--brand-peach);
+   /* semantic → brand hue */
+  --tone-term:    var(--brand-peach);      /* swapped */
+  --tone-hint:    var(--brand-driftwood);  /* swapped */
   --tone-pro:     var(--brand-chaparral);
   --tone-note:    var(--brand-karl);
   --tone-success: var(--brand-periwinkle);
@@ -322,8 +323,8 @@ $lab-sel: 'body.category-builder-labs';
   --light-surface: #ffffff;
 
   /* per-tone tint strengths (light mode) */
-  --tint-term:    34%;  
-  --tint-hint:    66%;
+  --tint-term:    66%;  
+  --tint-hint:    34%;
   --tint-pro:     18%;
   --tint-note:    56%;  
   --tint-success: 70%;
@@ -457,16 +458,16 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* panels: lift mixes to separate tones more clearly */
-  --term-bg:     color-mix(in hsl, var(--term-rail)    42%, var(--lab-surface-dark)); /* was 40% */
-  --hint-bg:     color-mix(in hsl, var(--hint-rail)    54%, var(--lab-surface-dark));   /* was 46% */
+  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark)); /* was 42% */
+  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark)); /* was 54% */
   --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));    /* was 38% */
   --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));   /* was 50% */
   --success-bg:  color-mix(in hsl, var(--success-rail) 64%, var(--lab-surface-dark));  /* +9%  */
   --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));  /* +8%  */
 
    @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)    34%, var(--lab-surface-dark)); /* was 40% */
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    54%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in oklch, var(--term-rail) 54%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail) 42%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
     --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
     --success-bg:  color-mix(in oklch, var(--success-rail) 64%, var(--lab-surface-dark)); /* a bit cheerier */
