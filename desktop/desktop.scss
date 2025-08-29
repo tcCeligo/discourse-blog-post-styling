@@ -568,3 +568,54 @@ body.category-builder-labs #topic-title .title-wrapper {
 body.category-builder-labs .container.posts > .row {
   grid-column: 2 / 3 !important;
 }
+
+/* -----------------------------------------------------------
+   Builder Labs: kill all leftover left-rail offsets completely
+   (Discourse reserves space even when the sidebar is hidden)
+   ----------------------------------------------------------- */
+body.category-builder-labs,
+body.category-builder-labs :root {
+  --d-sidebar-width: 0px !important; /* nuke reserved width */
+}
+
+/* Hide rail & ensure it contributes no layout width */
+body.category-builder-labs .sidebar-wrapper,
+body.category-builder-labs .sidebar-container,
+body.category-builder-labs .discourse-sidebar,
+body.category-builder-labs .d-sidebar {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+}
+
+/* Remove the margin-left that many themes apply when a sidebar exists */
+body.category-builder-labs.has-sidebar .wrap,
+body.category-builder-labs.has-sidebar .d-wrap,
+body.category-builder-labs .sidebar-wrapper + .wrap,
+body.category-builder-labs .sidebar-wrapper + .d-wrap,
+body.category-builder-labs .d-header .wrap,
+body.category-builder-labs #main-outlet-wrap,
+body.category-builder-labs #main-outlet {
+  margin-left: 0 !important;
+}
+
+/* Start the outlet grid right at the page gutter */
+body.category-builder-labs #main-outlet {
+  padding-left: clamp(10px, 2.5vw, 16px) !important; /* same token used elsewhere */
+}
+
+/* Keep title & content using the same grid so their left edge = TOC left edge */
+body.category-builder-labs #topic-title {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
+    minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap, 2rem) !important;
+  width: min(100%, var(--grid-max)) !important;
+  margin-inline: auto !important;
+}
+
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important; /* content stays in the right column */
+}
