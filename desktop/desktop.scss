@@ -237,23 +237,62 @@
     grid-column:1/2 !important;  /* stack vertically */
   }
 }
+/* ============================
+   Emergency TOC left column patch
+   ============================ */
 
-/* page shell */
-.page-with-toc {
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 24px;
+:root {
+  --header-height: 72px;   /* adjust if your header is taller/shorter */
+  --toc-w: 260px;          /* width of the TOC column */
+  --toc-gap: 24px;         /* gap between TOC and content */
 }
 
-/* TOC column */
-.page-with-toc .toc {
-  position: sticky;              /* not fixed */
-  top: var(--header-height, 72px);
-  align-self: start;
-  max-height: calc(100vh - var(--header-height, 72px));
-  overflow: auto;
-  z-index: 0;                    /* so it won’t overlay content */
+/* 1) Normalize the TOC itself (catch-all for common selectors) */
+#toc, .toc, .table-of-contents, .toc-container, nav[aria-label*="Contents" i],
+aside[aria-label*="Contents" i] {
+  position: sticky !important;         /* keep it pinned relative to scroll */
+  top: calc(var(--header-height) + 16px) !important;
+  left: auto !important;
+  width: var(--toc-w) !important;
+  max-height: calc(100vh - var(--header-height) - 32px) !important;
+  overflow: auto !important;
+  z-index: 1 !important;               /* below header, above background */
+  align-self: start !important;        /* grid/flex friendly */
+  box-sizing: border-box;
 }
 
-/* main column */
-.page-with-toc .content { min-width: 0; }
+/* 2) Reserve space for the TOC so content never sits underneath it */
+body, .wrap, .container, .main, .content, .topic-body, .article, .page, .docs-body {
+  /* only one of these will actually apply; the rest are harmless */
+  padding-left: calc(var(--toc-w) + var(--toc-gap)) !important;
+}
+
+/* 3) If your layout is grid/flex, keep TOC parked on the left edge */
+#toc, .toc, .table-of-contents, .toc-container, nav[aria-label*="Contents" i],
+aside[aria-label*="Contents" i] {
+  margin-left: 24px !important;        /* breathing room from the left edge */
+}
+
+/* 4) Kill styles that commonly break sticky behavior */
+#toc, .toc, .table-of-contents, .toc-container, nav[aria-label*="Contents" i],
+aside[aria-label*="Contents" i] * {
+  transform: none !important;          /* parents with transform break sticky */
+}
+header, .site-header, .global-header {
+  z-index: 10 !important;              /* make sure header stays above TOC */
+}
+
+/* 5) Responsive: collapse TOC on smaller screens */
+@media (max-width: 1024px) {
+  body, .wrap, .container, .main, .content, .topic-body, .article, .page, .docs-body {
+    padding-left: 0 !important;
+  }
+  #toc, .toc, .table-of-contents, .toc-container, nav[aria-label*="Contents" i],
+  aside[aria-label*="Contents" i] {
+    position: static !important;
+    width: auto !important;
+    max-height: none !important;
+    margin-left: 0 !important;
+    display: none; /* hide if your mobile layout uses an in-page TOC link */
+  }
+}
