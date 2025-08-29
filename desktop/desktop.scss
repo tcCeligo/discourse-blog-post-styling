@@ -405,10 +405,10 @@ $lab-sel: 'body.category-builder-labs';
   }
 
   /* emoji → tone mapping (keep in sync for dark mode) */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"])           { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])           { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])             { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])     { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])                   { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"])    { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])          { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])             { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 
@@ -483,10 +483,10 @@ $lab-sel: 'body.category-builder-labs';
   }
 
   /* mapping (same emoji keys as light mode) */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])  { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]) { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
