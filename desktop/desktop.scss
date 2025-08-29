@@ -1,353 +1,168 @@
-/* ==========================================================================
-   NO-OP legacy placeholders (safe to remove if you prefer hard failures)
-   ========================================================================== */
-%blog-tag {}
-%blog-category {}
-%builder-wide-layout {}
+/* ===============================================
+   Builder Labs — unified layout + brand callouts
+   =============================================== */
 
-/* ==========================================================================
-   Base mixins (only take effect when included inside builder-labs)
-   ========================================================================== */
-@mixin blog_base() {
-  .topic-timeline { display: none; }
+/* ─────────── 1) Tunables ─────────── */
 
-  .blog-image-container {
-    text-align: center;
-    .blog-image {
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: contain;
-      height: 440px;
-      margin-bottom: 1em;
-      @if $image_display_style == "responsive crop" { background-size: cover; width: 100%; }
-    }
-  }
-
-  /* Hide byline under the title for the first post */
-  #post_1 .topic-avatar,
-  #post_1 .topic-body .topic-meta-data,
-  #post_1 .post-info.edits { display: none !important; }
-
-  .topic-body { width: 100%; }
-
-  .topic-avatar {
-    height: 20px; width: 20px; background: none;
-    img.avatar { height: 20px; width: 20px; }
-    .avatar-flair {
-      background-size: 8px 8px;
-      width: 10px; height: 10px;
-      top: unset; bottom: -5px; right: -3px;
-      .d-icon { height: .45em; width: .45em; }
-    }
-  }
-
-  .topic-map.--bottom { display: none !important; }
-
-  #post_1 {
-    .topic-body {
-      padding-top: 8px; border-top: none;
-      &.highlighted { animation: none; }
-      .contents { border-top: 1px solid var(--primary-low); margin-left: 0; padding: 0; }
-    }
-
-    .topic-map.--op {
-      padding-left: 0;
-
-      /* Comments heading visible ONLY in builder-labs */
-      body.category-builder-labs & .comments-heading {
-        display: block;
-        width: 100%;
-        margin-top: 1em;
-      }
-      .topic-map__users-list { display: none; }
-    }
-
-    .cooked {
-      big { font-size: 2rem; line-height: 2rem; letter-spacing: 1px; display: inline-block; font-family: Georgia; }
-      & > p:first-child + div.lightbox-wrapper { display: none; & + p { margin-top: -15px; } }
-      & > p img:not(.emoji) { display: none; }
-      & > p ~ p img:not(.emoji) { display: block; }
-    }
-  }
-
-  .post-infos img.avatar { height: 20px; width: 20px; }
-
-  .topic-status-info,
-  .topic-timer-info,
-  .small-action .small-action-desc { width: 100%; max-width: 100%; }
-
-  .post-notice { max-width: 519px; font-size: var(--font-down-2); }
-
-  .small-action {
-    font-size: .75em;
-    .small-action-desc {
-      max-width: 500px;
-      .small-action-contents { display: flex; align-items: center; .avatar { height: 15px; width: 15px; } }
-    }
-  }
-
-  #topic-title h1 { font-size: 2.5em; }
-  #topic-title a.edit-topic .d-icon { font-size: .5em; }
-
-  .topic-meta-data { font-size: small; }
-  .cooked { padding: .5em 1em; }
-
-  .topic-post {
-    .topic-body { margin-left: 0 !important; padding-left: 0 !important; max-width: 720px; }
-    &:first-child {
-      font-size: 1.25em; line-height: 1.4;
-      padding-bottom: 0; padding-top: 4px;
-
-      .topic-body { max-width: unset; }
-      .cooked { padding: 0; }
-
-      nav.post-controls .actions, .topic-map, .post-admin-menu { font-size: 14px; }
-
-      figure { margin: 0; }
-      figcaption { margin-top: -16px; font-size: .8em; font-weight: bold; }
-
-      blockquote {
-        background: var(--primary-very-low); color: var(--primary-high);
-        border-left: 10px solid var(--primary-low-mid, var(--primary-low, var(--primary)));
-        padding: .5em 10px;
-      }
-      blockquote:before {
-        color: var(--primary-low-mid, var(--primary-low, var(--primary)));
-        content: open-quote; font-size: 4em; line-height: .1em; vertical-align: -.4em;
-      }
-      blockquote p { display: inline; }
-    }
-  }
-
-  .timeline-toggle,
-  #topic-progress-wrapper.docked,
-  .timeline-container.timeline-docked { display: none !important; }
-
-  /* Base blog layout (centered by default theme) — we’ll override in wide layout */
-  .container.posts {
-    justify-content: center;
-    grid-template-columns: 65% 5%;
-    & > .row { width: 750px; }
-    .topic-navigation .d-toc-main { min-width: 11.25em; }
-  }
-
-  #topic-title {
-    display: flex; justify-content: center;
-    .title-wrapper { width: 70%; .topic-category { margin-top: .25em; } }
-  }
-
-  .topic-area > .loading-container { max-width: 750px; }
-
-  @media screen and (max-width: 1350px) {
-    .container.posts {
-      justify-content: center;
-      grid-template-columns: 65% 15%;
-      & > .row { width: unset; }
-      .topic-navigation { margin-left: 1em; }
-    }
-    #topic-title .title-wrapper { width: 80%; }
-  }
-
-  @media screen and (max-width: 924px) {
-    .container.posts { grid-template-columns: 100%; }
-    #topic-title { justify-content: flex-start; }
-  }
+/* This is your single vertical anchor/guide.
+   Move everything (header, H1, TOC, content) to this x-position. */
+body.category-builder-labs {
+  --labs-anchor-left: clamp(220px, 18vw, 340px); /* tweak this to your black line */
+  --page-gutter: clamp(10px, 2.5vw, 16px);       /* basic horizontal gutters */
 }
 
-/* ==========================================================================
-   Wide layout mixin (used for builder-labs)
-   ========================================================================== */
-@mixin builder_wide_layout() {
-  /* Layout tokens */
-  --page-gutter: clamp(8px, 1.6vw, 16px);
-  --toc-gap: 2rem;
+/* ─────────── 2) Kill any left rail / reserved widths ─────────── */
+body.category-builder-labs,
+body.category-builder-labs :root { --d-sidebar-width: 0px !important; }
 
-  --toc-width-min: 18rem;
-  --toc-width-max: 22rem;
-
-  --content-cap: clamp(1020px, 80ch, 1500px);
-  --toc-trailing-space: 100px;
-
-  --grid-max: calc(
-    var(--content-cap) + var(--toc-gap) + var(--toc-width-max) +
-    var(--toc-trailing-space) + 2 * var(--page-gutter)
-  );
-
-  /* Remove any left-rail spacing and ensure full-width, no centering */
-  .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
-    max-width: none !important;
-    width: 100% !important;
-    padding-left: var(--page-gutter) !important;
-    padding-right: var(--page-gutter) !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  /* Title row shares the same two-column grid as posts and starts at left gutter */
-  #main-outlet {
-    display: grid !important;
-    grid-template-columns:
-      minmax(var(--toc-width-min), var(--toc-width-max))
-      minmax(0, 1fr) !important;
-    column-gap: var(--toc-gap) !important;
-  }
-
-  /* Title uses the same grid and is NOT centered; it spans both columns
-     so its left edge equals the TOC’s left edge */
-  #topic-title {
-    grid-column: 1 / -1 !important;
-    display: grid !important;
-    grid-template-columns:
-      minmax(var(--toc-width-min), var(--toc-width-max))
-      minmax(0, 1fr) !important;
-    column-gap: var(--toc-gap) !important;
-    width: 100% !important;
-    margin-inline: 0 !important;
-  }
-
-  /* Title content spans both columns; no max-width re-centering */
-  #topic-title .title-wrapper {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Posts grid (TOC + content) */
-  .container.posts {
-    display: grid !important;
-    width: 100% !important;
-    margin-inline: 0 !important;
-
-    grid-template-columns:
-      minmax(var(--toc-width-min), var(--toc-width-max))
-      minmax(0, 1fr) !important;
-
-    column-gap: var(--toc-gap) !important;
-    justify-content: stretch !important;
-
-    padding-right: var(--toc-trailing-space);
-  }
-
-  .container.posts > .row {
-    width: auto !important;
-    grid-column: 2 / 3; /* content column */
-  }
-
-  .topic-post .topic-body {
-    margin-left: 0 !important; padding-left: 0 !important;
-    max-width: var(--content-cap) !important; width: 100% !important;
-  }
-  .topic-post .cooked { padding-left: 0 !important; }
-
-  /* TOC block (left column) */
-  .container.posts .topic-navigation {
-    grid-column: 1 / 2;
-    align-self: start;
-    position: sticky; top: 6rem;
-    margin: 0 !important;
-    font-size: 1.08em; /* bump a touch */
-    line-height: 1.5;
-  }
-  .container.posts .topic-navigation .d-toc-main {
-    min-width: var(--toc-width-min) !important;
-    max-width: var(--toc-width-max) !important;
-  }
-  .container.posts .topic-navigation .d-toc-main ul,
-  .container.posts .topic-navigation .d-toc-main li { max-width: none !important; }
-  .container.posts .topic-navigation .d-toc-main li a,
-  .container.posts .topic-navigation .d-toc-item > a {
-    display: block !important;
-    width: 100% !important;
-    max-width: none !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    padding-right: .25rem;
-  }
-
-  /* No re-centering at very wide viewports */
-  @media (min-width: 1600px) {
-    .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
-      width: 100% !important;
-      margin-inline: 0 !important;
-    }
-  }
-
-  /* Tweak breakpoints (keep grid proportions without centering) */
-  @media (max-width: 1800px) { & {
-    --toc-width-min: 18rem; --toc-width-max: 20rem; --toc-gap: 1.25rem; --toc-trailing-space: 64px; } }
-  @media (max-width: 1600px) { & {
-    --toc-width-min: 16rem; --toc-width-max: 18rem; --toc-gap: 1.25rem; --toc-trailing-space: 48px; } }
-  @media (max-width: 1440px) { & {
-    --toc-width-min: 14rem; --toc-width-max: 16rem; --toc-gap: 1rem; --toc-trailing-space: 32px; } }
-  @media (max-width: 1280px) { & {
-    --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-gap: .75rem; --toc-trailing-space: 16px; } }
-
-  @media (max-width: 924px) {
-    /* Stack TOC over content */
-    #topic-title {
-      display: block !important;
-      margin-inline: 0 !important;
-    }
-    .container.posts {
-      grid-template-columns: 1fr !important;
-      column-gap: 0 !important;
-      padding-right: max(10px, var(--page-gutter));
-    }
-    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
-  }
+body.category-builder-labs .sidebar-wrapper,
+body.category-builder-labs .sidebar-container,
+body.category-builder-labs .discourse-sidebar,
+body.category-builder-labs .d-sidebar,
+body.category-builder-labs .hamburger-panel {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
 }
 
-/* ==========================================================================
-   Concise scoping helpers (slug: builder-labs)
-   ========================================================================== */
-$lab-sel: 'body.category-builder-labs';
-@mixin in-lab { #{$lab-sel} { @content; } }
-@mixin dark-in-lab {
-  @media (prefers-color-scheme: dark){ #{$lab-sel} { @content; } }
-  html.dark #{$lab-sel},
-  html[data-theme="dark"] #{$lab-sel},
-  html[data-theme="Dark"] #{$lab-sel},
-  html[data-theme-color-scheme="dark"] #{$lab-sel} { @content; }
+/* Remove theme margins that assume a sidebar exists */
+body.category-builder-labs.has-sidebar .wrap,
+body.category-builder-labs.has-sidebar .d-wrap,
+body.category-builder-labs .sidebar-wrapper + .wrap,
+body.category-builder-labs .sidebar-wrapper + .d-wrap,
+body.category-builder-labs #main-outlet-wrap {
+  margin-left: 0 !important;
 }
 
-/* ==========================================================================
-   Apply (only when slug === builder-labs)
-   ========================================================================== */
-@include in-lab {
-  /* Hide the site sidebar/nav AND remove the reserved left margin */
-  .sidebar-wrapper,
-  .sidebar-container,
-  .discourse-sidebar,
-  .sidebar-section,
-  .d-sidebar,
-  .hamburger-panel { display: none !important; }
-  .wrap, .d-wrap, #main-outlet-wrap, #main-outlet { margin-left: 0 !important; }
+/* ─────────── 3) Align the top header to the SAME anchor ─────────── */
+body.category-builder-labs .d-header .wrap,
+body.category-builder-labs .d-header .contents {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: var(--labs-anchor-left) !important;
+  padding-right: var(--page-gutter) !important;
+}
 
-  @include blog_base();
-  &.archetype-regular { @include builder_wide_layout(); }
+body.category-builder-labs .d-header .title,
+body.category-builder-labs .d-header .panel {
+  margin-left: 0 !important;
+}
 
-  /* Headings treatment */
-  .cooked h1 {
-    padding: .25em .5em;
-    margin-top: 2em;
-    margin-bottom: 1em;
-    padding-block: .75em;
-    background-color: #000; color: #fff;
-  }
-  .cooked h2 {
-    padding: .25em .5em;
-    margin-top: 2em;
-    margin-bottom: 1em;
-    padding-block: .25em;
-    background-color: #b2b2b2;
-    color: #000;
-  }
+/* ─────────── 4) Main outlet uses the SAME anchor ─────────── */
+body.category-builder-labs #main-outlet-wrap,
+body.category-builder-labs #main-outlet {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: var(--labs-anchor-left) !important;
+  padding-right: var(--page-gutter) !important;
+}
 
-  /* =========================================
-     Builder Labs — Brand-based Callouts
-     ========================================= */
+/* Two-column grid for the topic area: [TOC | content] */
+body.category-builder-labs #main-outlet {
+  display: grid !important;
+  grid-template-columns:
+    minmax(18rem, 22rem)
+    minmax(0, 1fr) !important;
+  column-gap: 2rem !important;
+}
+
+/* Title row spans both columns, but its content starts at the anchor */
+body.category-builder-labs #topic-title {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(18rem, 22rem)
+    minmax(0, 1fr) !important;
+  column-gap: 2rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Put the actual title content in the right column (aligned to anchor) */
+body.category-builder-labs #topic-title .title-wrapper {
+  grid-column: 2 / 3 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Posts (content) sit in the right column */
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* TOC sits in the left column and is aligned to the anchor line */
+body.category-builder-labs .container.posts .topic-navigation {
+  grid-column: 1 / 2 !important;
+  align-self: start;
+  position: sticky; top: 6rem;
+  margin: 0 !important;
+  font-size: 1.08em;  /* readability bump */
+  line-height: 1.5;
+}
+
+/* Remove TOC’s default left rule/padding that offsets the text */
+body.category-builder-labs .topic-navigation .d-toc-main {
+  border-left: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Optional: if you still want a guide line but WITHOUT pushing text */
+/*
+body.category-builder-labs .topic-navigation .d-toc-main { position: relative; }
+body.category-builder-labs .topic-navigation .d-toc-main::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1px; background: var(--primary-low);
+}
+*/
+
+/* ─────────── 5) First post / general blog styling (kept) ─────────── */
+
+body.category-builder-labs .topic-timeline { display: none; }
+
+body.category-builder-labs .topic-map.--bottom { display: none !important; }
+
+body.category-builder-labs .topic-post .topic-body {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  max-width: 720px;
+}
+
+body.category-builder-labs .topic-post:first-child {
+  font-size: 1.25em; line-height: 1.4;
+  padding-top: 4px; padding-bottom: 0;
+}
+
+body.category-builder-labs .topic-post:first-child .cooked { padding: 0; }
+
+/* Headings treatment */
+body.category-builder-labs .cooked h1 {
+  margin: 2em 0 1em 0; padding: .75em .5em;
+  background-color: #000; color: #fff;
+}
+body.category-builder-labs .cooked h2 {
+  margin: 2em 0 1em 0; padding: .25em .5em;
+  background-color: #b2b2b2; color: #000;
+}
+
+/* Hide timeline/progress on labs pages */
+body.category-builder-labs .timeline-toggle,
+body.category-builder-labs #topic-progress-wrapper.docked,
+body.category-builder-labs .timeline-container.timeline-docked {
+  display: none !important;
+}
+
+/* ─────────── 6) Callouts — brand colors (kept) ─────────── */
+
+body.category-builder-labs {
   --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
@@ -360,13 +175,13 @@ $lab-sel: 'body.category-builder-labs';
   --callout-icon-nudge: -1px;
 
   /* Celigo brand hues */
-  --brand-lagoon:      #86B0B6; /* LAGOON */
-  --brand-driftwood:   #887E6F; /* TERM */
-  --brand-peach:       #F3B38F; /* HELPFUL HINT */
-  --brand-chaparral:   #596D67; /* PRO TIP */
-  --brand-karl:        #B4C5CB; /* NOTE */
-  --brand-periwinkle:  #CDC6E6; /* SUCCESS */
-  --brand-beaujolais:  #D893AF; /* ESTIMATED TIME */
+  --brand-lagoon:      #86B0B6;
+  --brand-driftwood:   #887E6F;
+  --brand-peach:       #F3B38F;
+  --brand-chaparral:   #596D67;
+  --brand-karl:        #B4C5CB;
+  --brand-periwinkle:  #CDC6E6;
+  --brand-beaujolais:  #D893AF;
   --brand-wheatgrass:  #D6C56B;
   --brand-aspen:       #CED8A3;
 
@@ -378,212 +193,80 @@ $lab-sel: 'body.category-builder-labs';
   --tone-success: var(--brand-periwinkle);
   --tone-time:    var(--brand-beaujolais);
 
-  /* LIGHT: panel tints + shared text color */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
-  /* per-tone tint strengths (light mode) */
   --tint-term:    66%;
   --tint-hint:    34%;
   --tint-pro:     18%;
   --tint-note:    36%;
   --tint-success: 70%;
   --tint-time:    58%;
+}
 
-  /* HSL/OKLCH mixes */
-  --term-bg:     color-mix(in hsl,  var(--tone-term)    var(--tint-term),    var(--light-surface));
-  --hint-bg:     color-mix(in hsl,  var(--tone-hint)    var(--tint-hint),    var(--light-surface));
-  --pro-bg:      color-mix(in hsl,  var(--tone-pro)     var(--tint-pro),     var(--light-surface));
-  --note-bg:     color-mix(in hsl,  var(--tone-note)    var(--tint-note),    var(--light-surface));
-  --success-bg:  color-mix(in hsl,  var(--tone-success) var(--tint-success), var(--light-surface));
-  --time-bg:     color-mix(in hsl,  var(--tone-time)    var(--tint-time),    var(--light-surface));
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji),
+body.category-builder-labs .cooked blockquote:has(> p:first-child .d-icon),
+body.category-builder-labs .cooked blockquote:has(> p:first-child img:not(.emoji)) {
+  --callout-bg: var(--note-bg);
+  --callout-accent: var(--note-rail);
 
-  @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--tone-term)    var(--tint-term),    var(--light-surface));
-    --hint-bg:     color-mix(in oklch, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
-    --pro-bg:      color-mix(in oklch, var(--tone-pro)     var(--tint-pro),     var(--light-surface));
-    --note-bg:     color-mix(in oklch, var(--tone-note)    var(--tint-note),    var(--light-surface));
-    --success-bg:  color-mix(in oklch, var(--tone-success) var(--tint-success), var(--light-surface));
-    --time-bg:     color-mix(in oklch, var(--tone-time)    var(--tint-time),    var(--light-surface));
+  position: relative;
+  background: var(--callout-bg);
+  border-left: var(--callout-rail) solid var(--callout-accent);
+  border-radius: var(--callout-radius);
+  padding: var(--callout-pad-y) var(--callout-pad-x);
+  margin: 16px 0 16px var(--callout-indent);
+  padding-left: calc(var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)) !important;
+
+  color: var(--callout-fg, var(--fg-strong));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.45),
+    0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
+}
+
+/* Emoji→tone mapping */
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])      { --callout-bg: color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface)); --callout-accent: var(--tone-term); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])        { --callout-bg: color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface)); --callout-accent: var(--tone-hint); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: color-mix(in hsl, var(--tone-pro)     var(--tint-pro),     var(--light-surface)); --callout-accent: var(--tone-pro); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])              { --callout-bg: color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface)); --callout-accent: var(--tone-note); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])     { --callout-bg: color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface)); --callout-accent: var(--tone-success); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])        { --callout-bg: color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface)); --callout-accent: var(--tone-time); }
+
+/* Mobile: collapse the icon lane without shrinking the icons themselves */
+@media (max-width: 640px){
+  body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji),
+  body.category-builder-labs .cooked blockquote:has(> p:first-child .d-icon),
+  body.category-builder-labs .cooked blockquote:has(> p:first-child img:not(.emoji)){
+    padding-left: var(--callout-pad-x) !important;
   }
-
-  /* rails (identical in light & dark) */
-  --term-rail:     var(--tone-term);
-  --hint-rail:     var(--tone-hint);
-  --pro-rail:      var(--tone-pro);
-  --note-rail:     var(--tone-note);
-  --success-rail:  var(--tone-success);
-  --time-rail:     var(--tone-time);
-
-  /* base callout */
-  .cooked blockquote:has(> p:first-child img.emoji),
-  .cooked blockquote:has(> p:first-child .d-icon),
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) {
-    --callout-bg: var(--note-bg);
-    --callout-accent: var(--note-rail);
-
-    position: relative;
-    background: var(--callout-bg);
-    border-left: var(--callout-rail) solid var(--callout-accent);
-    border-radius: var(--callout-radius);
-    padding: var(--callout-pad-y) var(--callout-pad-x);
-    margin: 16px 0 16px var(--callout-indent);
-    padding-left: calc(
-      var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
-    ) !important;
-
-    color: var(--callout-fg, var(--fg-strong));
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.45),
-      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
+  body.category-builder-labs .cooked blockquote > p:first-child{
+    display: flex; align-items: center; gap: .5rem;
   }
-
-  /* remove theme’s decorative quote marks */
-  .cooked blockquote:has(> p:first-child img.emoji)::before,
-  .cooked blockquote:has(> p:first-child .d-icon)::before,
-  .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
-  .cooked blockquote:has(> p:first-child img.emoji)::after,
-  .cooked blockquote:has(> p:first-child .d-icon)::after,
-  .cooked blockquote:has(> p:first-child img:not(.emoji))::after { content: none !important; }
-
-  /* icon placement */
-  .cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
-  .cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
-    position: absolute !important;
-    left: var(--callout-left-pad);
-    top: 50%;
-    transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-    width: var(--callout-icon-size); height: var(--callout-icon-size);
-  }
-
-  /* compact title line */
-  .cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
-  .cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
-    margin: 0 0 4px 0 !important;
-  }
-
-  /* emoji → tone mapping (keep in sync for dark mode) */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])           { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])             { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])     { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])                   { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])          { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])             { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
-
-  /* rhythm */
-  .cooked blockquote p + p { margin-top: .25rem; }
-  .cooked blockquote strong { font-weight: 700; }
-
-  /* mobile: collapse lane, but keep bigger variable-driven icons */
-  @media (max-width: 640px){
-    .cooked blockquote:has(> p:first-child img.emoji),
-    .cooked blockquote:has(> p:first-child .d-icon),
-    .cooked blockquote:has(> p:first-child img:not(.emoji)){
-      padding-left: var(--callout-pad-x) !important;
-    }
-    .cooked blockquote > p:first-child{
-      display: flex; align-items: center; gap: .5rem;
-    }
+  body.category-builder-labs {
     --callout-rail: 14px;
     --callout-icon-size: 26px;
     --callout-left-pad: calc(var(--callout-rail) + 8px);
-
-    .cooked blockquote > p:first-child img.emoji,
-    .cooked blockquote > p:first-child .d-icon,
-    .cooked blockquote > p:first-child img:not(.emoji){
-      position: static !important;
-      width: var(--callout-icon-size);
-      height: var(--callout-icon-size);
-      transform: none !important;
-    }
   }
-
-  .cooked blockquote { color: var(--callout-fg, var(--fg-strong)); }
 }
 
-/* ---------- DARK variant (rails fixed, panels distinct) ---------- */
-@include dark-in-lab {
-  --lab-surface-dark: #0c0f14;
-  --fg-strong: #edf2f8;
+/* ─────────── 7) Dark variant tweaks (kept) ─────────── */
+@media (prefers-color-scheme: dark){
+  body.category-builder-labs {
+    --lab-surface-dark: #0c0f14;
+    --fg-strong: #edf2f8;
 
-  --term-rail:    var(--tone-term);
-  --hint-rail:    var(--tone-hint);
-  --pro-rail:     var(--tone-pro);
-  --note-rail:    var(--tone-note);
-  --success-rail: var(--tone-success);
-  --time-rail:    var(--tone-time);
-
-  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark));
-  --pro-bg:      color-mix(in hsl,  var(--pro-rail) 42%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl,  var(--note-rail) 58%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl,  var(--success-rail) 64%, var(--lab-surface-dark));
-  --time-bg:     color-mix(in hsl,  var(--time-rail) 50%, var(--lab-surface-dark));
-
-  @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)    74%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    42%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)     42%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)    58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark));
-    --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in hsl,  var(--tone-term)    54%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in hsl,  var(--tone-hint)    42%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in hsl,  var(--tone-pro)     42%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in hsl,  var(--tone-note)    58%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in hsl,  var(--tone-success) 64%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in hsl,  var(--tone-time)    50%, var(--lab-surface-dark));
   }
 
-  .cooked blockquote{
+  body.category-builder-labs .cooked blockquote{
     color: var(--fg-strong);
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,.07),
       0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
   }
-
-  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
-
-
-/* =========================================
-   Fix remaining left-edge mismatches
-   ========================================= */
-
-/* 1) Header: kill centering and use the same gutter as the page */
-body.category-builder-labs .d-header .wrap,
-body.category-builder-labs .d-header .contents {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: var(--page-gutter) !important;
-  padding-right: var(--page-gutter) !important;
-}
-
-/* Some themes add extra left margin on the title/brand area */
-body.category-builder-labs .d-header .title,
-body.category-builder-labs .d-header .panel {
-  margin-left: 0 !important;
-}
-
-/* 2) TOC: remove the built-in left rule and padding that offsets the list */
-body.category-builder-labs .topic-navigation .d-toc-main {
-  border-left: none !important;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-}
-
-/* (Optional) If you still want a subtle guide line, keep it without shifting text) */
-/*
-body.category-builder-labs .topic-navigation .d-toc-main {
-  position: relative;
-}
-body.category-builder-labs .topic-navigation .d-toc-main::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 1px;
-  background: var(--primary-low);
-}
-*/
