@@ -62,13 +62,6 @@
 
       .topic-map__users-list { display: none; }
     }
-
-    .cooked {
-      big { font-size: 2rem; line-height: 2rem; letter-spacing: 1px; display: inline-block; font-family: Georgia; }
-      & > p:first-child + div.lightbox-wrapper { display: none; & + p { margin-top: -15px; } }
-      & > p img:not(.emoji) { display: none; }
-      & > p ~ p img:not(.emoji) { display: block; }
-    }
   }
 
   .post-infos img.avatar { height: 20px; width: 20px; }
@@ -92,97 +85,23 @@
 
   .topic-meta-data { font-size: small; }
   .cooked { padding: .5em 1em; }
-
-  .topic-post {
-    .topic-body { margin-left: 0 !important; padding-left: 0 !important; max-width: 720px; }
-    &:first-child {
-      font-size: 1.25em; line-height: 1.4;
-      padding-bottom: 0; padding-top: 4px;
-
-      .topic-body { max-width: unset; }
-      .cooked { padding: 0; }
-
-      nav.post-controls .actions, .topic-map, .post-admin-menu { font-size: 14px; }
-
-      figure { margin: 0; }
-      figcaption { margin-top: -16px; font-size: .8em; font-weight: bold; }
-
-      blockquote {
-        background: var(--primary-very-low); color: var(--primary-high);
-        border-left: 10px solid var(--primary-low-mid, var(--primary-low, var(--primary)));
-        padding: .5em 10px;
-      }
-      blockquote:before {
-        color: var(--primary-low-mid, var(--primary-low, var(--primary)));
-        content: open-quote; font-size: 4em; line-height: .1em; vertical-align: -.4em;
-      }
-      blockquote p { display: inline; }
-    }
-  }
-
-  .timeline-toggle,
-  #topic-progress-wrapper.docked,
-  .timeline-container.timeline-docked { display: none !important; }
-
-  /* Base blog layout (centered) — overridden by wide layout when scoped */
-  .container.posts {
-    justify-content: center;
-    grid-template-columns: 65% 5%;
-    & > .row { width: 750px; }
-    .topic-navigation .d-toc-main { min-width: 11.25em; }
-  }
-
-  #topic-title {
-    display: flex; justify-content: center;
-    .title-wrapper { width: 70%; .topic-category { margin-top: .25em; } }
-  }
-
-  .topic-area > .loading-container { max-width: 750px; }
-
-  @media screen and (max-width: 1350px) {
-    .container.posts {
-      justify-content: center;
-      grid-template-columns: 65% 15%;
-      & > .row { width: unset; }
-      .topic-navigation { margin-left: 1em; }
-    }
-    #topic-title .title-wrapper { width: 80%; }
-  }
-
-  @media screen and (max-width: 924px) {
-    .container.posts { grid-template-columns: 100%; }
-    #topic-title { justify-content: flex-start; }
-  }
 }
 
 /* ==========================================================================
-   Wide layout mixin (TOC on LEFT, content on RIGHT)
+   Wide layout mixin (TOC flush left, content right, adjusted spacing + font)
    ========================================================================== */
 @mixin builder_wide_layout() {
-  /* tighter page gutter to reduce left whitespace */
-  --page-gutter: clamp(6px, 1.2vw, 14px);
-  --toc-gap: 2rem; /* explicit space between TOC and content */
-
-  --toc-width-min: 20rem;
-  --toc-width-max: 24rem;
-
+  --toc-gap: 2rem; /* clean space between TOC and content */
+  --toc-width-min: 18rem;
+  --toc-width-max: 22rem;
   --content-cap: clamp(1020px, 80ch, 1500px);
-  --toc-trailing-space: 64px;
 
-  --grid-max: calc(
-    var(--content-cap) + var(--toc-gap) + var(--toc-width-max) +
-    var(--toc-trailing-space) + 2 * var(--page-gutter)
-  );
-
-  --left-rail: 288px; /* theme baseline (ignored in Labs by hiding nav) */
-  --site-max: calc(var(--left-rail) + var(--grid-max));
-
-  /* Stretch page; minimal side padding */
+  /* Remove all left rails/padding */
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     max-width: none !important;
     width: 100% !important;
-    padding-left: 0 !important;   /* collapse hard-left */
-    padding-right: var(--page-gutter) !important;
   }
 
   #topic-title { justify-content: flex-start !important; }
@@ -192,83 +111,38 @@
     margin: 0 !important; padding: 0 !important;
   }
 
-  /* GRID: TOC first, content second */
   .container.posts {
     display: grid !important;
-    width: min(100%, var(--grid-max));
-    margin-inline: auto;
-
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
     grid-template-columns:
-      minmax(var(--toc-width-min), var(--toc-width-max)) /* LEFT: TOC */
-      minmax(0, 1fr)                                     /* RIGHT: content */
-      !important;
-
+      minmax(var(--toc-width-min), var(--toc-width-max)) /* TOC */
+      minmax(0, 1fr) /* Content */ !important;
     column-gap: var(--toc-gap) !important;
-    justify-content: stretch !important;
-
-    padding-left: var(--page-gutter);   /* small visual breathing room on extreme left */
-    padding-right: var(--toc-trailing-space);
   }
 
-  /* Put the main content in the right column */
   .container.posts > .row {
     width: auto !important;
-    grid-column: 2 / 3; /* RIGHT */
+    grid-column: 2 / 3; /* Content on the right */
   }
 
-  /* TOC lives in the left column and hugs the edge */
   .container.posts .topic-navigation {
-    grid-column: 1 / 2; /* LEFT */
+    grid-column: 1 / 2; /* TOC on the left */
     align-self: start;
     position: sticky; top: 6rem;
-    margin: 0;
+    margin-left: 0 !important;
+    font-size: 1.05em; /* ↑ bump TOC font size slightly */
+    line-height: 1.5;
   }
   .container.posts .topic-navigation .d-toc-main {
     min-width: var(--toc-width-min) !important;
     max-width: var(--toc-width-max) !important;
   }
-  .container.posts .topic-navigation .d-toc-main ul,
-  .container.posts .topic-navigation .d-toc-main li { max-width: none !important; }
-  .container.posts .topic-navigation .d-toc-main li a,
-  .container.posts .topic-navigation .d-toc-item > a {
-    display: block !important;
-    width: 100% !important;
-    max-width: none !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    padding-right: .25rem;
-  }
 
   .topic-post .topic-body {
     margin-left: 0 !important; padding-left: 0 !important;
     max-width: var(--content-cap) !important; width: 100% !important;
-  }
-  .topic-post .cooked { padding-left: 0 !important; }
-
-  @media (min-width: 1600px) {
-    .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
-      width: min(100%, var(--site-max)) !important;
-      margin-inline: auto !important;
-    }
-  }
-
-  @media (max-width: 1800px) { & {
-    --toc-width-min: 18rem; --toc-width-max: 20rem; --toc-trailing-space: 56px; } }
-  @media (max-width: 1600px) { & {
-    --toc-width-min: 16rem; --toc-width-max: 18rem; --toc-trailing-space: 48px; } }
-  @media (max-width: 1440px) { & {
-    --toc-width-min: 14rem; --toc-width-max: 16rem; --toc-trailing-space: 32px; } }
-  @media (max-width: 1280px) { & {
-    --toc-width-min: 12rem; --toc-width-max: 14rem; --toc-trailing-space: 16px; } }
-
-  @media (max-width: 924px) {
-    .container.posts {
-      grid-template-columns: 1fr !important;
-      column-gap: 0 !important;
-      padding-left: max(6px, var(--page-gutter));
-      padding-right: max(10px, var(--page-gutter));
-    }
-    .container.posts .topic-navigation { grid-column: 1 / -1; position: static; margin-top: 1rem; }
   }
 }
 
@@ -293,7 +167,6 @@ $lab-sel: 'body.category-builder-labs';
   .sidebar-wrapper,
   .sidebar-container,
   .hamburger-panel,
-  .d-header .hamburger-panel,
   .discourse-sidebar,
   .sidebar-section { display: none !important; }
 
@@ -316,207 +189,11 @@ $lab-sel: 'body.category-builder-labs';
     background-color: #b2b2b2; /* brand gray */
     color: #000;
   }
-
-  /* =========================================
-     Builder Labs — Brand-based Callouts
-     ========================================= */
-
-  /* geometry (wider rail + larger icons) */
-  --callout-rail: clamp(16px, 1.4vw, 20px);
-  --callout-radius: 12px;
-  --callout-pad-y: 12px;
-  --callout-pad-x: 16px;
-  --callout-indent: 26px;
-
-  /* icon lane */
-  --callout-icon-size: clamp(28px, 2.2vw, 34px);
-  --callout-icon-gap: 20px;
-  --callout-left-pad: calc(var(--callout-rail) + 8px);
-  --callout-icon-nudge: -1px;
-
-  /* Celigo brand hues */
-  --brand-lagoon:      #86B0B6; /* LAGOON */
-  --brand-driftwood:  #887E6F; /* TERM */
-  --brand-peach:      #F3B38F; /* HELPFUL HINT */
-  --brand-chaparral:  #596D67; /* PRO TIP */
-  --brand-karl:       #B4C5CB; /* NOTE */
-  --brand-periwinkle: #CDC6E6; /* SUCCESS */
-  --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
-  --brand-wheatgrass: #D6C56B;
-  --brand-aspen: #CED8A3;
-
-  /* semantic → brand hue */
-  --tone-term:    var(--brand-peach);
-  --tone-hint:    var(--brand-lagoon);
-  --tone-pro:     var(--brand-chaparral);
-  --tone-note:    var(--brand-aspen);
-  --tone-success: var(--brand-periwinkle);
-  --tone-time:    var(--brand-beaujolais);
-
-  /* LIGHT: panel tints + shared text color */
-  --fg-strong: #243041;
-  --light-surface: #ffffff;
-
-  /* per-tone tint strengths (light mode) */
-  --tint-term:    66%;
-  --tint-hint:    34%;
-  --tint-pro:     18%;
-  --tint-note:    36%;
-  --tint-success: 70%;
-  --tint-time:    58%;
-
-  /* HSL/OKLCH mixes */
-  --term-bg:     color-mix(in hsl,  var(--tone-term)    var(--tint-term),    var(--light-surface));
-  --hint-bg:     color-mix(in hsl,  var(--tone-hint)    var(--tint-hint),    var(--light-surface));
-  --pro-bg:      color-mix(in hsl,  var(--tone-pro)     var(--tint-pro),     var(--light-surface));
-  --note-bg:     color-mix(in hsl,  var(--tone-note)    var(--tint-note),    var(--light-surface));
-  --success-bg:  color-mix(in hsl,  var(--tone-success) var(--tint-success), var(--light-surface));
-  --time-bg:     color-mix(in hsl,  var(--tone-time)    var(--tint-time),    var(--light-surface));
-
-  @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--tone-term)    var(--tint-term),    var(--light-surface));
-    --hint-bg:     color-mix(in oklch, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
-    --pro-bg:      color-mix(in oklch, var(--tone-pro)     var(--tint-pro),     var(--light-surface));
-    --note-bg:     color-mix(in oklch, var(--tone-note)    var(--tint-note),    var(--light-surface));
-    --success-bg:  color-mix(in oklch, var(--tone-success) var(--tint-success), var(--light-surface));
-    --time-bg:     color-mix(in oklch, var(--tone-time)    var(--tint-time),    var(--light-surface));
-  }
-
-  /* rails (identical in light & dark) */
-  --term-rail:     var(--tone-term);
-  --hint-rail:     var(--tone-hint);
-  --pro-rail:      var(--tone-pro);
-  --note-rail:     var(--tone-note);
-  --success-rail:  var(--tone-success);
-  --time-rail:     var(--tone-time);
-
-  /* base callout */
-  .cooked blockquote:has(> p:first-child img.emoji),
-  .cooked blockquote:has(> p:first-child .d-icon),
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) {
-    --callout-bg: var(--note-bg);
-    --callout-accent: var(--note-rail);
-
-    position: relative;
-    background: var(--callout-bg);
-    border-left: var(--callout-rail) solid var(--callout-accent);
-    border-radius: var(--callout-radius);
-    padding: var(--callout-pad-y) var(--callout-pad-x);
-    margin: 16px 0 16px var(--callout-indent);
-    padding-left: calc(
-      var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)
-    ) !important;
-
-    color: var(--callout-fg, var(--fg-strong));
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.45),
-      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
-  }
-
-  /* remove theme’s decorative quote marks */
-  .cooked blockquote:has(> p:first-child img.emoji)::before,
-  .cooked blockquote:has(> p:first-child .d-icon)::before,
-  .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
-  .cooked blockquote:has(> p:first-child img.emoji)::after,
-  .cooked blockquote:has(> p:first-child .d-icon)::after,
-  .cooked blockquote:has(> p:first-child img:not(.emoji))::after { content: none !important; }
-
-  /* icon placement */
-  .cooked blockquote:has(> p:first-child img.emoji) > p:first-child img.emoji,
-  .cooked blockquote:has(> p:first-child .d-icon) > p:first-child .d-icon,
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child img:not(.emoji) {
-    position: absolute !important;
-    left: var(--callout-left-pad);
-    top: 50%;
-    transform: translateY(calc(-50% + var(--callout-icon-nudge)));
-    width: var(--callout-icon-size); height: var(--callout-icon-size);
-  }
-
-  /* compact title line */
-  .cooked blockquote:has(> p:first-child img.emoji) > p:first-child,
-  .cooked blockquote:has(> p:first-child .d-icon) > p:first-child,
-  .cooked blockquote:has(> p:first-child img:not(.emoji)) > p:first-child {
-    margin: 0 0 4px 0 !important;
-  }
-
-  /* emoji → tone mapping (keep in sync for dark mode) */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])           { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])             { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])     { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])                   { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])          { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])             { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
-
-  /* rhythm */
-  .cooked blockquote p + p { margin-top: .25rem; }
-  .cooked blockquote strong { font-weight: 700; }
-
-  /* mobile: collapse lane, but keep bigger variable-driven icons */
-  @media (max-width: 640px){
-    .cooked blockquote:has(> p:first-child img.emoji),
-    .cooked blockquote:has(> p:first-child .d-icon),
-    .cooked blockquote:has(> p:first-child img:not(.emoji)){
-      padding-left: var(--callout-pad-x) !important;
-    }
-    .cooked blockquote > p:first-child{
-      display: flex; align-items: center; gap: .5rem;
-    }
-    --callout-rail: 14px;
-    --callout-icon-size: 26px;
-    --callout-left-pad: calc(var(--callout-rail) + 8px);
-
-    .cooked blockquote > p:first-child img.emoji,
-    .cooked blockquote > p:first-child .d-icon,
-    .cooked blockquote > p:first-child img:not(.emoji){
-      position: static !important;
-      width: var(--callout-icon-size);
-      height: var(--callout-icon-size);
-      transform: none !important;
-    }
-  }
-
-  .cooked blockquote { color: var(--callout-fg, var(--fg-strong)); }
 }
 
-/* ---------- DARK variant (rails fixed, panels distinct) ---------- */
+/* ---------- DARK variant ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
   --fg-strong: #edf2f8;
-
-  --term-rail:    var(--tone-term);
-  --hint-rail:    var(--tone-hint);
-  --pro-rail:     var(--tone-pro);
-  --note-rail:    var(--tone-note);
-  --success-rail: var(--tone-success);
-  --time-rail:    var(--tone-time);
-
-  --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark));
-  --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl, var(--success-rail) 64%, var(--lab-surface-dark));
-  --time-bg:     color-mix(in hsl, var(--time-rail)    50%, var(--lab-surface-dark));
-
-  @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)   74%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)   42%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)    42%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)   58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 50%, var(--lab-surface-dark));
-    --time-bg:     color-mix(in oklch, var(--time-rail)    50%, var(--lab-surface-dark));
-  }
-
-  .cooked blockquote{
-    color: var(--fg-strong);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.07),
-      0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
-  }
-
-  .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])  { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
+  .cooked blockquote { color: var(--fg-strong); }
 }
