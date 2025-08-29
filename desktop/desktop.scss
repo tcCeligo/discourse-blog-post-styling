@@ -111,7 +111,6 @@
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
 
-  /* Base blog layout (centered) — overridden by the wide layout when scoped) */
   .container.posts {
     justify-content: center;
     grid-template-columns: 65% 5%;
@@ -153,7 +152,6 @@
   --toc-width-max: 24rem;
 
   --content-cap: clamp(1020px, 80ch, 1500px);
-
   --toc-trailing-space: 100px;
 
   --grid-max: calc(
@@ -161,7 +159,7 @@
     var(--toc-trailing-space) + 2 * var(--page-gutter)
   );
 
-  --left-rail: 288px; /* adjust to match your theme */
+  --left-rail: 288px;
   --site-max: calc(var(--left-rail) + var(--grid-max));
 
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -265,7 +263,6 @@ $lab-sel: 'body.category-builder-labs';
    Apply (only when slug === builder-labs)
    ========================================================================== */
 @include in-lab {
-  /* Extend placeholders only inside builder-labs */
   @extend %blog-category;
   &.archetype-regular { @extend %builder-wide-layout; }
 
@@ -282,7 +279,7 @@ $lab-sel: 'body.category-builder-labs';
     margin-top: 2em;
     margin-bottom: 1em;
     padding-block: .25em;
-    background-color: #b2b2b2; /* requested */
+    background-color: #b2b2b2; /* brand gray */
     color: #000;
   }
 
@@ -306,27 +303,27 @@ $lab-sel: 'body.category-builder-labs';
   --brand-golden:     #F4BE60; /* HEADS UP */
   --brand-chaparral:  #596D67; /* PRO TIP */
   --brand-lagoon:     #86B0B6; /* NOTE */
-  --brand-wheatgrass: #D6C56B; /* SUCCESS */
+  --brand-periwinkle: #CDC6E6; /* SUCCESS (new) */
   --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
 
-  /* semantic → brand hue */
+  /* semantic → brand hue (SUCCESS now Periwinkle) */
   --tone-term:    var(--brand-driftwood);
   --tone-hint:    var(--brand-golden);
   --tone-pro:     var(--brand-chaparral);
   --tone-note:    var(--brand-lagoon);
-  --tone-success: var(--brand-wheatgrass);
+  --tone-success: var(--brand-periwinkle); /* changed */
   --tone-time:    var(--brand-beaujolais);
 
-  /* LIGHT: stronger separation between panels; rails fixed to brand */
+  /* LIGHT: separation between panels; rails fixed to brand */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
   /* per-tone tint strengths (↑ = more colorful panel) */
-  --tint-term:    36%; /* darker/neutral */
-  --tint-hint:    62%; /* brighter peach */
-  --tint-pro:     30%; /* darker/greener than NOTE */
-  --tint-note:    60%; /* lighter/bluer */
-  --tint-success: 56%;
+  --tint-term:    36%;
+  --tint-hint:    62%;
+  --tint-pro:     30%;
+  --tint-note:    60%;
+  --tint-success: 70%; /* brighter, cheery Periwinkle */
   --tint-time:    64%;
 
   /* HSL fallback */
@@ -352,7 +349,7 @@ $lab-sel: 'body.category-builder-labs';
   --hint-rail:     var(--tone-hint);
   --pro-rail:      var(--tone-pro);
   --note-rail:     var(--tone-note);
-  --success-rail:  var(--tone-success);
+  --success-rail:  var(--tone-success); /* Periwinkle rail */
   --time-rail:     var(--tone-time);
 
   /* base callout (applied when a callout emoji is present) */
@@ -434,13 +431,12 @@ $lab-sel: 'body.category-builder-labs';
     }
   }
 
-  /* ensure text color if a tone is strong */
   .cooked blockquote{ color: var(--callout-fg, inherit); }
 }
 
 /* ---------- DARK variant (rails fixed, panels more distinct) ---------- */
 @include dark-in-lab {
-  --lab-surface-dark: #0c0f14; /* deep neutral to blend toward */
+  --lab-surface-dark: #0c0f14;
   --fg-strong: #e8eef6;
 
   /* Rails stay identical to light (brand anchors) */
@@ -448,7 +444,7 @@ $lab-sel: 'body.category-builder-labs';
   --hint-rail:    var(--tone-hint);
   --pro-rail:     var(--tone-pro);
   --note-rail:    var(--tone-note);
-  --success-rail: var(--tone-success);
+  --success-rail: var(--tone-success); /* Periwinkle rail */
   --time-rail:    var(--tone-time);
 
   /* Per-tone panel mixes for clear differentiation */
@@ -456,7 +452,7 @@ $lab-sel: 'body.category-builder-labs';
   --hint-bg:     color-mix(in hsl, var(--hint-rail)    32%, var(--lab-surface-dark));
   --pro-bg:      color-mix(in hsl, var(--pro-rail)     30%, var(--lab-surface-dark));
   --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl, var(--success-rail) 34%, var(--lab-surface-dark));
+  --success-bg:  color-mix(in hsl, var(--success-rail) 45%, var(--lab-surface-dark)); /* a bit brighter */
   --time-bg:     color-mix(in hsl, var(--time-rail)    42%, var(--lab-surface-dark));
 
   @supports (color: oklch(50% 0.1 200)) {
@@ -464,7 +460,7 @@ $lab-sel: 'body.category-builder-labs';
     --hint-bg:     color-mix(in oklch, var(--hint-rail)    32%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in oklch, var(--pro-rail)     30%, var(--lab-surface-dark));
     --note-bg:     color-mix(in oklch, var(--note-rail)    40%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 34%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 45%, var(--lab-surface-dark));
     --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
   }
 
