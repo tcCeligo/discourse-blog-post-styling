@@ -288,16 +288,18 @@ $lab-sel: 'body.category-builder-labs';
      Builder Labs — Brand-based Callouts
      ========================================= */
 
-  /* geometry */
-  --callout-rail: 12px;
+  /* geometry (wider rail + larger icons) */
+  --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
   --callout-pad-x: 16px;
   --callout-indent: 26px;
-  --callout-left-pad: 18px;
-  --callout-icon-size: 26px;
-  --callout-icon-gap: 12px;
-  --callout-icon-nudge: -2px;
+
+  /* icon lane */
+  --callout-icon-size: clamp(28px, 2.2vw, 34px);
+  --callout-icon-gap: 14px;
+  --callout-left-pad: calc(var(--callout-rail) + 8px);
+  --callout-icon-nudge: -1px;
 
   /* Celigo brand hues */
   --brand-driftwood:  #887E6F; /* TERM */
@@ -309,33 +311,32 @@ $lab-sel: 'body.category-builder-labs';
 
   /* semantic → brand hue */
   --tone-term:    var(--brand-driftwood);
-  --tone-hint:    var(--brand-peach);       /* changed to Peach */
+  --tone-hint:    var(--brand-peach);
   --tone-pro:     var(--brand-chaparral);
-  --tone-note:    var(--brand-karl);        /* changed to Karl */
-  --tone-success: var(--brand-periwinkle);  /* keep Periwinkle */
+  --tone-note:    var(--brand-karl);
+  --tone-success: var(--brand-periwinkle);
   --tone-time:    var(--brand-beaujolais);
 
   /* LIGHT: panel tints + shared text color */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
-  /* per-tone tint strengths */
-  --tint-term:    36%;
-  --tint-hint:    66%;  /* Peach brighter */
-  --tint-pro:     30%;
-  --tint-note:    54%;  /* Karl moderate */
-  --tint-success: 70%;  /* cheerful Periwinkle */
-  --tint-time:    64%;
+  /* per-tone tint strengths (light mode) */
+  --tint-term:    26%;
+  --tint-hint:    66%;
+  --tint-pro:     18%;
+  --tint-note:    78%;
+  --tint-success: 70%;
+  --tint-time:    58%;
 
-  /* HSL fallback */
-  --term-bg:     color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface));
-  --hint-bg:     color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
-  --pro-bg:      color-mix(in hsl, var(--tone-pro)     var(--tint-pro),     var(--light-surface));
-  --note-bg:     color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface));
-  --success-bg:  color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface));
-  --time-bg:     color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface));
+  /* HSL/OKLCH mixes */
+  --term-bg:     color-mix(in hsl,  var(--tone-term)    var(--tint-term),    var(--light-surface));
+  --hint-bg:     color-mix(in hsl,  var(--tone-hint)    var(--tint-hint),    var(--light-surface));
+  --pro-bg:      color-mix(in hsl,  var(--tone-pro)     var(--tint-pro),     var(--light-surface));
+  --note-bg:     color-mix(in hsl,  var(--tone-note)    var(--tint-note),    var(--light-surface));
+  --success-bg:  color-mix(in hsl,  var(--tone-success) var(--tint-success), var(--light-surface));
+  --time-bg:     color-mix(in hsl,  var(--tone-time)    var(--tint-time),    var(--light-surface));
 
-  /* OKLCH override for better separation */
   @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--tone-term)    var(--tint-term),    var(--light-surface));
     --hint-bg:     color-mix(in oklch, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
@@ -350,10 +351,10 @@ $lab-sel: 'body.category-builder-labs';
   --hint-rail:     var(--tone-hint);
   --pro-rail:      var(--tone-pro);
   --note-rail:     var(--tone-note);
-  --success-rail:  var(--tone-success); /* Periwinkle rail */
+  --success-rail:  var(--tone-success);
   --time-rail:     var(--tone-time);
 
-  /* base callout (applies when first <p> starts with emoji/icon) */
+  /* base callout */
   .cooked blockquote:has(> p:first-child img.emoji),
   .cooked blockquote:has(> p:first-child .d-icon),
   .cooked blockquote:has(> p:first-child img:not(.emoji)) {
@@ -372,8 +373,8 @@ $lab-sel: 'body.category-builder-labs';
 
     color: var(--callout-fg, var(--fg-strong));
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.6),
-      0 0 0 1px color-mix(in hsl, var(--callout-accent) .18, transparent);
+      inset 0 1px 0 rgba(255,255,255,.45),
+      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
   }
 
   /* remove theme’s decorative quote marks */
@@ -402,19 +403,19 @@ $lab-sel: 'body.category-builder-labs';
     margin: 0 0 4px 0 !important;
   }
 
-  /* emoji → tone mapping */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg); --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"]){ --callout-bg: var(--note-bg); --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]){ --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])    { --callout-bg: var(--time-bg);   --callout-accent: var(--time-rail); }
+  /* emoji → tone mapping (keep in sync for dark mode) */
+  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"])           { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])             { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])     { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])                   { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])          { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])             { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 
   /* rhythm */
   .cooked blockquote p + p { margin-top: .25rem; }
   .cooked blockquote strong { font-weight: 700; }
 
-  /* mobile */
+  /* mobile: collapse lane, but keep bigger variable-driven icons */
   @media (max-width: 640px){
     .cooked blockquote:has(> p:first-child img.emoji),
     .cooked blockquote:has(> p:first-child .d-icon),
@@ -424,15 +425,22 @@ $lab-sel: 'body.category-builder-labs';
     .cooked blockquote > p:first-child{
       display: flex; align-items: center; gap: .5rem;
     }
+    /* scale icons via variables, not fixed px */
+    --callout-rail: 14px;
+    --callout-icon-size: 26px;
+    --callout-left-pad: calc(var(--callout-rail) + 8px);
+
     .cooked blockquote > p:first-child img.emoji,
     .cooked blockquote > p:first-child .d-icon,
     .cooked blockquote > p:first-child img:not(.emoji){
       position: static !important;
-      width: 22px; height: 22px; transform: none !important;
+      width: var(--callout-icon-size);
+      height: var(--callout-icon-size);
+      transform: none !important;
     }
   }
 
-  .cooked blockquote{ color: var(--callout-fg, inherit); }
+  .cooked blockquote { color: var(--callout-fg, var(--fg-strong)); }
 }
 
 /* ---------- DARK variant (rails fixed, panels distinct) ---------- */
@@ -448,20 +456,20 @@ $lab-sel: 'body.category-builder-labs';
   --success-rail: var(--tone-success);
   --time-rail:    var(--tone-time);
 
-  /* Per-tone panel mixes for clear differentiation */
-  --term-bg:     color-mix(in hsl, var(--term-rail)    36%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl, var(--hint-rail)    34%, var(--lab-surface-dark)); /* Peach pop */
-  --pro-bg:      color-mix(in hsl, var(--pro-rail)     30%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark)); /* Karl cooler */
-  --success-bg:  color-mix(in hsl, var(--success-rail) 45%, var(--lab-surface-dark)); /* Periwinkle */
-  --time-bg:     color-mix(in hsl, var(--time-rail)    42%, var(--lab-surface-dark));
+  /* Per-tone panel mixes (darker for separation) */
+  --term-bg:     color-mix(in hsl,   var(--term-rail)    38%, var(--lab-surface-dark));
+  --hint-bg:     color-mix(in hsl,   var(--hint-rail)    34%, var(--lab-surface-dark));
+  --pro-bg:      color-mix(in hsl,   var(--pro-rail)     28%, var(--lab-surface-dark));
+  --note-bg:     color-mix(in hsl,   var(--note-rail)    44%, var(--lab-surface-dark));
+  --success-bg:  color-mix(in hsl,   var(--success-rail) 48%, var(--lab-surface-dark));
+  --time-bg:     color-mix(in hsl,   var(--time-rail)    42%, var(--lab-surface-dark));
 
   @supports (color: oklch(50% 0.1 200)) {
-    --term-bg:     color-mix(in oklch, var(--term-rail)    36%, var(--lab-surface-dark));
+    --term-bg:     color-mix(in oklch, var(--term-rail)    38%, var(--lab-surface-dark));
     --hint-bg:     color-mix(in oklch, var(--hint-rail)    34%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in oklch, var(--pro-rail)     30%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in oklch, var(--note-rail)    40%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in oklch, var(--success-rail) 45%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in oklch, var(--pro-rail)     28%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in oklch, var(--note-rail)    44%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in oklch, var(--success-rail) 48%, var(--lab-surface-dark));
     --time-bg:     color-mix(in oklch, var(--time-rail)    42%, var(--lab-surface-dark));
   }
 
@@ -472,81 +480,11 @@ $lab-sel: 'body.category-builder-labs';
       0 0 0 1px rgba(0,0,0,.25);
   }
 
-  /* ensure mappings pick up the dark variables */
-  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"]) { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":star:"])        { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg); --callout-accent: var(--pro-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":information_source:"]){ --callout-bg: var(--note-bg); --callout-accent: var(--note-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"]){ --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
-  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])    { --callout-bg: var(--time-bg);   --callout-accent: var(--time-rail); }
-}
-
-
-/* --- callout tuning pack (builder-labs) --- */
-body.category-builder-labs {
-  /* more separation */
-  --tint-pro: 18%;      /* was 22% → darker, reads as “serious tip” */
-  --tint-note: 78%;     /* was 66% → lighter, airy “note” */
-  --tint-term: 26%;     /* was 28% → hair darker to step off NOTE */
-
-  /* tiny visual polish */
-  --callout-rail: 15px; /* +1px for a bit more presence */
-  --callout-icon-nudge: -1px;
-
-  /* soften the glossy top highlight a touch */
-  .cooked blockquote {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.45),
-      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
-  }
-}
-
-/* Dark mode: keep rails fixed, nudge panel mixes for clearer spacing */
-@media (prefers-color-scheme: dark) {
-  body.category-builder-labs {
-    --note-bg:    color-mix(in hsl, var(--note-rail) 44%, var(--lab-surface-dark));   /* +4% */
-    --pro-bg:     color-mix(in hsl, var(--pro-rail) 28%, var(--lab-surface-dark));    /* -2% */
-    --term-bg:    color-mix(in hsl, var(--term-rail) 38%, var(--lab-surface-dark));   /* +2% */
-  }
-  @supports (color: oklch(50% 0.1 200)) {
-    body.category-builder-labs {
-      --note-bg:  color-mix(in oklch, var(--note-rail) 44%, var(--lab-surface-dark));
-      --pro-bg:   color-mix(in oklch, var(--pro-rail) 28%, var(--lab-surface-dark));
-      --term-bg:  color-mix(in oklch, var(--term-rail) 38%, var(--lab-surface-dark));
-    }
-  }
-}
-/* --- callout tuning pack (builder-labs only) --- */
-body.category-builder-labs {
-  /* widen spacing between similar panels */
-  --tint-term:    24%;   /* slightly deeper TERM */
-  --tint-pro:     16%;   /* PRO TIP a touch darker = more serious */
-  --tint-note:    80%;   /* NOTE a touch lighter = airier */
-  --tint-time:    58%;   /* Time a hair lighter to move off Success */
-
-  /* subtle edge definition */
-  --callout-rail: 14px;  /* +2px looks great at this size */
-  .cooked blockquote {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.42),
-      0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
-  }
-}
-
-/* Dark mode spacing to keep the same “distance” between tones */
-@media (prefers-color-scheme: dark) {
-  body.category-builder-labs {
-    --term-bg:    color-mix(in hsl, var(--term-rail) 38%, var(--lab-surface-dark));
-    --pro-bg:     color-mix(in hsl, var(--pro-rail) 28%, var(--lab-surface-dark));
-    --note-bg:    color-mix(in hsl, var(--note-rail) 44%, var(--lab-surface-dark));
-    --success-bg: color-mix(in hsl, var(--success-rail) 48%, var(--lab-surface-dark));
-  }
-  @supports (color: oklch(50% 0.1 200)) {
-    body.category-builder-labs {
-      --term-bg:    color-mix(in oklch, var(--term-rail) 38%, var(--lab-surface-dark));
-      --pro-bg:     color-mix(in oklch, var(--pro-rail) 28%, var(--lab-surface-dark));
-      --note-bg:    color-mix(in oklch, var(--note-rail) 44%, var(--lab-surface-dark));
-      --success-bg: color-mix(in oklch, var(--success-rail) 48%, var(--lab-surface-dark));
-    }
-  }
+  /* mapping (same emoji keys as light mode) */
+  .cooked blockquote:has(> p:first-child img.emoji[title=":closed_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])               { --callout-bg: var(--note-bg);    --callout-accent: var(--note-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
+  .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
