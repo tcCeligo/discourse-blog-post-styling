@@ -322,10 +322,10 @@ $lab-sel: 'body.category-builder-labs';
   --light-surface: #ffffff;
 
   /* per-tone tint strengths (light mode) */
-  --tint-term:    26%;
+  --tint-term:    34%;  
   --tint-hint:    66%;
   --tint-pro:     18%;
-  --tint-note:    78%;
+  --tint-note:    82%;  
   --tint-success: 70%;
   --tint-time:    58%;
 
@@ -457,7 +457,7 @@ $lab-sel: 'body.category-builder-labs';
   --time-rail:    var(--tone-time);
 
   /* panels: lift mixes to separate tones more clearly */
-  --term-bg:     color-mix(in hsl, var(--term-rail)    40%, var(--lab-surface-dark));  /* +4% */
+  --term-bg:     color-mix(in hsl, var(--term-rail)    42%, var(--lab-surface-dark)); /* was 40% */
   --hint-bg:     color-mix(in hsl, var(--hint-rail)    54%, var(--lab-surface-dark));   /* was 46% */
   --pro-bg:      color-mix(in hsl, var(--pro-rail)     42%, var(--lab-surface-dark));    /* was 38% */
   --note-bg:     color-mix(in hsl, var(--note-rail)    58%, var(--lab-surface-dark));   /* was 50% */
