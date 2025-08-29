@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Structure placeholders (only take effect when extended inside builder-labs)
+   Base placeholders (only take effect when extended inside builder-labs)
    ========================================================================== */
 %blog-tag,
 %blog-category {
@@ -17,7 +17,7 @@
     }
   }
 
-  /* Hide the byline under the title for the first post */
+  /* Hide byline under the title for the first post */
   #post_1 .topic-avatar,
   #post_1 .topic-body .topic-meta-data,
   #post_1 .post-info.edits { display: none !important; }
@@ -111,6 +111,7 @@
   #topic-progress-wrapper.docked,
   .timeline-container.timeline-docked { display: none !important; }
 
+  /* Base blog layout (centered) — overridden by wide layout when scoped */
   .container.posts {
     justify-content: center;
     grid-template-columns: 65% 5%;
@@ -159,7 +160,7 @@
     var(--toc-trailing-space) + 2 * var(--page-gutter)
   );
 
-  --left-rail: 288px;
+  --left-rail: 288px; /* match theme */
   --site-max: calc(var(--left-rail) + var(--grid-max));
 
   .wrap, .d-wrap, #main-outlet-wrap, #main-outlet {
@@ -300,30 +301,30 @@ $lab-sel: 'body.category-builder-labs';
 
   /* Celigo brand hues */
   --brand-driftwood:  #887E6F; /* TERM */
-  --brand-golden:     #F4BE60; /* HEADS UP */
+  --brand-peach:      #F3B38F; /* HELPFUL HINT */
   --brand-chaparral:  #596D67; /* PRO TIP */
-  --brand-lagoon:     #86B0B6; /* NOTE */
-  --brand-periwinkle: #CDC6E6; /* SUCCESS (new) */
+  --brand-karl:       #B4C5CB; /* NOTE */
+  --brand-periwinkle: #CDC6E6; /* SUCCESS */
   --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
 
-  /* semantic → brand hue (SUCCESS now Periwinkle) */
+  /* semantic → brand hue */
   --tone-term:    var(--brand-driftwood);
-  --tone-hint:    var(--brand-golden);
+  --tone-hint:    var(--brand-peach);       /* changed to Peach */
   --tone-pro:     var(--brand-chaparral);
-  --tone-note:    var(--brand-lagoon);
-  --tone-success: var(--brand-periwinkle); /* changed */
+  --tone-note:    var(--brand-karl);        /* changed to Karl */
+  --tone-success: var(--brand-periwinkle);  /* keep Periwinkle */
   --tone-time:    var(--brand-beaujolais);
 
-  /* LIGHT: separation between panels; rails fixed to brand */
+  /* LIGHT: panel tints + shared text color */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
-  /* per-tone tint strengths (↑ = more colorful panel) */
+  /* per-tone tint strengths */
   --tint-term:    36%;
-  --tint-hint:    62%;
+  --tint-hint:    66%;  /* Peach brighter */
   --tint-pro:     30%;
-  --tint-note:    60%;
-  --tint-success: 70%; /* brighter, cheery Periwinkle */
+  --tint-note:    54%;  /* Karl moderate */
+  --tint-success: 70%;  /* cheerful Periwinkle */
   --tint-time:    64%;
 
   /* HSL fallback */
@@ -334,7 +335,7 @@ $lab-sel: 'body.category-builder-labs';
   --success-bg:  color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface));
   --time-bg:     color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface));
 
-  /* OKLCH override for better perceptual separation */
+  /* OKLCH override for better separation */
   @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--tone-term)    var(--tint-term),    var(--light-surface));
     --hint-bg:     color-mix(in oklch, var(--tone-hint)    var(--tint-hint),    var(--light-surface));
@@ -352,7 +353,7 @@ $lab-sel: 'body.category-builder-labs';
   --success-rail:  var(--tone-success); /* Periwinkle rail */
   --time-rail:     var(--tone-time);
 
-  /* base callout (applied when a callout emoji is present) */
+  /* base callout (applies when first <p> starts with emoji/icon) */
   .cooked blockquote:has(> p:first-child img.emoji),
   .cooked blockquote:has(> p:first-child .d-icon),
   .cooked blockquote:has(> p:first-child img:not(.emoji)) {
@@ -375,7 +376,7 @@ $lab-sel: 'body.category-builder-labs';
       0 0 0 1px color-mix(in hsl, var(--callout-accent) .18, transparent);
   }
 
-  /* remove decorative quote marks from the theme */
+  /* remove theme’s decorative quote marks */
   .cooked blockquote:has(> p:first-child img.emoji)::before,
   .cooked blockquote:has(> p:first-child .d-icon)::before,
   .cooked blockquote:has(> p:first-child img:not(.emoji))::before,
@@ -434,7 +435,7 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote{ color: var(--callout-fg, inherit); }
 }
 
-/* ---------- DARK variant (rails fixed, panels more distinct) ---------- */
+/* ---------- DARK variant (rails fixed, panels distinct) ---------- */
 @include dark-in-lab {
   --lab-surface-dark: #0c0f14;
   --fg-strong: #e8eef6;
@@ -444,20 +445,20 @@ $lab-sel: 'body.category-builder-labs';
   --hint-rail:    var(--tone-hint);
   --pro-rail:     var(--tone-pro);
   --note-rail:    var(--tone-note);
-  --success-rail: var(--tone-success); /* Periwinkle rail */
+  --success-rail: var(--tone-success);
   --time-rail:    var(--tone-time);
 
   /* Per-tone panel mixes for clear differentiation */
   --term-bg:     color-mix(in hsl, var(--term-rail)    36%, var(--lab-surface-dark));
-  --hint-bg:     color-mix(in hsl, var(--hint-rail)    32%, var(--lab-surface-dark));
+  --hint-bg:     color-mix(in hsl, var(--hint-rail)    34%, var(--lab-surface-dark)); /* Peach pop */
   --pro-bg:      color-mix(in hsl, var(--pro-rail)     30%, var(--lab-surface-dark));
-  --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark));
-  --success-bg:  color-mix(in hsl, var(--success-rail) 45%, var(--lab-surface-dark)); /* a bit brighter */
+  --note-bg:     color-mix(in hsl, var(--note-rail)    40%, var(--lab-surface-dark)); /* Karl cooler */
+  --success-bg:  color-mix(in hsl, var(--success-rail) 45%, var(--lab-surface-dark)); /* Periwinkle */
   --time-bg:     color-mix(in hsl, var(--time-rail)    42%, var(--lab-surface-dark));
 
   @supports (color: oklch(50% 0.1 200)) {
     --term-bg:     color-mix(in oklch, var(--term-rail)    36%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in oklch, var(--hint-rail)    32%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in oklch, var(--hint-rail)    34%, var(--lab-surface-dark));
     --pro-bg:      color-mix(in oklch, var(--pro-rail)     30%, var(--lab-surface-dark));
     --note-bg:     color-mix(in oklch, var(--note-rail)    40%, var(--lab-surface-dark));
     --success-bg:  color-mix(in oklch, var(--success-rail) 45%, var(--lab-surface-dark));
