@@ -227,6 +227,10 @@
   .container.posts .topic-navigation .d-toc-main {
     min-width: var(--toc-width-min) !important;
     max-width: var(--toc-width-max) !important;
+
+    font-size: 1.1em;   /* bump up ~10% */
+    line-height: 1.5;   /* optional: improve readability */
+
   }
   .container.posts .topic-navigation .d-toc-main ul,
   .container.posts .topic-navigation .d-toc-main li { max-width: none !important; }
