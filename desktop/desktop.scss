@@ -310,13 +310,14 @@ $lab-sel: 'body.category-builder-labs';
   --brand-periwinkle: #CDC6E6; /* SUCCESS */
   --brand-beaujolais: #D893AF; /* ESTIMATED TIME */
   --brand-wheatgrass: #D6C56B;
+  --brand-aspen: #CED8A3;
    
   /* semantic → brand hue */
    /* semantic → brand hue */
   --tone-term:    var(--brand-peach);      /* swapped */
   --tone-hint:    var(--brand-lagoon); 
   --tone-pro:     var(--brand-chaparral);
-  --tone-note:    var(--brand-wheatgrass);
+  --tone-note:    var(--brand-aspen);
   --tone-success: var(--brand-periwinkle);
   --tone-time:    var(--brand-beaujolais);
 
