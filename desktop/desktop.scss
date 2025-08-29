@@ -1,17 +1,16 @@
 /* ===============================================
-   Builder Labs — unified layout + brand callouts
+   Builder Labs — clean grid + callouts (complete)
    =============================================== */
 
-/* ─────────── 1) Tunables ─────────── */
-
-/* This is your single vertical anchor/guide.
-   Move everything (header, H1, TOC, content) to this x-position. */
+/* --- Tunables ------------------------------------------------------ */
 body.category-builder-labs {
-  --labs-anchor-left: clamp(220px, 18vw, 340px); /* tweak this to your black line */
-  --page-gutter: clamp(10px, 2.5vw, 16px);       /* basic horizontal gutters */
+  --site-gutter: clamp(10px, 2.5vw, 16px);
+  --toc-gap: 2rem;
+  --toc-width-min: 18rem;
+  --toc-width-max: 22rem;
 }
 
-/* ─────────── 2) Kill any left rail / reserved widths ─────────── */
+/* --- Hide any sidebar / reserved widths ---------------------------- */
 body.category-builder-labs,
 body.category-builder-labs :root { --d-sidebar-width: 0px !important; }
 
@@ -25,7 +24,6 @@ body.category-builder-labs .hamburger-panel {
   min-width: 0 !important;
 }
 
-/* Remove theme margins that assume a sidebar exists */
 body.category-builder-labs.has-sidebar .wrap,
 body.category-builder-labs.has-sidebar .d-wrap,
 body.category-builder-labs .sidebar-wrapper + .wrap,
@@ -34,135 +32,102 @@ body.category-builder-labs #main-outlet-wrap {
   margin-left: 0 !important;
 }
 
-/* ─────────── 3) Align the top header to the SAME anchor ─────────── */
+/* --- Make header and outlet share the same left gutter ------------- */
 body.category-builder-labs .d-header .wrap,
 body.category-builder-labs .d-header .contents {
   max-width: none !important;
   width: 100% !important;
   margin: 0 !important;
-  padding-left: var(--labs-anchor-left) !important;
-  padding-right: var(--page-gutter) !important;
+  padding-left: var(--site-gutter) !important;
+  padding-right: var(--site-gutter) !important;
 }
 
-body.category-builder-labs .d-header .title,
-body.category-builder-labs .d-header .panel {
-  margin-left: 0 !important;
-}
-
-/* ─────────── 4) Main outlet uses the SAME anchor ─────────── */
 body.category-builder-labs #main-outlet-wrap,
 body.category-builder-labs #main-outlet {
   max-width: none !important;
   width: 100% !important;
   margin: 0 !important;
-  padding-left: var(--labs-anchor-left) !important;
-  padding-right: var(--page-gutter) !important;
+  padding-left: var(--site-gutter) !important;
+  padding-right: var(--site-gutter) !important;
 }
 
-/* Two-column grid for the topic area: [TOC | content] */
+/* --- Single shared grid: [ TOC | Content ] ------------------------- */
 body.category-builder-labs #main-outlet {
   display: grid !important;
   grid-template-columns:
-    minmax(18rem, 22rem)
+    minmax(var(--toc-width-min), var(--toc-width-max))
     minmax(0, 1fr) !important;
-  column-gap: 2rem !important;
+  column-gap: var(--toc-gap) !important;
 }
 
-/* Title row spans both columns, but its content starts at the anchor */
+/* Title row uses the same grid so its left edge == TOC left edge */
 body.category-builder-labs #topic-title {
-  grid-column: 1 / -1 !important;
+  grid-column: 1 / -1 !important;          /* span both grid columns */
   display: grid !important;
   grid-template-columns:
-    minmax(18rem, 22rem)
+    minmax(var(--toc-width-min), var(--toc-width-max))
     minmax(0, 1fr) !important;
-  column-gap: 2rem !important;
+  column-gap: var(--toc-gap) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Put the actual title content in the right column (aligned to anchor) */
+/* Put the actual title wrapper starting at the very left (TOC edge) */
 body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 2 / 3 !important;
+  grid-column: 1 / -1 !important;           /* start at left grid edge */
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Posts (content) sit in the right column */
-body.category-builder-labs .container.posts > .row {
-  grid-column: 2 / 3 !important;
-  width: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
+/* TOC in the left column, content in the right column */
+body.category-builder-labs .container.posts .topic-navigation { grid-column: 1 / 2 !important; }
+body.category-builder-labs .container.posts > .row            { grid-column: 2 / 3 !important; }
 
-/* TOC sits in the left column and is aligned to the anchor line */
-body.category-builder-labs .container.posts .topic-navigation {
-  grid-column: 1 / 2 !important;
-  align-self: start;
-  position: sticky; top: 6rem;
-  margin: 0 !important;
-  font-size: 1.08em;  /* readability bump */
-  line-height: 1.5;
-}
-
-/* Remove TOC’s default left rule/padding that offsets the text */
+/* Remove TOC’s default left rule/padding that offsets text */
 body.category-builder-labs .topic-navigation .d-toc-main {
   border-left: none !important;
   padding-left: 0 !important;
   margin-left: 0 !important;
 }
 
-/* Optional: if you still want a guide line but WITHOUT pushing text */
-/*
-body.category-builder-labs .topic-navigation .d-toc-main { position: relative; }
-body.category-builder-labs .topic-navigation .d-toc-main::before {
-  content: "";
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 1px; background: var(--primary-low);
+/* Keep TOC readable */
+body.category-builder-labs .container.posts .topic-navigation {
+  align-self: start;
+  position: sticky; top: 6rem;
+  font-size: 1.08rem;
+  line-height: 1.5;
+  margin: 0 !important;
 }
-*/
 
-/* ─────────── 5) First post / general blog styling (kept) ─────────── */
-
+/* --- Blog / post niceties (kept from earlier) ---------------------- */
 body.category-builder-labs .topic-timeline { display: none; }
-
 body.category-builder-labs .topic-map.--bottom { display: none !important; }
 
 body.category-builder-labs .topic-post .topic-body {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  max-width: 720px;
+  margin-left: 0 !important; padding-left: 0 !important; max-width: 720px;
 }
 
 body.category-builder-labs .topic-post:first-child {
-  font-size: 1.25em; line-height: 1.4;
-  padding-top: 4px; padding-bottom: 0;
+  font-size: 1.25em; line-height: 1.4; padding-top: 4px; padding-bottom: 0;
 }
-
 body.category-builder-labs .topic-post:first-child .cooked { padding: 0; }
+
+body.category-builder-labs .timeline-toggle,
+body.category-builder-labs #topic-progress-wrapper.docked,
+body.category-builder-labs .timeline-container.timeline-docked { display: none !important; }
 
 /* Headings treatment */
 body.category-builder-labs .cooked h1 {
-  margin: 2em 0 1em 0; padding: .75em .5em;
-  background-color: #000; color: #fff;
+  margin: 2em 0 1em 0; padding: .75em .5em; background: #000; color: #fff;
 }
 body.category-builder-labs .cooked h2 {
-  margin: 2em 0 1em 0; padding: .25em .5em;
-  background-color: #b2b2b2; color: #000;
+  margin: 2em 0 1em 0; padding: .25em .5em; background: #b2b2b2; color: #000;
 }
 
-/* Hide timeline/progress on labs pages */
-body.category-builder-labs .timeline-toggle,
-body.category-builder-labs #topic-progress-wrapper.docked,
-body.category-builder-labs .timeline-container.timeline-docked {
-  display: none !important;
-}
-
-/* ─────────── 6) Callouts — brand colors (kept) ─────────── */
-
-body.category-builder-labs {
+/* --- Brand callouts (kept) ---------------------------------------- */
+body.category-builder-labs{
   --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
@@ -174,7 +139,6 @@ body.category-builder-labs {
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
-  /* Celigo brand hues */
   --brand-lagoon:      #86B0B6;
   --brand-driftwood:   #887E6F;
   --brand-peach:       #F3B38F;
@@ -185,7 +149,6 @@ body.category-builder-labs {
   --brand-wheatgrass:  #D6C56B;
   --brand-aspen:       #CED8A3;
 
-  /* semantic → brand hue */
   --tone-term:    var(--brand-peach);
   --tone-hint:    var(--brand-lagoon);
   --tone-pro:     var(--brand-chaparral);
@@ -224,15 +187,15 @@ body.category-builder-labs .cooked blockquote:has(> p:first-child img:not(.emoji
     0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
 }
 
-/* Emoji→tone mapping */
+/* Emoji → tone mapping */
 body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])      { --callout-bg: color-mix(in hsl, var(--tone-term)    var(--tint-term),    var(--light-surface)); --callout-accent: var(--tone-term); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])        { --callout-bg: color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface)); --callout-accent: var(--tone-hint); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])       { --callout-bg: color-mix(in hsl, var(--tone-hint)    var(--tint-hint),    var(--light-surface)); --callout-accent: var(--tone-hint); }
 body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]){ --callout-bg: color-mix(in hsl, var(--tone-pro)     var(--tint-pro),     var(--light-surface)); --callout-accent: var(--tone-pro); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])              { --callout-bg: color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface)); --callout-accent: var(--tone-note); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])     { --callout-bg: color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface)); --callout-accent: var(--tone-success); }
-body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])        { --callout-bg: color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface)); --callout-accent: var(--tone-time); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])             { --callout-bg: color-mix(in hsl, var(--tone-note)    var(--tint-note),    var(--light-surface)); --callout-accent: var(--tone-note); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])    { --callout-bg: color-mix(in hsl, var(--tone-success) var(--tint-success), var(--light-surface)); --callout-accent: var(--tone-success); }
+body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])       { --callout-bg: color-mix(in hsl, var(--tone-time)    var(--tint-time),    var(--light-surface)); --callout-accent: var(--tone-time); }
 
-/* Mobile: collapse the icon lane without shrinking the icons themselves */
+/* Mobile: collapse the icon lane without shrinking icons */
 @media (max-width: 640px){
   body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji),
   body.category-builder-labs .cooked blockquote:has(> p:first-child .d-icon),
@@ -249,7 +212,7 @@ body.category-builder-labs .cooked blockquote:has(> p:first-child img.emoji[titl
   }
 }
 
-/* ─────────── 7) Dark variant tweaks (kept) ─────────── */
+/* Dark variant for panels/edges */
 @media (prefers-color-scheme: dark){
   body.category-builder-labs {
     --lab-surface-dark: #0c0f14;
