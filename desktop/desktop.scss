@@ -297,7 +297,7 @@ $lab-sel: 'body.category-builder-labs';
 
   /* icon lane */
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
-  --callout-icon-gap: 14px;
+  --callout-icon-gap: 20px; /* was 14px; adds more space after the icon */
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
