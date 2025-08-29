@@ -1,25 +1,31 @@
-/* ===============================================
-   Builder Labs — unified layout + callouts
-   =============================================== */
+/* =========================================================
+   Builder Labs — unified layout + responsive two-column TOC
+   + Brand Callouts (light/dark)
+   ========================================================= */
 
-/* --- Tunables ------------------------------------------------------ */
+/* ---------- Tunables ------------------------------------ */
 :where(.category-builder-labs){
-  --site-gutter: 24px;              /* adjust until it lines up with your desired black line */
-  --toc-gap: 2rem;
-  --toc-min: 18rem;
-  --toc-max: 22rem;
+  /* Page/layout */
+  --page-max: 1280px;                         /* max width of page incl. header */
+  --site-gutter: clamp(16px, 3vw, 40px);      /* responsive side padding */
+  --toc-gap: 2rem;                            /* space between TOC and content */
+  --toc-min: 18rem;                           /* min TOC width */
+  --toc-max: 22rem;                           /* max TOC width */
+  --content-max: 760px;                       /* readable max content width */
 
+  /* Callouts (shared) */
   --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
   --callout-pad-x: 16px;
   --callout-indent: 26px;
+
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
   --callout-icon-gap: 20px;
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
-  /* Brand hues */
+  /* Brand palette */
   --brand-lagoon:      #86B0B6;
   --brand-driftwood:   #887E6F;
   --brand-peach:       #F3B38F;
@@ -30,7 +36,7 @@
   --brand-wheatgrass:  #D6C56B;
   --brand-aspen:       #CED8A3;
 
-  /* Semantic mapping */
+  /* Tone mapping */
   --tone-term:    var(--brand-peach);
   --tone-hint:    var(--brand-lagoon);
   --tone-pro:     var(--brand-chaparral);
@@ -38,9 +44,11 @@
   --tone-success: var(--brand-periwinkle);
   --tone-time:    var(--brand-beaujolais);
 
+  /* Text/surface */
   --fg-strong: #243041;
   --light-surface: #ffffff;
 
+  /* Tint amounts (light mode) */
   --tint-term:    66%;
   --tint-hint:    34%;
   --tint-pro:     18%;
@@ -49,113 +57,183 @@
   --tint-time:    58%;
 }
 
-/* --- Kill sidebar / rails ------------------------------------------ */
+/* ---------- Remove sidebar / rails ----------------------- */
 :where(.category-builder-labs, .category-builder-labs :root){ --d-sidebar-width: 0 !important; }
-:where(.category-builder-labs) :is(.sidebar-wrapper, .sidebar-container,
-  .discourse-sidebar, .d-sidebar, .hamburger-panel){
-  display: none !important;
-  width: 0 !important;
-  min-width: 0 !important;
+:where(.category-builder-labs) :is(.sidebar-wrapper,.sidebar-container,
+  .discourse-sidebar,.d-sidebar,.hamburger-panel){
+  display:none !important; width:0 !important; min-width:0 !important;
 }
 
-/* --- Header + wrappers honor same gutter --------------------------- */
-:where(.category-builder-labs) :is(.d-header .wrap, .d-header .contents,
-  .wrap, .d-wrap, #main-outlet-wrap, #main-outlet){
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: var(--site-gutter) !important;
-  padding-right: var(--site-gutter) !important;
+/* ---------- Constrain header + page width ---------------- */
+:where(.category-builder-labs) :is(.d-header .wrap,.d-header .contents,
+  .wrap,.d-wrap,#main-outlet-wrap){
+  max-width: min(var(--page-max), 100%);
+  margin-left:auto; margin-right:auto;
+  padding-left: var(--site-gutter); padding-right: var(--site-gutter);
 }
 
-/* --- Main outlet grid ---------------------------------------------- */
+/* ---------- Two-column grid (TOC | Content) -------------- */
 :where(.category-builder-labs) #main-outlet{
-  display: grid !important;
-  grid-template-columns: minmax(var(--toc-min), var(--toc-max)) minmax(0, 1fr) !important;
+  display:grid !important;
+  grid-template-columns: minmax(var(--toc-min),var(--toc-max)) minmax(0,1fr) !important;
   column-gap: var(--toc-gap) !important;
+  max-width: min(var(--page-max), 100%);
+  margin-inline:auto;
 }
 
-/* TOC left, content right */
+/* Let .container.posts inherit parent grid */
 :where(.category-builder-labs) .container.posts{ display: contents !important; }
-:where(.category-builder-labs) .container.posts .topic-navigation{ grid-column: 1 / 2 !important; }
-:where(.category-builder-labs) .container.posts > .row{ grid-column: 2 / 3 !important; }
+:where(.category-builder-labs) .container.posts .topic-navigation{ grid-column:1/2 !important; }
+:where(.category-builder-labs) .container.posts > .row{ grid-column:2/3 !important; }
 
-/* Title row aligns with same gutter */
+/* ---------- Title row aligns with TOC -------------------- */
 :where(.category-builder-labs) #topic-title{
-  grid-column: 1 / -1 !important;
-  display: grid !important;
-  grid-template-columns: minmax(var(--toc-min), var(--toc-max)) minmax(0, 1fr) !important;
+  grid-column:1/-1 !important;
+  display:grid !important;
+  grid-template-columns: minmax(var(--toc-min),var(--toc-max)) minmax(0,1fr) !important;
   column-gap: var(--toc-gap) !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin:0 !important; padding:0 !important;
 }
 :where(.category-builder-labs) #topic-title .title-wrapper{
-  grid-column: 1 / -1 !important;  /* left edge = TOC edge */
-  margin: 0 !important;
-  padding: 0 !important;
+  grid-column:1/-1 !important; /* starts at the TOC’s left edge */
+  margin:0 !important; padding:0 !important;
 }
 
-/* --- TOC cleanup --------------------------------------------------- */
-:where(.category-builder-labs) .topic-navigation :is(.d-toc, .d-toc-main){
-  border-left: none !important;
-  padding-left: 0 !important;
-  margin-left: 0 !important;
+/* ---------- TOC tweaks ----------------------------------- */
+:where(.category-builder-labs) .topic-navigation :is(.d-toc,.d-toc-main){
+  border-left:none !important; padding-left:0 !important; margin-left:0 !important;
 }
 :where(.category-builder-labs) .container.posts .topic-navigation{
-  position: sticky; top: 6rem;
-  align-self: start;
-  font-size: 1.08rem; line-height: 1.5;
-  margin: 0 !important;
+  position:sticky; top:6rem; align-self:start;
+  font-size:1.08rem; line-height:1.5; margin:0 !important;
 }
 
-/* --- General blog niceties ---------------------------------------- */
-:where(.category-builder-labs) :is(.topic-timeline, .topic-map.--bottom,
-  #topic-progress-wrapper.docked, .timeline-container.timeline-docked){ display: none !important; }
-
+/* ---------- Content width + niceties --------------------- */
 :where(.category-builder-labs) .topic-post .topic-body{
-  margin-left: 0 !important; padding-left: 0 !important; max-width: 720px;
+  margin-left:0 !important; padding-left:0 !important;
+  max-width: var(--content-max);
 }
 :where(.category-builder-labs) .topic-post:first-child{
-  font-size: 1.25em; line-height: 1.4; padding-top: 4px; padding-bottom: 0;
+  font-size:1.25em; line-height:1.4; padding-top:4px; padding-bottom:0;
 }
-:where(.category-builder-labs) .topic-post:first-child .cooked{ padding: 0; }
+:where(.category-builder-labs) .topic-post:first-child .cooked{ padding:0; }
 
-/* Headings treatment */
+:where(.category-builder-labs) :is(.topic-timeline,.topic-map.--bottom,
+  #topic-progress-wrapper.docked,.timeline-container.timeline-docked){
+  display:none !important;
+}
+
+/* Optional heading styling */
 :where(.category-builder-labs) .cooked h1{
-  margin: 2em 0 1em 0; padding: .75em .5em; background: #000; color: #fff;
+  margin:2em 0 1em; padding:.75em .5em; background:#000; color:#fff;
 }
 :where(.category-builder-labs) .cooked h2{
-  margin: 2em 0 1em 0; padding: .25em .5em; background: #b2b2b2; color: #000;
+  margin:2em 0 1em; padding:.25em .5em; background:#b2b2b2; color:#000;
 }
 
-/* --- Callouts ------------------------------------------------------ */
-:where(.category-builder-labs) .cooked blockquote:has(> p:first-child){
-  --callout-bg: var(--note-bg);
-  --callout-accent: var(--note-rail);
+/* ---------- Brand Callouts --------------------------------
+   Triggered when a blockquote starts with an emoji, icon, or image
+   --------------------------------------------------------- */
+
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji),
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child .d-icon),
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img:not(.emoji)){
+  /* default values get overridden by tone-specific rules below */
+  --callout-bg: var(--light-surface);
+  --callout-accent: var(--brand-karl);
+
   position: relative;
   background: var(--callout-bg);
   border-left: var(--callout-rail) solid var(--callout-accent);
   border-radius: var(--callout-radius);
   padding: var(--callout-pad-y) var(--callout-pad-x);
   margin: 16px 0 16px var(--callout-indent);
+  padding-left: calc(var(--callout-left-pad) + var(--callout-icon-size) + var(--callout-icon-gap)) !important;
+
   color: var(--callout-fg, var(--fg-strong));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.45),
+    0 0 0 1px color-mix(in hsl, var(--callout-accent) .14, transparent);
 }
 
-/* --- Dark mode ----------------------------------------------------- */
+/* Emoji → tone mapping (light mode) */
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-term)    66%, var(--light-surface)); --callout-accent: var(--tone-term); }
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-hint)    34%, var(--light-surface)); --callout-accent: var(--tone-hint); }
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-pro)     18%, var(--light-surface)); --callout-accent: var(--tone-pro); }
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-note)    36%, var(--light-surface)); --callout-accent: var(--tone-note); }
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-success) 70%, var(--light-surface)); --callout-accent: var(--tone-success); }
+:where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])
+  { --callout-bg: color-mix(in hsl, var(--tone-time)    58%, var(--light-surface)); --callout-accent: var(--tone-time); }
+
+/* Mobile: collapse the icon lane without shrinking icons */
+@media (max-width: 640px){
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji),
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child .d-icon),
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img:not(.emoji)){
+    padding-left: var(--callout-pad-x) !important;
+  }
+  :where(.category-builder-labs) .cooked blockquote > p:first-child{
+    display:flex; align-items:center; gap:.5rem;
+  }
+  :where(.category-builder-labs){
+    --callout-rail: 14px;
+    --callout-icon-size: 26px;
+    --callout-left-pad: calc(var(--callout-rail) + 8px);
+  }
+}
+
+/* Dark variant for panels/edges */
 @media (prefers-color-scheme: dark){
   :where(.category-builder-labs){
     --lab-surface-dark: #0c0f14;
     --fg-strong: #edf2f8;
-    --term-bg:     color-mix(in hsl,  var(--tone-term)    54%, var(--lab-surface-dark));
-    --hint-bg:     color-mix(in hsl,  var(--tone-hint)    42%, var(--lab-surface-dark));
-    --pro-bg:      color-mix(in hsl,  var(--tone-pro)     42%, var(--lab-surface-dark));
-    --note-bg:     color-mix(in hsl,  var(--tone-note)    58%, var(--lab-surface-dark));
-    --success-bg:  color-mix(in hsl,  var(--tone-success) 64%, var(--lab-surface-dark));
-    --time-bg:     color-mix(in hsl,  var(--tone-time)    50%, var(--lab-surface-dark));
+
+    --term-bg:     color-mix(in hsl, var(--tone-term)    54%, var(--lab-surface-dark));
+    --hint-bg:     color-mix(in hsl, var(--tone-hint)    42%, var(--lab-surface-dark));
+    --pro-bg:      color-mix(in hsl, var(--tone-pro)     42%, var(--lab-surface-dark));
+    --note-bg:     color-mix(in hsl, var(--tone-note)    58%, var(--lab-surface-dark));
+    --success-bg:  color-mix(in hsl, var(--tone-success) 64%, var(--lab-surface-dark));
+    --time-bg:     color-mix(in hsl, var(--tone-time)    50%, var(--lab-surface-dark));
   }
+
   :where(.category-builder-labs) .cooked blockquote{
     color: var(--fg-strong);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.07),
-                0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.07),
+      0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
+  }
+
+  /* Re-map tones to the darker backgrounds */
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])
+    { --callout-bg: var(--term-bg);    --callout-accent: var(--tone-term); }
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])
+    { --callout-bg: var(--hint-bg);    --callout-accent: var(--tone-hint); }
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"])
+    { --callout-bg: var(--pro-bg);     --callout-accent: var(--tone-pro); }
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":pen:"])
+    { --callout-bg: var(--note-bg);    --callout-accent: var(--tone-note); }
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])
+    { --callout-bg: var(--success-bg); --callout-accent: var(--tone-success); }
+  :where(.category-builder-labs) .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])
+    { --callout-bg: var(--time-bg);    --callout-accent: var(--tone-time); }
+}
+
+/* ---------- Responsive: stack below 1024px --------------- */
+@media (max-width:1024px){
+  :where(.category-builder-labs) #main-outlet{
+    grid-template-columns:1fr !important;
+  }
+  :where(.category-builder-labs) #topic-title{
+    grid-template-columns:1fr !important;
+  }
+  :where(.category-builder-labs) #topic-title .title-wrapper,
+  :where(.category-builder-labs) .container.posts .topic-navigation,
+  :where(.category-builder-labs) .container.posts > .row{
+    grid-column:1/2 !important;  /* stack vertically */
   }
 }
