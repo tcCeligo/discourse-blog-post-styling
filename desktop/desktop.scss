@@ -302,7 +302,7 @@ $lab-sel: 'body.category-builder-labs';
   --callout-icon-nudge: -1px;
 
   /* Celigo brand hues */
-  --brand-aspen: #5FA6AE; /* ASPEN */
+  --brand-lagoon:      #86B0B6; /* LAGOON */
   --brand-driftwood:  #887E6F; /* TERM */
   --brand-peach:      #F3B38F; /* HELPFUL HINT */
   --brand-chaparral:  #596D67; /* PRO TIP */
@@ -313,7 +313,7 @@ $lab-sel: 'body.category-builder-labs';
   /* semantic → brand hue */
    /* semantic → brand hue */
   --tone-term:    var(--brand-peach);      /* swapped */
-  --tone-hint: var(--brand-aspen); /* Helpful Hint → Aspen */
+  --tone-hint:    var(--brand-lagoon); 
   --tone-pro:     var(--brand-chaparral);
   --tone-note:    var(--brand-karl);
   --tone-success: var(--brand-periwinkle);
