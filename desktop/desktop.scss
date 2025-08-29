@@ -310,7 +310,7 @@ $lab-sel: 'body.category-builder-labs';
   @include blog_base();
   &.archetype-regular { @include builder_wide_layout(); }
 
-  /* Headings treatment (kept from earlier) */
+  /* Headings treatment */
   .cooked h1 {
     padding: .25em .5em;
     margin-top: 2em;
@@ -323,30 +323,27 @@ $lab-sel: 'body.category-builder-labs';
     margin-top: 2em;
     margin-bottom: 1em;
     padding-block: .25em;
-    background-color: #b2b2b2; /* brand gray */
+    background-color: #b2b2b2;
     color: #000;
   }
 
   /* =========================================
      Builder Labs — Brand-based Callouts
      ========================================= */
-
-  /* geometry (wider rail + larger icons) */
   --callout-rail: clamp(16px, 1.4vw, 20px);
   --callout-radius: 12px;
   --callout-pad-y: 12px;
   --callout-pad-x: 16px;
   --callout-indent: 26px;
 
-  /* icon lane */
   --callout-icon-size: clamp(28px, 2.2vw, 34px);
-  --callout-icon-gap: 20px; /* adds more space after the icon */
+  --callout-icon-gap: 20px;
   --callout-left-pad: calc(var(--callout-rail) + 8px);
   --callout-icon-nudge: -1px;
 
   /* Celigo brand hues */
   --brand-lagoon:      #86B0B6; /* LAGOON */
-  --brand-driftwood:   #887E6F; /* TERM (legacy name) */
+  --brand-driftwood:   #887E6F; /* TERM */
   --brand-peach:       #F3B38F; /* HELPFUL HINT */
   --brand-chaparral:   #596D67; /* PRO TIP */
   --brand-karl:        #B4C5CB; /* NOTE */
@@ -471,7 +468,6 @@ $lab-sel: 'body.category-builder-labs';
     .cooked blockquote > p:first-child{
       display: flex; align-items: center; gap: .5rem;
     }
-    /* scale icons via variables, not fixed px */
     --callout-rail: 14px;
     --callout-icon-size: 26px;
     --callout-left-pad: calc(var(--callout-rail) + 8px);
@@ -494,7 +490,6 @@ $lab-sel: 'body.category-builder-labs';
   --lab-surface-dark: #0c0f14;
   --fg-strong: #edf2f8;
 
-  /* rails unchanged (brand anchors) */
   --term-rail:    var(--tone-term);
   --hint-rail:    var(--tone-hint);
   --pro-rail:     var(--tone-pro);
@@ -502,7 +497,6 @@ $lab-sel: 'body.category-builder-labs';
   --success-rail: var(--tone-success);
   --time-rail:    var(--tone-time);
 
-  /* panels: lift mixes to separate tones more clearly */
   --term-bg:     color-mix(in hsl,  var(--term-rail) 54%, var(--lab-surface-dark));
   --hint-bg:     color-mix(in hsl,  var(--hint-rail) 42%, var(--lab-surface-dark));
   --pro-bg:      color-mix(in hsl,  var(--pro-rail) 42%, var(--lab-surface-dark));
@@ -526,7 +520,6 @@ $lab-sel: 'body.category-builder-labs';
       0 0 0 1px color-mix(in oklch, var(--callout-accent) 18%, transparent);
   }
 
-  /* mapping (same emoji keys as light mode) */
   .cooked blockquote:has(> p:first-child img.emoji[title=":green_book:"])       { --callout-bg: var(--term-bg);    --callout-accent: var(--term-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":megaphone:"])         { --callout-bg: var(--hint-bg);    --callout-accent: var(--hint-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":hammer_and_wrench:"]) { --callout-bg: var(--pro-bg);     --callout-accent: var(--pro-rail); }
@@ -534,43 +527,13 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])      { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])         { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
-/* Align primary header with the same grid used by posts (no outer grid) */
-body.category-builder-labs #topic-title {
-  /* constrain and center to the same overall grid width as posts */
-  max-width: var(--grid-max) !important;
-  width: min(100%, var(--grid-max)) !important;
-  margin-inline: auto !important;
-  padding-right: var(--toc-trailing-space);
 
-  /* mirror the posts grid: [TOC | content] */
-  display: grid !important;
-  grid-template-columns:
-    minmax(var(--toc-width-min), var(--toc-width-max))
-    minmax(0, 1fr) !important;
-  column-gap: var(--toc-gap) !important;
-}
+/* ==========================================================================
+   Alignment overrides — keep title aligned with TOC left edge
+   ========================================================================== */
 
-body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 2 / 3;
-  width: 100% !important;
-  max-width: var(--content-cap) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* (optional) tiny bump for TOC legibility */
-body.category-builder-labs .container.posts .topic-navigation {
-  font-size: 1.12em; /* was 1.08em in your file */
-}
-
-/* --- Align page title with TOC left edge in Builder Labs --- */
-body.category-builder-labs #topic-title {
-  /* same outer width as posts grid */
-  max-width: var(--grid-max) !important;
-  width: min(100%, var(--grid-max)) !important;
-  margin-inline: auto !important;
-
-  /* use the same two-column grid as posts */
+/* Two-column grid at the outlet (TOC + content) */
+body.category-builder-labs #main-outlet {
   display: grid !important;
   grid-template-columns:
     minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
@@ -578,11 +541,30 @@ body.category-builder-labs #topic-title {
   column-gap: var(--toc-gap, 2rem) !important;
 }
 
-/* Put the title *across both columns* so its LEFT edge equals the TOC’s LEFT edge */
+/* Let the title span both columns so its left edge = TOC left edge */
+body.category-builder-labs #topic-title {
+  grid-column: 1 / -1 !important;
+  max-width: var(--grid-max) !important;
+  width: min(100%, var(--grid-max)) !important;
+  margin-inline: auto !important;
+
+  display: grid !important;
+  grid-template-columns:
+    minmax(var(--toc-width-min, 18rem), var(--toc-width-max, 22rem))
+    minmax(0, 1fr) !important;
+  column-gap: var(--toc-gap, 2rem) !important;
+}
+
+/* Title wrapper fills the title row */
 body.category-builder-labs #topic-title .title-wrapper {
-  grid-column: 1 / -1 !important;   /* span both columns */
+  grid-column: 1 / -1 !important;
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* Keep the content row in the right column */
+body.category-builder-labs .container.posts > .row {
+  grid-column: 2 / 3 !important;
 }
