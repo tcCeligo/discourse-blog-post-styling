@@ -15,10 +15,9 @@
    Base mixins (only take effect when included inside builder-labs)
    ========================================================================== */
 @mixin blog_base() {
+  .topic-timeline { display: none; }
 
-   .topic-timeline { display: none; }
-
-   .blog-image-container {
+  .blog-image-container {
     text-align: center;
     .blog-image {
       background-position: center center;
@@ -516,5 +515,3 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
-
-
