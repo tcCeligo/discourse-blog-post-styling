@@ -335,7 +335,14 @@ $lab-sel: 'body.category-builder-labs';
 .topic-post nav.post-controls .actions button[data-action="reply"] {
   display: none !important;
 }
-
+/* 3) “Pinned” + “Tracking” rows under the topic */
+.topic-status-info,     /* Pinned notice */
+.topic-timer-info,      /* Scheduled open/close notice (if present) */
+.topic-notifications,   /* Bell dropdown + helper text container */
+.topic-notifications-tracking,
+.topic-notifications-button {
+  display: none !important;
+}
 
 
   /* =========================================
