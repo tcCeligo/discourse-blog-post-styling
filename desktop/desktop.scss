@@ -306,13 +306,16 @@ $lab-sel: 'body.category-builder-labs';
     background-color: #b2b2b2; /* brand gray */
     color: #000;
   }
-   /* Builder Labs: hide the Suggested / Related block under topics */
-  .suggested-topics,
-  .related-topics,
-  #suggested-topics,
-  #related-topics {
-    display: none !important;
-  }
+
+
+   /* Builder Labs only — hide the "Suggested / Related" footer block */
+   .more-topics,
+   .more-topics-container,
+   .suggested-topics,
+   .topic-suggested,
+   .related-topics {
+     display: none !important;
+   }
 
   /* =========================================
      Builder Labs — Brand-based Callouts
