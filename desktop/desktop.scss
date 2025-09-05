@@ -15,8 +15,10 @@
    Base mixins (only take effect when included inside builder-labs)
    ========================================================================== */
 @mixin blog_base() {
-  .topic-timeline { display: none; }
 
+   /*
+   .topic-timeline { display: none; }
+*/
   .blog-image-container {
     text-align: center;
     .blog-image {
@@ -517,19 +519,3 @@ $lab-sel: 'body.category-builder-labs';
 }
 
 
-
-/* Re-show the Topic Admin wrench + popup in Builder Labs */
-body.category-builder-labs .topic-admin-menu-button,
-body.category-builder-labs .topic-admin-menu,
-body.category-builder-labs .topic-admin-popup-menu {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* If the footer button rows are collapsed, re-enable them */
-body.category-builder-labs .topic-footer-main-buttons,
-body.category-builder-labs .topic-footer-second-row {
-  display: flex !important;
-}
