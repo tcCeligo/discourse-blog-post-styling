@@ -335,6 +335,18 @@ $lab-sel: 'body.category-builder-labs';
 .topic-post nav.post-controls .actions button[data-action="reply"] {
   display: none !important;
 }
+
+/* 2) “Summarize” button (Discourse AI / summarize plugins) */
+button[aria-label="Summarize"],
+button[title="Summarize"],
+.ai-summary,
+.ai-summary-button,
+.summary-button,
+.summarize-topic,
+.summarize-topic-button {
+  display: none !important;
+}
+   
 /* 3) “Pinned” + “Tracking” rows under the topic */
 .topic-status-info,     /* Pinned notice */
 .topic-timer-info,      /* Scheduled open/close notice (if present) */
