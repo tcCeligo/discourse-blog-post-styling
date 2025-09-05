@@ -327,6 +327,15 @@ $lab-sel: 'body.category-builder-labs';
 .topic-list.related-topics {
   display: none !important;
 }
+   
+/* Builder Labs — hide action buttons + status rows */
+/* 1) Per-post actions */
+.topic-post nav.post-controls .actions button[data-action="share"],
+.topic-post nav.post-controls .actions button[data-action="bookmark"],
+.topic-post nav.post-controls .actions button[data-action="reply"] {
+  display: none !important;
+}
+
 
 
   /* =========================================
