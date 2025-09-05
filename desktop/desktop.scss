@@ -369,6 +369,39 @@ button[title="Summarize"],
   display: none !important;
 }
 
+   /* Builder Labs — nuke the per-post action toolbar entirely */
+.topic-post nav.post-controls,
+.topic-post .post-controls,
+.topic-post .post-controls .actions,
+.topic-post .post-actions,
+.topic-post .extra-actions {
+  display: none !important;
+}
+
+/* Builder Labs — hide the Summarize button (Discourse AI and variants) */
+.below-posts-outlet button[aria-label*="ummariz" i],
+.below-posts-outlet button[title*="ummariz" i],
+.below-posts-outlet .ai-summary,
+.below-posts-outlet .ai-summary-button,
+.below-posts-outlet .discourse-ai-summary,
+.below-posts-outlet .discourse-ai-summarization,
+.below-posts-outlet .summary-button,
+.below-posts-outlet .summarize-topic,
+.below-posts-outlet .summarize-topic-button {
+  display: none !important;
+}
+
+/* Builder Labs — hide the pinned/tracking rows (extra coverage) */
+.topic-status-info,
+.topic-status,              /* some themes use this */
+.topic-notifications,
+.topic-notifications-wrapper,
+.topic-notifications-button,
+.topic-notifications-tracking {
+  display: none !important;
+}
+
+
   /* =========================================
      Builder Labs — Brand-based Callouts
      ========================================= */
