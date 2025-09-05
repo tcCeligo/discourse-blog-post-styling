@@ -308,15 +308,26 @@ $lab-sel: 'body.category-builder-labs';
   }
 
 
-   /* Builder Labs only — hide the "Suggested / Related" footer block */
-   .more-topics,
-   .more-topics-wrapper,
-   .more-topics-container,
-   .suggested-topics,
-   .topic-suggested,
-   .related-topics {
-     display: none !important;
-   }
+   /* Builder Labs only — remove the entire Suggested/Related area (all variants) */
+.below-posts-outlet .more-topics,
+.more-topics,
+.more-topics-wrapper,
+.more-topics-container,
+.more-topics__container,
+.more-topics__head,
+.more-topics__body,
+.more-topics__tabs,
+.more-topics__list,
+#suggested-topics,
+.suggested-topics,
+.topic-suggested,
+#related-topics,
+.related-topics,
+.topic-list.suggested-topics,
+.topic-list.related-topics {
+  display: none !important;
+}
+
 
   /* =========================================
      Builder Labs — Brand-based Callouts
