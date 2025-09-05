@@ -356,6 +356,18 @@ button[title="Summarize"],
   display: none !important;
 }
 
+/* Builder Labs — hide the footer Share / Bookmark / Reply button group */
+.topic-footer-main-buttons,
+.topic-footer-buttons,           /* older markup */
+.topic-footer-mobile-actions {   /* mobile variant */
+  display: none !important;
+}
+
+   .topic-notifications,
+.topic-notifications-button,
+.topic-notifications-tracking {
+  display: none !important;
+}
 
   /* =========================================
      Builder Labs — Brand-based Callouts
