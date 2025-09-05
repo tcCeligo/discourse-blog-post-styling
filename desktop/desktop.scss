@@ -515,3 +515,21 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
+
+
+
+/* Re-show the Topic Admin wrench + popup in Builder Labs */
+body.category-builder-labs .topic-admin-menu-button,
+body.category-builder-labs .topic-admin-menu,
+body.category-builder-labs .topic-admin-popup-menu {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* If the footer button rows are collapsed, re-enable them */
+body.category-builder-labs .topic-footer-main-buttons,
+body.category-builder-labs .topic-footer-second-row {
+  display: flex !important;
+}
