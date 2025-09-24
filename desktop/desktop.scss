@@ -6,10 +6,6 @@
 %blog-category {}
 %builder-wide-layout {}
 
-/* ==========================================================================
-   Global default: hide COMMENTS heading everywhere (explicitly re-enabled in Builder Labs only)
-   ========================================================================== */
-.comments-heading { display: none; }
 
 /* ==========================================================================
    Base mixins (only take effect when included inside builder-labs)
@@ -58,13 +54,6 @@
 
     .topic-map.--op {
       padding-left: 0;
-
-      /* Hardened: comments heading scoped ONLY to builder-labs */
-      body.category-builder-labs & .comments-heading {
-        display: block;
-        width: 100%;
-        margin-top: 1em;
-      }
 
       .topic-map__users-list { display: none; }
     }
