@@ -527,3 +527,13 @@ $lab-sel: 'body.category-builder-labs';
   .cooked blockquote:has(> p:first-child img.emoji[title=":sports_medal:"])       { --callout-bg: var(--success-bg); --callout-accent: var(--success-rail); }
   .cooked blockquote:has(> p:first-child img.emoji[title=":stopwatch:"])          { --callout-bg: var(--time-bg);    --callout-accent: var(--time-rail); }
 }
+
+.topic-footer-main-buttons,
+.topic-footer-main-buttons .create,
+.topic-post nav.post-controls .actions,
+.topic-post nav.post-controls .actions .reply,
+#reply-control, .composer-container {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
